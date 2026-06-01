@@ -1,0 +1,8 @@
+segment,sector,ciutat_base,agent_prioritari,problema_probable,prioritat_inicial
+gestories,Gestories i assessories,Lleida,Agent documental i factures,Correus documents factures i validacions manuals,5
+cliniques_dentals,Cliniques dentals,Lleida,Agent de cites i recordatoris,Cites canvis d'hora no-shows i seguiment telefonic,5
+perruqueries,Perruqueries i barberies,Lleida,Agent de cites i agenda,Reserves trucades recordatoris i canvis d'hora,4
+fisioterapia,Fisioterapia i salut,Lleida,Agent de cites i agenda,Cites recurrents recordatoris i historial basic,4
+immobiliaries,Immobiliaries,Lleida,Agent de seguiment comercial,Leads visites documentacio i seguiments,4
+tallers,Tallers mecanics,Lleida,Agent de cites i pressupostos,Cites pressupostos recordatoris i comunicacio amb client,4
+serveis_b2b,Serveis B2B,Lleida,Agent de seguiment comercial,Prospectes pressupostos i seguiment de converses,3

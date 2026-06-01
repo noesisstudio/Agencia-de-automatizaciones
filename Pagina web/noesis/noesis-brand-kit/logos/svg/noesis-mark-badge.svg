@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Noesis badge mark</title>
+  <desc id="desc">Noesis compass star inside a circular ivory badge.</desc>
+  <circle cx="256" cy="256" r="224" fill="#FBFAF5" stroke="#2E8C7C" stroke-opacity="0.28" stroke-width="8"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="256" cy="256" r="146" stroke="#2E8C7C" stroke-opacity="0.24" stroke-width="5"/>
+    <path d="M256 74V438M74 256H438" stroke="#123C35" stroke-opacity="0.2" stroke-width="5"/>
+    <path d="M256 74 305 207 438 256 305 305 256 438 207 305 74 256 207 207Z" stroke="#123C35" stroke-width="16"/>
+    <path d="M256 134 290 222 378 256 290 290 256 378 222 290 134 256 222 222Z" fill="#2E8C7C" fill-opacity="0.14" stroke="#123C35" stroke-width="8"/>
+    <circle cx="256" cy="256" r="28" fill="#FBFAF5" stroke="#123C35" stroke-width="12"/>
+  </g>
+</svg>
