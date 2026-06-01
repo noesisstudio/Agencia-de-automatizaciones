@@ -87,3 +87,11 @@ INFO:     127.0.0.1:54498 - "GET /panel/panel-ui.js HTTP/1.1" 304 Not Modified
 INFO:     127.0.0.1:54497 - "GET /panel/panel-api.js HTTP/1.1" 200 OK
 INFO:     127.0.0.1:54499 - "GET /panel/empresa-utils.js HTTP/1.1" 200 OK
 INFO:     127.0.0.1:54500 - "GET /panel/panel.css HTTP/1.1" 304 Not Modified
+WARNING:  WatchFiles detected changes in 'app/core/config.py', 'app/services/anthropic_client.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4161]
+INFO:     Started server process [72878]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.

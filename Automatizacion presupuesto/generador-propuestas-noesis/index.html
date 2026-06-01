@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Noesis | Base comercial de agencia</title>
+    <meta
+      name="description"
+      content="Base comercial Noesis para gestionar oportunidades, preparar diagnósticos, propuestas y presupuestos para empresas cliente."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Noesis base comercial de agencia">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="22" />
+            <path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" />
+            <circle cx="32" cy="32" r="5" />
+          </svg>
+        </span>
+        <span>Noesis</span>
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#formulario">Oportunidad</a>
+        <a href="#vista-previa">Base agencia</a>
+        <a href="#prompt">Prompt</a>
+      </nav>
+      <button class="button secondary compact" type="button" data-load-demo>Cargar ejemplo</button>
+    </header>
+
+    <main class="page">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Base comercial de agencia</p>
+          <h1>Prepara propuestas Noesis para cualquier empresa cliente.</h1>
+          <p>
+            Esta base convierte una oportunidad comercial en una ficha operativa de agencia:
+            cliente, diagnóstico, servicio recomendado, inversión, estado interno, próximos pasos
+            y prompt para redactar una propuesta final con criterio Noesis.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#formulario">Crear oportunidad</a>
+            <button class="button secondary" type="button" data-copy-proposal>Copiar base</button>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Sistema de agencia">
+          <span>Flujo agencia</span>
+          <strong>Captar, diagnosticar, presupuestar, proponer y hacer seguimiento.</strong>
+          <p>Una base reutilizable para trabajar con clínicas, despachos, pymes y negocios locales.</p>
+        </aside>
+      </section>
+
+      <section class="workspace">
+        <form class="proposal-form" id="formulario">
+          <div class="form-head">
+            <p class="eyebrow">Ficha de oportunidad</p>
+            <h2>Registra el caso como lo haría una agencia.</h2>
+          </div>
+
+          <fieldset>
+            <legend>Cliente</legend>
+            <label>
+              Empresa
+              <input name="company" required placeholder="Clínica Norte" />
+            </label>
+            <label>
+              Persona de contacto
+              <input name="contact" placeholder="Marta Soler" />
+            </label>
+            <label>
+              Sector
+              <input name="sector" required placeholder="Clínica dental, gestoría, taller..." />
+            </label>
+            <label>
+              Idioma
+              <select name="language">
+                <option value="es">Español</option>
+                <option value="ca">Català</option>
+                <option value="en">English</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Gestión interna</legend>
+            <label>
+              Estado comercial
+              <select name="stage">
+                <option>Lead nuevo</option>
+                <option>Diagnóstico solicitado</option>
+                <option>Propuesta pendiente</option>
+                <option>Presupuesto enviado</option>
+                <option>En negociación</option>
+                <option>Ganado</option>
+                <option>Perdido</option>
+              </select>
+            </label>
+            <label>
+              Origen
+              <select name="source">
+                <option>Web Noesis</option>
+                <option>Referido</option>
+                <option>LinkedIn</option>
+                <option>Email comercial</option>
+                <option>WhatsApp</option>
+                <option>Cliente existente</option>
+              </select>
+            </label>
+            <label>
+              Responsable interno
+              <input name="owner" required placeholder="Xavier / Noesis" />
+            </label>
+            <label>
+              Prioridad
+              <select name="priority">
+                <option>Media</option>
+                <option>Alta</option>
+                <option>Baja</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Diagnóstico</legend>
+            <label class="full">
+              Proceso actual
+              <textarea name="currentProcess" required placeholder="Cómo trabajan ahora, qué herramientas usan y quién interviene."></textarea>
+            </label>
+            <label class="full">
+              Problema principal
+              <textarea name="problem" required placeholder="Describe la fricción concreta: tiempo perdido, errores, seguimiento manual, información dispersa..."></textarea>
+            </label>
+            <label>
+              Servicio recomendado
+              <select name="service">
+                <option>Chatbot con IA</option>
+                <option>Documentos y facturas</option>
+                <option>Captación y seguimiento de leads</option>
+                <option>Gestión inteligente de email</option>
+                <option>Presupuestos por WhatsApp</option>
+                <option>Citas y agenda</option>
+                <option>Flujos internos</option>
+                <option>Dashboard y portal cliente</option>
+              </select>
+            </label>
+            <label>
+              Objetivo principal
+              <input name="goal" required placeholder="Reducir seguimiento manual y ganar control" />
+            </label>
+            <label>
+              Herramientas actuales
+              <input name="tools" placeholder="Gmail, WhatsApp, Sheets, CRM..." />
+            </label>
+            <label>
+              Indicador de éxito
+              <input name="successMetric" required placeholder="Horas recuperadas, menos errores, respuesta más rápida..." />
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Alcance de agencia</legend>
+            <label class="full">
+              Entregables incluidos
+              <textarea name="deliverables" required placeholder="Diagnóstico, mapa operativo, implementación inicial, pruebas, documentación, dashboard, soporte..."></textarea>
+            </label>
+            <label class="full">
+              Fuera de alcance
+              <textarea name="outOfScope" placeholder="Migraciones masivas, integraciones no comunicadas, cambios de alcance sin nueva estimación..."></textarea>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Inversión y condiciones</legend>
+            <label>
+              Implementación mínima
+              <input name="implementationMin" type="number" min="0" step="50" value="1200" required />
+            </label>
+            <label>
+              Implementación máxima
+              <input name="implementationMax" type="number" min="0" step="50" value="2400" required />
+            </label>
+            <label>
+              Mensual mínimo
+              <input name="monthlyMin" type="number" min="0" step="25" value="190" required />
+            </label>
+            <label>
+              Mensual máximo
+              <input name="monthlyMax" type="number" min="0" step="25" value="390" required />
+            </label>
+            <label>
+              Duración estimada
+              <input name="duration" required placeholder="2-4 semanas" />
+            </label>
+            <label>
+              Validez del presupuesto
+              <input name="validity" required placeholder="30 días" />
+            </label>
+            <label class="full">
+              Próxima acción
+              <input name="nextAction" required placeholder="Enviar propuesta, agendar diagnóstico, pedir acceso a herramientas..." />
+            </label>
+          </fieldset>
+
+          <div class="form-actions">
+            <button class="button primary" type="submit">Generar base agencia</button>
+            <button class="button secondary" type="reset">Limpiar</button>
+          </div>
+          <p class="form-feedback" data-feedback aria-live="polite"></p>
+        </form>
+
+        <section class="preview-panel" id="vista-previa" aria-live="polite">
+          <div class="panel-head">
+            <p class="eyebrow">Base reutilizable</p>
+            <h2>Ficha de agencia y propuesta</h2>
+          </div>
+          <article class="proposal-output" data-proposal-output>
+            <p class="empty-state">Rellena la oportunidad y pulsa “Generar base agencia”.</p>
+          </article>
+        </section>
+      </section>
+
+      <section class="prompt-panel" id="prompt">
+        <div>
+          <p class="eyebrow">Prompt comercial</p>
+          <h2>Texto listo para redactar la propuesta final.</h2>
+          <p>
+            Copia este prompt para que Claude redacte una propuesta comercial final manteniendo el estilo Noesis y la estructura del markdown.
+          </p>
+        </div>
+        <div class="prompt-box">
+          <textarea readonly data-prompt-output>Genera primero una base de agencia para activar el prompt.</textarea>
+          <button class="button primary compact" type="button" data-copy-prompt>Copiar prompt</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <a class="brand" href="./" aria-label="Noesis base comercial de agencia">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg>
+          </span>
+          <span>Noesis</span>
+        </a>
+        <p>Arquitectura operativa para empresas. Base comercial independiente para preparar propuestas a clientes de agencia.</p>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
