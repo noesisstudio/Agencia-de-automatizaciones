@@ -144,7 +144,7 @@
       renderEmptyRow(
         tbody,
         6,
-        "No tienes facturas de Openix todavía. Aparecerán aquí cuando contrates o renueves un servicio."
+        "No tienes facturas de Noesis todavía. Aparecerán aquí cuando contrates o renueves un servicio."
       );
       return;
     }
@@ -239,7 +239,7 @@
           "Factura " +
           (inv.id || "") +
           " · " +
-          (inv.concept || "Servicio Openix") +
+          (inv.concept || "Servicio Noesis") +
           " — " +
           statusLabel(inv.status),
       });
@@ -283,7 +283,7 @@
     var items = (billing && billing.serviceStatus) || [];
     if (!items.length) {
       container.innerHTML =
-        '<li class="portal-milestone"><p class="portal-milestone__desc">Tu proyecto aparecerá aquí cuando Openix active el seguimiento de tu cuenta.</p></li>';
+        '<li class="portal-milestone"><p class="portal-milestone__desc">Tu proyecto aparecerá aquí cuando Noesis active el seguimiento de tu cuenta.</p></li>';
       return;
     }
     container.innerHTML = items
@@ -317,7 +317,7 @@
   }
 
   function renderAll(session) {
-    var data = billing || window.OpenixBilling.emptyProfile(session.user);
+    var data = billing || window.NoesisBilling.emptyProfile(session.user);
     var company = data.company || {};
     var contract = data.contract || {};
     var stats = computeStats(data);
@@ -367,9 +367,9 @@
     setLoadBanner();
 
     try {
-      billing = await window.OpenixBilling.load(session.user);
+      billing = await window.NoesisBilling.load(session.user);
     } catch (e) {
-      billing = window.OpenixBilling.emptyProfile(session.user);
+      billing = window.NoesisBilling.emptyProfile(session.user);
     }
     renderAll(session);
 
