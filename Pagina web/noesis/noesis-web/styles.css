@@ -488,6 +488,75 @@ p {
   margin-top: 48px;
 }
 
+.section-block {
+  margin-top: clamp(58px, 8vw, 110px);
+}
+
+.section-head {
+  max-width: 920px;
+  margin-bottom: 26px;
+}
+
+.section-head p {
+  max-width: 790px;
+}
+
+.section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.split-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(360px, 0.62fr);
+  gap: clamp(26px, 5vw, 72px);
+  align-items: stretch;
+  padding: clamp(26px, 4vw, 46px);
+  border: 1px solid rgba(18, 60, 53, 0.13);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 90% 20%, rgba(46, 140, 124, 0.1), transparent 30%),
+    rgba(251, 250, 245, 0.72);
+}
+
+.mini-roadmap,
+.dashboard-preview-card,
+.integration-list,
+.plan-breakdown {
+  display: grid;
+  gap: 12px;
+}
+
+.mini-roadmap article,
+.dashboard-preview-card article,
+.plan-breakdown article {
+  padding: 18px;
+  border: 1px solid rgba(18, 60, 53, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.46);
+}
+
+.mini-roadmap span,
+.dashboard-preview-card span,
+.plan-breakdown span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--aqua);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mini-roadmap strong,
+.dashboard-preview-card strong,
+.plan-breakdown strong {
+  display: block;
+  color: var(--green);
+}
+
 .home-strip article,
 .service-grid article,
 .step-grid article,
@@ -543,6 +612,25 @@ p {
   margin-top: 20px;
   color: var(--wine);
   font-size: 0.82rem;
+}
+
+.dashboard-service {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(360px, 0.62fr);
+  gap: clamp(26px, 5vw, 72px);
+  align-items: center;
+  margin-top: 54px;
+  padding: clamp(28px, 5vw, 58px);
+  border: 1px solid rgba(18, 60, 53, 0.13);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(46, 140, 124, 0.12), transparent 32%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.76), rgba(221, 233, 229, 0.34));
+  box-shadow: var(--shadow);
+}
+
+.dashboard-preview-card {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .split-page {
@@ -673,6 +761,36 @@ p {
   border: 1px solid rgba(18, 60, 53, 0.13);
   border-radius: 8px;
   background: rgba(251, 250, 245, 0.78);
+}
+
+.contact-proof {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.contact-proof article {
+  padding: 16px;
+  border: 1px solid rgba(18, 60, 53, 0.12);
+  border-radius: 8px;
+  background: rgba(251, 250, 245, 0.62);
+}
+
+.contact-proof span {
+  color: var(--aqua);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.contact-proof strong {
+  display: block;
+  margin: 8px 0 4px;
+  color: var(--green);
+}
+
+.contact-proof p {
+  margin: 0;
+  font-size: 0.9rem;
 }
 
 .field textarea {
@@ -1493,6 +1611,34 @@ p {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.integration-list {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.integration-list span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(18, 60, 53, 0.12);
+  border-radius: 999px;
+  color: var(--green);
+  background: rgba(221, 233, 229, 0.46);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.plan-breakdown {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.plan-breakdown p {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+}
+
 .profile-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1613,6 +1759,8 @@ p {
 
   .home-hero,
   .split-page,
+  .split-feature,
+  .dashboard-service,
   .impact-page,
   .dashboard-columns,
   .portal-entry-frame,
@@ -1627,7 +1775,10 @@ p {
   .principles-grid,
   .step-grid,
   .client-kpis,
-  .service-opportunities {
+  .service-opportunities,
+  .dashboard-preview-card,
+  .integration-list,
+  .plan-breakdown {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1770,6 +1921,7 @@ p {
 
   .hero-actions,
   .contact-actions,
+  .section-actions,
   .chat-input {
     display: grid;
     width: 100%;
@@ -1800,6 +1952,9 @@ p {
   .step-grid,
   .client-kpis,
   .service-opportunities,
+  .dashboard-preview-card,
+  .integration-list,
+  .plan-breakdown,
   .profile-grid {
     grid-template-columns: 1fr;
   }

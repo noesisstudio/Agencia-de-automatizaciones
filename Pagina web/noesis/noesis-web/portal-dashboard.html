@@ -48,8 +48,8 @@
         </nav>
 
         <div class="sidebar-footer">
-          <span data-i18n="sidebar.workspace">Workspace activo</span>
-          <strong>Exemple Dental Lleida</strong>
+            <span data-i18n="sidebar.workspace">Workspace activo</span>
+            <strong>Cliente demo Noesis</strong>
         </div>
       </aside>
 
@@ -75,7 +75,7 @@
               <button type="button" data-lang="ca">Catal&agrave;</button>
               <button type="button" data-lang="en">English</button>
             </div>
-            <span class="client-user"><span data-i18n="top.user">Usuario:</span> <strong>prueba</strong></span>
+            <span class="client-user"><span data-i18n="top.user">Usuario:</span> <strong>cliente demo</strong></span>
             <a class="button secondary compact logout-link" href="portal.html" data-i18n="top.logout" data-logout>Cerrar sesi&oacute;n</a>
           </div>
         </header>
@@ -93,8 +93,8 @@
             <div class="client-kpi-grid">
               <article class="client-kpi highlighted">
                 <span data-i18n="kpi.pending">Pendiente de pago</span>
-                <strong>0,00&euro;</strong>
-                <p data-i18n="kpi.pendingNote">0 factura(s) pendientes</p>
+                <strong>290&euro;</strong>
+                <p data-i18n="kpi.pendingNote">1 factura pendiente</p>
               </article>
               <article class="client-kpi">
                 <span data-i18n="kpi.paid">Total pagado</span>
@@ -117,8 +117,8 @@
               <article class="client-card">
                 <h2 data-i18n="summary.activity">Actividad reciente</h2>
                 <div class="timeline">
-                  <div><span>28/05</span><p data-i18n="summary.act1">Revisi&oacute;n del flujo de citas y agenda completada.</p></div>
-                  <div><span>27/05</span><p data-i18n="summary.act2">Ajuste de criterios para recordatorios y cambios de hora.</p></div>
+                  <div><span>28/05</span><p data-i18n="summary.act1">Revisi&oacute;n del flujo de chatbot y respuestas frecuentes completada.</p></div>
+                  <div><span>27/05</span><p data-i18n="summary.act2">Ajuste de criterios para leads, email y mensajes de WhatsApp.</p></div>
                   <div><span>24/05</span><p data-i18n="summary.act3">Presupuesto de mantenimiento mensual confirmado.</p></div>
                 </div>
               </article>
@@ -127,9 +127,22 @@
                 <p data-i18n="summary.quickBody">Consulta facturas, revisa el estado del servicio o solicita una nueva mejora operativa.</p>
                 <div class="quick-actions">
                   <button type="button" class="button primary compact" data-panel-target="billing" data-i18n="summary.quickBilling">Ver facturaci&oacute;n</button>
+                  <button type="button" class="button secondary compact" data-panel-target="service" data-i18n="summary.quickService">Ver servicio</button>
                   <button type="button" class="button secondary compact" data-panel-target="growth" data-i18n="summary.quickGrowth">Nueva mejora</button>
                 </div>
               </article>
+            </div>
+
+            <div class="client-card">
+              <h2 data-i18n="summary.systems">Sistemas conectados</h2>
+              <div class="integration-list">
+                <span>Gmail</span>
+                <span>Google Sheets</span>
+                <span>Typeform</span>
+                <span>WhatsApp Business</span>
+                <span>CRM</span>
+                <span>FacturAI</span>
+              </div>
             </div>
           </section>
 
@@ -145,18 +158,26 @@
                 <div class="billing-table">
                   <div><span data-i18n="billing.impl">Implementaci&oacute;n inicial</span><strong>1.850&euro;</strong></div>
                   <div><span data-i18n="billing.maint">Mantenimiento mensual</span><strong>290&euro;/mes</strong></div>
-                  <div><span data-i18n="billing.status">Estado</span><strong data-i18n="billing.statusValue">Pagado</strong></div>
+                  <div><span data-i18n="billing.status">Estado</span><strong data-i18n="billing.statusValue">Implementaci&oacute;n pagada, mantenimiento pendiente</strong></div>
                   <div><span data-i18n="billing.next">Pr&oacute;ximo vencimiento</span><strong>05/06/2026</strong></div>
                 </div>
               </article>
               <article class="client-card">
                 <h2 data-i18n="billing.docs">Documentos</h2>
                 <div class="document-list">
-                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20factura%20implementacion%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice1">Factura implementaci&oacute;n</strong><small>Pagada</small></a>
-                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20factura%20mantenimiento%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice2">Factura mantenimiento junio</strong><small>Pendiente</small></a>
-                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20contrato%20de%20servicio%20Noesis"><span>PDF</span><strong data-i18n="billing.contractDoc">Contrato de servicio</strong><small>Activo</small></a>
+                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20factura%20implementacion%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice1">Factura implementaci&oacute;n</strong><small data-i18n="billing.paid">Pagada</small></a>
+                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20factura%20mantenimiento%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice2">Factura mantenimiento junio</strong><small data-i18n="billing.pending">Pendiente</small></a>
+                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20contrato%20de%20servicio%20Noesis"><span>PDF</span><strong data-i18n="billing.contractDoc">Contrato de servicio</strong><small data-i18n="billing.active">Activo</small></a>
                 </div>
               </article>
+            </div>
+            <div class="client-card">
+              <h2 data-i18n="billing.plan">Plan contratado</h2>
+              <div class="plan-breakdown">
+                <article><span>01</span><strong data-i18n="billing.plan1">Diagn&oacute;stico y mapa operativo</strong><p data-i18n="billing.plan1Body">Proceso revisado, alcance del piloto y responsables definidos.</p></article>
+                <article><span>02</span><strong data-i18n="billing.plan2">Automatizaci&oacute;n inicial</strong><p data-i18n="billing.plan2Body">Flujo activo con pruebas, ajustes y documentaci&oacute;n b&aacute;sica.</p></article>
+                <article><span>03</span><strong data-i18n="billing.plan3">Soporte mensual</strong><p data-i18n="billing.plan3Body">Monitorizaci&oacute;n, peque&ntilde;os ajustes e informe de seguimiento.</p></article>
+              </div>
             </div>
           </section>
 
@@ -169,24 +190,29 @@
             <div class="client-two-columns">
               <article class="client-card wide-card">
                 <span class="status-pill">En curso</span>
-                <h2 data-i18n="service.name">Citas y agenda</h2>
-                <p data-i18n="service.description">Sistema para ordenar reservas, recordatorios y cambios de hora con seguimiento medible.</p>
+                <h2 data-i18n="service.name">Chatbot, leads y seguimiento comercial</h2>
+                <p data-i18n="service.description">Sistema para responder preguntas frecuentes, ordenar solicitudes entrantes y activar recordatorios comerciales con seguimiento medible.</p>
                 <div class="agent-progress">
                   <div><header><span data-i18n="service.config">Configuraci&oacute;n</span><strong>90%</strong></header><i><b style="width: 90%"></b></i></div>
-                  <div><header><span data-i18n="service.tests">Pruebas con casos reales</span><strong>64%</strong></header><i><b style="width: 64%"></b></i></div>
-                  <div><header><span data-i18n="service.adoption">Adopci&oacute;n del equipo</span><strong>48%</strong></header><i><b style="width: 48%"></b></i></div>
-                  <div><header><span data-i18n="service.impact">Impacto medido</span><strong>28h</strong></header><i><b style="width: 72%"></b></i></div>
+                  <div><header><span data-i18n="service.tests">Pruebas con casos reales</span><strong>72%</strong></header><i><b style="width: 72%"></b></i></div>
+                  <div><header><span data-i18n="service.adoption">Adopci&oacute;n del equipo</span><strong>58%</strong></header><i><b style="width: 58%"></b></i></div>
+                  <div><header><span data-i18n="service.impact">Impacto medido</span><strong>32h</strong></header><i><b style="width: 76%"></b></i></div>
                 </div>
               </article>
               <article class="client-card">
                 <h2 data-i18n="service.next">Pr&oacute;ximos pasos</h2>
                 <div class="checklist">
-                  <label><input type="checkbox" checked /> <span data-i18n="service.step1">Validar criterios de agenda</span></label>
-                  <label><input type="checkbox" checked /> <span data-i18n="service.step2">Probar recordatorios internos</span></label>
+                  <label><input type="checkbox" checked /> <span data-i18n="service.step1">Validar documentaci&oacute;n del chatbot</span></label>
+                  <label><input type="checkbox" checked /> <span data-i18n="service.step2">Probar alertas internas de leads</span></label>
                   <label><input type="checkbox" /> <span data-i18n="service.step3">Revisar adopci&oacute;n con el equipo</span></label>
                   <label><input type="checkbox" /> <span data-i18n="service.step4">Emitir informe mensual</span></label>
                 </div>
               </article>
+            </div>
+            <div class="service-opportunities">
+              <article class="opportunity-card"><span>01</span><h2 data-i18n="service.module1">Chatbot web</h2><p data-i18n="service.module1Body">Respuestas con FAQs, tarifas y condiciones internas.</p></article>
+              <article class="opportunity-card"><span>02</span><h2 data-i18n="service.module2">Leads</h2><p data-i18n="service.module2Body">Registro, prioridad, asignaci&oacute;n y recordatorios autom&aacute;ticos.</p></article>
+              <article class="opportunity-card"><span>03</span><h2 data-i18n="service.module3">Email</h2><p data-i18n="service.module3Body">Clasificaci&oacute;n, borradores asistidos y extracci&oacute;n de datos.</p></article>
             </div>
           </section>
 
@@ -200,8 +226,8 @@
               <article class="client-card chat-box">
                 <h2 data-i18n="support.chat">Chat del proyecto</h2>
                 <div class="chat-thread">
-                  <div class="chat-message" data-i18n="support.msg1">Hemos detectado menos revisi&oacute;n manual en los cambios de agenda esta semana.</div>
-                  <div class="chat-message user" data-i18n="support.msg2">Podemos valorar recordatorios por WhatsApp m&aacute;s adelante?</div>
+                  <div class="chat-message" data-i18n="support.msg1">Hemos detectado menos revisi&oacute;n manual en la clasificaci&oacute;n de leads esta semana.</div>
+                  <div class="chat-message user" data-i18n="support.msg2">Podemos valorar presupuestos por WhatsApp m&aacute;s adelante?</div>
                   <div class="chat-message" data-i18n="support.msg3">S&iacute;. Lo pondr&iacute;amos como fase 2 y validar&iacute;amos coste antes de activarlo.</div>
                 </div>
                 <div class="chat-input">
@@ -228,8 +254,9 @@
             </div>
             <div class="service-opportunities">
               <article class="opportunity-card"><span>01</span><h2 data-i18n="growth.card1">Documentos y facturas</h2><p data-i18n="growth.card1Body">Centralizar recepci&oacute;n de documentos, validaci&oacute;n y preparaci&oacute;n para revisi&oacute;n.</p></article>
-              <article class="opportunity-card"><span>02</span><h2 data-i18n="growth.card2">Flujos internos</h2><p data-i18n="growth.card2Body">Conectar correos, formularios y tareas recurrentes en un circuito con responsables.</p></article>
-              <article class="opportunity-card"><span>03</span><h2 data-i18n="growth.card3">Informe mensual</h2><p data-i18n="growth.card3Body">Resumen de horas recuperadas, incidencias, decisiones y pr&oacute;ximas acciones.</p></article>
+              <article class="opportunity-card"><span>02</span><h2 data-i18n="growth.card2">Presupuestos por WhatsApp</h2><p data-i18n="growth.card2Body">Convertir conversaciones entrantes en propuestas estructuradas listas para revisar.</p></article>
+              <article class="opportunity-card"><span>03</span><h2 data-i18n="growth.card3">Citas y agenda</h2><p data-i18n="growth.card3Body">Reservas, recordatorios, cambios de hora y sincronizaci&oacute;n con calendarios.</p></article>
+              <article class="opportunity-card"><span>04</span><h2 data-i18n="growth.card4">Informe mensual</h2><p data-i18n="growth.card4Body">Resumen de horas recuperadas, incidencias, decisiones y pr&oacute;ximas acciones.</p></article>
             </div>
           </section>
         </section>
