@@ -81,7 +81,7 @@ body.facturas-app {
   text-decoration: none;
   color: var(--text-primary);
 }
-.logo__dot { color: var(--accent); }
+.logo__dot { color: #000000; }
 .sidebar__tag {
   display: block;
   font-size: 0.75rem;

@@ -124,31 +124,9 @@
 
   var revealNodes = document.querySelectorAll(".reveal");
   if (revealNodes.length) {
-    if (reduceMotion) {
-      revealNodes.forEach(function (el) {
-        el.classList.add("reveal--visible");
-      });
-    } else if ("IntersectionObserver" in window) {
-      var io = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) {
-              return;
-            }
-            entry.target.classList.add("reveal--visible");
-            io.unobserve(entry.target);
-          });
-        },
-        { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.06 }
-      );
-      revealNodes.forEach(function (el) {
-        io.observe(el);
-      });
-    } else {
-      revealNodes.forEach(function (el) {
-        el.classList.add("reveal--visible");
-      });
-    }
+    revealNodes.forEach(function (el) {
+      el.classList.add("reveal--visible");
+    });
   }
 
   var parallaxTick = false;

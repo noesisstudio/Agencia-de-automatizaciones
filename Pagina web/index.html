@@ -309,7 +309,7 @@ a:hover {
 }
 
 .logo__dot {
-  color: var(--color-accent);
+  color: #000000;
 }
 
 .nav__list {
@@ -727,21 +727,21 @@ a:hover {
   color: var(--color-accent-hover);
 }
 
-/* Reveal on scroll (solo oculta si JS está activo; sin JS el contenido se ve) */
+/* Reveal on scroll: el contenido siempre es visible; la animación es opcional */
 .reveal {
   opacity: 1;
   transform: none;
 }
 
-html.js .reveal:not(.reveal--visible) {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
-}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .reveal {
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
 
-.reveal--visible {
-  opacity: 1;
-  transform: none;
+  html.js .reveal.reveal--visible {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* FAQs (inicio) */
