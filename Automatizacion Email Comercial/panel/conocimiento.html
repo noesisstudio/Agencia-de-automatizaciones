@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentación — Email comercial</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body class="app-shell">
+  <main class="page-main page-main--wide">
+    <div class="page-head">
+      <h1>Documentación comercial</h1>
+      <p>Markdown con servicios, FAQs, integraciones y RGPD. La IA solo responde con esta base.</p>
+    </div>
+
+    <div id="empresaBanner" class="cliente-banner cliente-banner--warn">Cargando empresa…</div>
+
+    <div class="card">
+      <div class="row2">
+        <div>
+          <label for="empresaId">ID empresa</label>
+          <input id="empresaId" readonly />
+        </div>
+        <div>
+          <label for="empresaNombre">Nombre</label>
+          <input id="empresaNombre" readonly />
+        </div>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn--ghost" id="btnLoad">Recargar</button>
+        <a class="btn btn--ghost" id="linkBorrador" href="borrador.html">Probar borrador →</a>
+        <a class="btn btn--ghost" href="empresas.html">Cambiar empresa</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="hint">
+        Incluye secciones con <code>## Título</code> (servicios, precios, integraciones, RGPD).
+        El motor RAG prioriza las secciones más relevantes al correo del lead.
+      </p>
+      <textarea id="knowledge" placeholder="## Servicios&#10;- Automatización con IA&#10;&#10;## FAQs&#10;…"></textarea>
+      <div class="meta-row">
+        <span id="charCount" class="meta-pill">0 caracteres</span>
+        <span id="dirtyHint" class="meta-pill meta-pill--warn" hidden>Cambios sin guardar</span>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn--primary" id="btnSave">Guardar documentación</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="panel-ui.js"></script>
+  <script src="panel-api.js"></script>
+  <script src="empresa-utils.js"></script>
+  <script src="panel-shell.js"></script>
+  <script src="conocimiento-app.js"></script>
+</body>
+</html>

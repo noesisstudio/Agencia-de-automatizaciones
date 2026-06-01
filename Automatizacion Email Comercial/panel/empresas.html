@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Empresas — Email comercial</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body class="app-shell">
+  <main class="clients-hub">
+    <aside class="clients-sidebar">
+      <div class="clients-sidebar__head">
+        <div>
+          <h1>Empresas</h1>
+          <p id="empresaCount" class="clients-sidebar__count">—</p>
+        </div>
+        <button type="button" class="btn btn--icon" id="btnRefreshList" title="Actualizar">↻</button>
+      </div>
+      <div class="search-box">
+        <input id="empresaSearch" type="search" placeholder="Buscar por nombre o ID…" autocomplete="off" />
+      </div>
+      <div id="apiStatus" class="api-status" hidden></div>
+      <div id="empresaList" class="client-list">
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+      </div>
+      <button type="button" class="btn btn--primary btn--block" id="btnNewEmpresa">+ Nueva empresa</button>
+    </aside>
+
+    <section class="clients-main">
+      <div id="empresaWorkspace" class="client-workspace">
+        <div class="empty-state">
+          <div class="empty-state__icon">✉</div>
+          <h2>Selecciona una empresa</h2>
+          <p>Elige una de la lista o crea una nueva para gestionar su documentación comercial.</p>
+          <button type="button" class="btn btn--primary" id="btnNewEmpty">+ Nueva empresa</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalNewEmpresa" class="modal-backdrop" hidden aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalNewTitle">
+      <div class="modal__head">
+        <h2 id="modalNewTitle">Nueva empresa</h2>
+        <button type="button" class="modal__close" id="modalNewClose" aria-label="Cerrar">&times;</button>
+      </div>
+      <form id="formNewEmpresa" class="modal__body">
+        <label for="mNombre">Nombre de la empresa</label>
+        <input id="mNombre" name="nombre" placeholder="Ej. Openix" required autocomplete="off" />
+        <label for="mId">ID interno</label>
+        <input id="mId" name="empresa_id" placeholder="openix" autocomplete="off" />
+        <p class="field-hint">Letras, números y guiones. Mínimo 2 caracteres.</p>
+      </form>
+      <div class="modal__foot">
+        <button type="button" class="btn btn--ghost" id="modalNewCancel">Cancelar</button>
+        <button type="submit" form="formNewEmpresa" class="btn btn--primary" id="modalNewSubmit">Crear empresa</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="panel-ui.js"></script>
+  <script src="panel-api.js"></script>
+  <script src="empresa-utils.js"></script>
+  <script src="panel-shell.js"></script>
+  <script src="empresas-app.js"></script>
+</body>
+</html>

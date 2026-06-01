@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>preview widget</title>
+  </head>
+  <body>
+    <!-- Solo para desarrollo local: pagina vacia -->
+    <script type="module">
+      import "./src/widget.ts";
+      window.AgenciaChatbot?.init({
+        apiBaseUrl: "http://127.0.0.1:8000",
+        tenantId: "default",
+      });
+    </script>
+  </body>
+</html>

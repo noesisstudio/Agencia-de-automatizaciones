@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instalación — Email comercial</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body class="app-shell">
+  <main class="page-main">
+    <div class="page-head">
+      <h1>Instalación</h1>
+      <p>Módulo independiente del chatbot (puerto <strong>8020</strong> vs 8000).</p>
+    </div>
+
+    <div class="card">
+      <h2>1. Arrancar en local</h2>
+      <p>Doble clic en <code>start-email-comercial.command</code> o:</p>
+      <pre class="preview-box">cd "Automatizacion Email Comercial/backend"
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env   # añade ANTHROPIC_API_KEY
+python run.py</pre>
+      <p>Panel: <a href="http://127.0.0.1:8020/panel/">http://127.0.0.1:8020/panel/</a></p>
+    </div>
+
+    <div class="card">
+      <h2>2. Webhook (Make / n8n)</h2>
+      <p><code>POST /empresas/{empresa_id}/draft</code></p>
+      <pre class="preview-box">{
+  "lead_name": "María García",
+  "lead_company": "Clínica Ejemplo SL",
+  "sales_rep_name": "Carlos Ruiz",
+  "incoming_email_body": "Texto del correo del lead…",
+  "email_subject": "Consulta integración"
+}</pre>
+      <p class="hint">La respuesta incluye <code>analysis</code> y <code>email_draft</code>. Nunca envía correo al cliente.</p>
+    </div>
+
+    <div class="card">
+      <h2>3. Cumplimiento</h2>
+      <ul>
+        <li><strong>Human-in-the-loop</strong>: solo borradores; el comercial revisa y envía.</li>
+        <li><strong>Anti-alucinación</strong>: si no está en la documentación, placeholder explícito en el cuerpo.</li>
+        <li><strong>RGPD</strong>: minimización de datos (nombre, empresa, contexto técnico).</li>
+      </ul>
+    </div>
+
+    <div id="healthBox" class="card">
+      <h2>Estado de la API</h2>
+      <div id="healthOut" class="hint">Comprobando…</div>
+    </div>
+  </main>
+
+  <script src="panel-ui.js"></script>
+  <script src="panel-api.js"></script>
+  <script src="empresa-utils.js"></script>
+  <script src="panel-shell.js"></script>
+  <script>
+    PanelShell.mount({ active: "instalacion.html", title: "Instalación" });
+    (async () => {
+      const out = document.getElementById("healthOut");
+      try {
+        const h = await EmailComercialAPI.health();
+        out.innerHTML = `<span class="status-item ok"><span class="status-dot"></span> ${JSON.stringify(h, null, 2)}</span>`;
+      } catch (e) {
+        out.innerHTML = `<span class="status-item err"><span class="status-dot"></span> ${PanelUI.escape(e.message)}</span>`;
+      }
+    })();
+  </script>
+</body>
+</html>

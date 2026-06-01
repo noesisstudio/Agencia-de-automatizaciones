@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel — Email comercial Openix</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body class="app-shell">
+  <main>
+    <div class="hero">
+      <h2>Email comercial B2B</h2>
+      <p>
+        Genera borradores de respuesta para comerciales (human-in-the-loop).
+        La IA no envía correos: solo prepara el texto para revisión.
+      </p>
+    </div>
+
+    <div id="statusBanner"></div>
+
+    <div class="grid">
+      <a class="tile tile--primary" href="empresas.html">
+        <strong>Empresas</strong>
+        <span>Crear y elegir cada cliente</span>
+      </a>
+      <a class="tile" href="conocimiento.html">
+        <strong>Documentación</strong>
+        <span>Base de conocimiento (Markdown)</span>
+      </a>
+      <a class="tile" href="borrador.html">
+        <strong>Probar borrador</strong>
+        <span>Simular correo entrante y ver respuesta</span>
+      </a>
+      <a class="tile" href="instalacion.html">
+        <strong>Instalación</strong>
+        <span>API, Anthropic y webhook Make</span>
+      </a>
+      <a class="tile" href="/docs" target="_blank" rel="noopener">
+        <strong>API (Swagger)</strong>
+        <span>Documentación OpenAPI</span>
+      </a>
+    </div>
+  </main>
+
+  <script src="panel-ui.js"></script>
+  <script src="panel-api.js"></script>
+  <script src="empresa-utils.js"></script>
+  <script src="panel-shell.js"></script>
+  <script>
+    PanelShell.mount({ active: "index.html", title: "Email comercial" });
+
+    document.querySelectorAll(".grid a.tile").forEach((a) => {
+      const h = a.getAttribute("href");
+      if (h && !h.startsWith("http") && !h.startsWith("/docs")) {
+        a.href = EmpresaPanel.link(h);
+      }
+    });
+
+    (async () => {
+      const box = document.getElementById("statusBanner");
+      const empresa = EmpresaPanel.getId();
+      try {
+        const h = await EmailComercialAPI.health();
+        const cls = h.anthropic_configured ? "ok" : "warn";
+        const msg = h.anthropic_configured
+          ? "API lista · Anthropic configurado"
+          : "API en marcha — falta ANTHROPIC_API_KEY en backend/.env";
+        const empresaTxt = empresa
+          ? `Empresa: <strong>${PanelUI.escape(empresa)}</strong>`
+          : `<a href="${EmpresaPanel.link("empresas.html")}">Elige una empresa</a>`;
+        box.innerHTML = `<div class="card status-item ${cls}" style="margin:0;border-radius:var(--radius-md)"><span class="status-dot"></span><span><strong>${msg}</strong> · ${empresaTxt} · puerto 8020</span></div>`;
+      } catch {
+        box.innerHTML = `<div class="card status-item err" style="margin:0;border-radius:var(--radius-md)"><span class="status-dot"></span><span>API no disponible — ejecuta <code>start-email-comercial.command</code></span></div>`;
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "FacturAI: ejecutar (API + pestaña automática)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["app.main:app", "--reload", "--host", "127.0.0.1", "--port", "8010"],
+      "cwd": "${workspaceFolder}/Automatizacion Facturas/backend",
+      "envFile": "${workspaceFolder}/Automatizacion Facturas/backend/.env",
+      "jinja": true,
+      "justMyCode": true,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Uvicorn running on (https?://\\S+)",
+        "uriFormat": "%s/pagina.html"
+      }
+    },
+    {
+      "name": "FacturAI: servidor (uvicorn, sin abrir pestaña)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["app.main:app", "--reload", "--host", "127.0.0.1", "--port", "8010"],
+      "cwd": "${workspaceFolder}/Automatizacion Facturas/backend",
+      "envFile": "${workspaceFolder}/Automatizacion Facturas/backend/.env",
+      "jinja": true,
+      "justMyCode": true
+    },
+    {
+      "name": "Openix: abrir web (servidor + navegador)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://127.0.0.1:8080/index.html",
+      "preLaunchTask": "Openix: servidor web (puerto 8080)"
+    },
+    {
+      "name": "Presupuesto WhatsApp: API (8020)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["app.main:app", "--reload", "--host", "127.0.0.1", "--port", "8020"],
+      "cwd": "${workspaceFolder}/Automatizacion Chatbot/chatbot-backend",
+      "envFile": "${workspaceFolder}/Automatizacion Chatbot/chatbot-backend/.env",
+      "jinja": true,
+      "justMyCode": true,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Uvicorn running on (https?://\\S+)",
+        "uriFormat": "%s/docs"
+      }
+    },
+    {
+      "name": "FacturAI: run.py (script local)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/Automatizacion Facturas/backend/run.py",
+      "cwd": "${workspaceFolder}/Automatizacion Facturas/backend",
+      "envFile": "${workspaceFolder}/Automatizacion Facturas/backend/.env",
+      "justMyCode": true
+    }
+  ]
+}

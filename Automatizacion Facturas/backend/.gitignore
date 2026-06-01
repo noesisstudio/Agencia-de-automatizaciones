@@ -1,0 +1,13 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+data/
+storage/
+logs/
+
+# Credenciales de Google (cuenta de servicio) — NUNCA subir al repositorio
+*.json
+credentials/*.json
+aplicacion-facturas-497816-30459143b34f.json

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recuperar acceso — Openix</title>
+  <meta name="description" content="Recuperación de acceso al área de clientes." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido principal</a>
+
+  <div class="site-head" id="siteHead">
+    <div class="client-banner client-banner--hide-msg-sm" role="region" aria-label="Acceso para clientes">
+      <div class="container client-banner__inner">
+        <p class="client-banner__msg" data-i18n-html="bannerMsg"><strong>Empresas y despachos</strong> · Facturas, pagos y estado del servicio</p>
+        <nav class="lang-switch" aria-label="Idioma">
+          <button type="button" class="lang-switch__btn is-active" data-set-lang="es" aria-pressed="true" lang="es">Español</button>
+          <span class="lang-switch__sep" aria-hidden="true">·</span>
+          <button type="button" class="lang-switch__btn" data-set-lang="ca" aria-pressed="false" lang="ca">Català</button>
+        </nav>
+      </div>
+    </div>
+    <header class="site-header" id="siteHeader">
+      <div class="container site-header__inner">
+        <a class="logo" href="index.html">Openix<span class="logo__dot">.</span></a>
+        <nav class="nav" id="nav" aria-label="Principal">
+          <ul class="nav__list">
+            <li><a href="index.html" data-i18n="navHome">Inicio</a></li>
+            <li><a href="servicios.html" data-i18n="navServices">Servicios</a></li>
+            <li><a href="precios.html" data-i18n="navPricing">Precios</a></li>
+            <li><a href="seguridad.html" data-i18n="navSecurity">Seguridad</a></li>
+            <li><a href="contacto.html" class="nav__cta" data-i18n="navContact">Hablar con nosotros</a></li>
+          </ul>
+        </nav>
+        <div class="site-header__end">
+          <a class="header-login" href="login.html" data-i18n="login">Iniciar sesión</a>
+          <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <main id="contenido" class="page-main page-auth">
+    <div class="card-surface">
+      <h1>Recuperar acceso</h1>
+      <p>Cuando el portal esté conectado, aquí podrás solicitar un enlace de restablecimiento. De momento, contacta con nosotros y te ayudamos.</p>
+      <a class="btn btn--primary" href="contacto.html">Contactar</a>
+      <p class="page-auth__back"><a href="login.html">← Volver a área clientes</a></p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <a class="footer-logo" href="index.html">Openix<span class="logo__dot">.</span></a>
+      <ul class="footer-links">
+        <li><a href="servicios.html" data-i18n="navServices">Servicios</a></li>
+        <li><a href="precios.html" data-i18n="navPricing">Precios</a></li>
+        <li><a href="seguridad.html" data-i18n="navSecurity">Seguridad</a></li>
+        <li><a href="contacto.html" data-i18n="footerContact">Contacto</a></li>
+        <li><a href="../Automatizacion Facturas/pagina.html">Facturas IA</a></li>
+        <li><a href="legal.html" data-i18n="footerLegal">Legal</a></li>
+      </ul>
+      <p class="footer-copy">© <span id="year"></span><span data-i18n="footerTagline"> Openix · Automatización con IA</span></p>
+    </div>
+  </footer>
+
+  <script src="js/site-config.js"></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/chatbot-init.js"></script>
+</body>
+</html>

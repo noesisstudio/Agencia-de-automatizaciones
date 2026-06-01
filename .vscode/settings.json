@@ -1,0 +1,4 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/Automatizacion Facturas/backend/.venv/bin/python",
+  "python.terminal.activateEnvironment": true
+}

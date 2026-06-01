@@ -1,0 +1,17 @@
+{
+  "user": "demo",
+  "company": "Empresa Demo Openix",
+  "plan": "Profesional",
+  "summary": {
+    "totalInvoiced": 12450.0,
+    "pending": 2100.0,
+    "paid": 10350.0
+  },
+  "invoices": [
+    { "id": "FAC-00001", "date": "15/05/2026", "amount": 1200.0, "status": "pagada", "concept": "Consultoría mayo" },
+    { "id": "FAC-00002", "date": "20/05/2026", "amount": 900.0, "status": "pendiente", "concept": "Automatización chatbot" }
+  ],
+  "payments": [
+    { "date": "16/05/2026", "amount": 1200.0, "method": "Transferencia", "reference": "TRF-001" }
+  ]
+}

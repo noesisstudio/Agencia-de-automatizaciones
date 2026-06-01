@@ -1,0 +1,32 @@
+{
+  "empresa": "Openix (catálogo de ejemplo)",
+  "moneda": "EUR",
+  "iva_porcentaje": 21,
+  "mensaje_bienvenida_extra": "Responde con el número del servicio para añadirlo al presupuesto. Cuando termines, escribe LISTO. Comandos: AYUDA, REINICIAR.",
+  "servicios": [
+    {
+      "id": "1",
+      "titulo": "Auditoría de procesos (1 jornada)",
+      "precio": 450,
+      "detalle": "Mapa de herramientas, cuellos de botella y quick wins."
+    },
+    {
+      "id": "2",
+      "titulo": "Flujo de captación de leads",
+      "precio": 890,
+      "detalle": "Make + CRM + email: formulario → clasificación → alerta."
+    },
+    {
+      "id": "3",
+      "titulo": "Asistente WhatsApp con menú",
+      "precio": 690,
+      "detalle": "Este tipo de presupuesto guiado + respuestas automáticas básicas."
+    },
+    {
+      "id": "4",
+      "titulo": "Mantenimiento mensual",
+      "precio": 290,
+      "detalle": "Monitorización, ajustes menores y soporte por canal acordado."
+    }
+  ]
+}

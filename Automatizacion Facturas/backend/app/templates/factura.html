@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Factura {% if invoice is mapping %}{{ invoice.numero or 'borrador' }}{% else %}{{ invoice.number }}{% endif %}</title>
+  <style>
+    :root { --bg:#f8fafc; --card:#fff; --ink:#0f172a; --muted:#64748b; --accent:#6366f1; --border:rgba(15,23,42,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; padding:32px; font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--ink); line-height:1.5; }
+    .sheet { max-width:800px; margin:0 auto; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:32px; }
+    h1 { margin:0 0 8px; font-size:1.75rem; font-weight:800; }
+    .sub { color:var(--muted); font-size:.9rem; margin-bottom:24px; }
+    .draft-watermark { color:#f59e0b; font-weight:700; font-size:.85rem; margin-bottom:12px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+    .box { padding:14px 16px; border-radius:10px; border:1px solid var(--border); background:#f8fafc; }
+    .box h2 { margin:0 0 8px; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+    table { width:100%; border-collapse:collapse; margin-top:16px; }
+    th,td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); font-size:.875rem; }
+    th { font-size:.7rem; text-transform:uppercase; color:var(--muted); }
+    .totals { margin-top:20px; text-align:right; }
+    .totals strong { color:var(--accent); font-size:1.15rem; }
+    footer { margin-top:32px; font-size:.75rem; color:var(--muted); }
+    @media print { body { padding:0; background:#fff; } .sheet { box-shadow:none; border:none; } }
+  </style>
+</head>
+<body>
+  <div class="sheet">
+    {% if is_draft %}<p class="draft-watermark">BORRADOR — no válido como factura</p>{% endif %}
+
+    {% if invoice is mapping %}
+    <h1>Factura {{ invoice.numero or "—" }}</h1>
+    <p class="sub">Archivo: {{ filename or "—" }} · Noesis</p>
+    <div class="grid">
+      <div class="box"><h2>Emisor</h2><p><strong>{{ invoice.emisor or "—" }}</strong></p><p>NIF: {{ invoice.nif_emisor or "—" }}</p></div>
+      <div class="box"><h2>Cliente</h2><p><strong>{{ invoice.cliente or "—" }}</strong></p><p>NIF: {{ invoice.nif_cliente or "—" }}</p></div>
+    </div>
+  {% if invoice.lineas %}
+    <table><thead><tr><th>Descripción</th><th>Cant.</th><th>P. unit.</th><th>Total</th></tr></thead>
+    <tbody>{% for l in invoice.lineas %}<tr><td>{{ l.descripcion }}</td><td>{{ l.cantidad }}</td><td>{{ l.precio_unitario }} €</td><td>{{ l.total_linea }} €</td></tr>{% endfor %}</tbody></table>
+  {% endif %}
+    <div class="totals">
+      <p>Base: {{ invoice.base_imponible or "—" }} €</p>
+      <p>IVA: {{ invoice.cuota_iva or "—" }} €</p>
+      <p>Total: <strong>{{ invoice.total or "—" }} €</strong></p>
+    </div>
+    {% else %}
+    <h1>Factura {{ invoice.number }}</h1>
+    <p class="sub">{{ company_name }}{% if company_nif %} · NIF {{ company_nif }}{% endif %} · Noesis</p>
+    <div class="grid">
+      <div class="box"><h2>Emisor</h2><p><strong>{{ company_name }}</strong></p><p>NIF: {{ company_nif or "—" }}</p></div>
+      <div class="box"><h2>Cliente</h2><p><strong>{{ client.name if client else "—" }}</strong></p></div>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="box"><h2>Fecha</h2><p>{{ invoice.issue_date or "—" }}</p></div>
+      <div class="box"><h2>Estado</h2><p>{{ invoice.status.value }}</p></div>
+      <div class="box"><h2>Vencimiento</h2><p>{{ invoice.due_date or "—" }}</p></div>
+    </div>
+    {% if lines %}
+    <table><thead><tr><th>Descripción</th><th>Cant.</th><th>P. unit.</th><th>IVA %</th><th>Total</th></tr></thead>
+    <tbody>{% for l in lines %}<tr><td>{{ l.description }}</td><td>{{ l.quantity }}</td><td>{{ "%.2f"|format(l.unit_price) }} €</td><td>{{ l.iva_rate }}%</td><td>{{ "%.2f"|format(l.line_total) }} €</td></tr>{% endfor %}</tbody></table>
+    {% endif %}
+    <div class="totals">
+      <p>Base: {{ "%.2f"|format(invoice.base_amount) }} €</p>
+      <p>IVA: {{ "%.2f"|format(invoice.iva_amount) }} €</p>
+      {% if invoice.irpf_amount %}<p>IRPF: -{{ "%.2f"|format(invoice.irpf_amount) }} €</p>{% endif %}
+      <p>Total: <strong>{{ "%.2f"|format(invoice.total_amount) }} €</strong></p>
+    </div>
+    {% if invoice.notes %}<div class="box"><h2>Notas</h2><p>{{ invoice.notes }}</p></div>{% endif %}
+    {% endif %}
+    <footer>Documento generado por Noesis. Revisa importes antes de contabilizar.</footer>
+  </div>
+</body>
+</html>

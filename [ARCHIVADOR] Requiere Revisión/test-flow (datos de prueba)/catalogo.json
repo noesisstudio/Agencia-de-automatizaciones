@@ -1,0 +1,26 @@
+{
+  "empresa": "Test SA",
+  "moneda": "EUR",
+  "iva_porcentaje": 21.0,
+  "mensaje_bienvenida_extra": "Responde con el número del servicio. Cuando termines, escribe LISTO. Comandos: AYUDA, REINICIAR.",
+  "servicios": [
+    {
+      "id": "1",
+      "titulo": "Consulta",
+      "precio": 99.0,
+      "detalle": ""
+    },
+    {
+      "id": "1",
+      "titulo": "Revision anual",
+      "precio": 120.0,
+      "detalle": ""
+    },
+    {
+      "id": "2",
+      "titulo": "Soporte mensual",
+      "precio": 50.0,
+      "detalle": ""
+    }
+  ]
+}

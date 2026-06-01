@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seguridad — Openix</title>
+  <meta name="description" content="RGPD, tratamiento de datos, credenciales y buenas prácticas en automatizaciones." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido principal</a>
+
+  <div class="site-head" id="siteHead">
+    <div class="client-banner client-banner--hide-msg-sm" role="region" aria-label="Acceso para clientes">
+      <div class="container client-banner__inner">
+        <p class="client-banner__msg" data-i18n-html="bannerMsg"><strong>Empresas y despachos</strong> · Facturas, pagos y estado del servicio</p>
+        <nav class="lang-switch" aria-label="Idioma">
+          <button type="button" class="lang-switch__btn is-active" data-set-lang="es" aria-pressed="true" lang="es">Español</button>
+          <span class="lang-switch__sep" aria-hidden="true">·</span>
+          <button type="button" class="lang-switch__btn" data-set-lang="ca" aria-pressed="false" lang="ca">Català</button>
+        </nav>
+      </div>
+    </div>
+    <header class="site-header" id="siteHeader">
+      <div class="container site-header__inner">
+        <a class="logo" href="index.html">Openix<span class="logo__dot">.</span></a>
+        <nav class="nav" id="nav" aria-label="Principal">
+          <ul class="nav__list">
+            <li><a href="index.html" data-i18n="navHome">Inicio</a></li>
+            <li><a href="servicios.html" data-i18n="navServices">Servicios</a></li>
+            <li><a href="precios.html" data-i18n="navPricing">Precios</a></li>
+            <li><a href="seguridad.html" aria-current="page" data-i18n="navSecurity">Seguridad</a></li>
+            <li><a href="contacto.html" class="nav__cta" data-i18n="navContact">Hablar con nosotros</a></li>
+          </ul>
+        </nav>
+        <div class="site-header__end">
+          <a class="header-login" href="login.html" data-i18n="login">Iniciar sesión</a>
+          <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <main id="contenido" class="page-main">
+    <div class="container">
+      <header class="page-hero">
+        <h1>Seguridad y datos</h1>
+        <p class="page-lead">
+          Trabajamos con el mínimo acceso necesario a tus sistemas, acuerdos de confidencialidad cuando procede y criterios alineados con el RGPD.
+        </p>
+      </header>
+      <div class="card-surface card-surface--wide">
+        <p>
+          Las credenciales se gestan de forma segura (por ejemplo almacenes de secretos o OAuth según el proveedor). Los flujos se documentan para que sepas qué datos se mueven y dónde.
+        </p>
+        <p>
+          El detalle legal completo figura en <a href="legal.html">aviso legal y política de privacidad</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <a class="footer-logo" href="index.html">Openix<span class="logo__dot">.</span></a>
+      <ul class="footer-links">
+        <li><a href="servicios.html" data-i18n="navServices">Servicios</a></li>
+        <li><a href="precios.html" data-i18n="navPricing">Precios</a></li>
+        <li><a href="seguridad.html" data-i18n="navSecurity">Seguridad</a></li>
+        <li><a href="contacto.html" data-i18n="footerContact">Contacto</a></li>
+        <li><a href="../Automatizacion Facturas/pagina.html">Facturas IA</a></li>
+        <li><a href="legal.html" data-i18n="footerLegal">Legal</a></li>
+      </ul>
+      <p class="footer-copy">© <span id="year"></span><span data-i18n="footerTagline"> Openix · Automatización con IA</span></p>
+    </div>
+  </footer>
+
+  <script src="js/site-config.js"></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/chatbot-init.js"></script>
+</body>
+</html>

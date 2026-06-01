@@ -1,0 +1,41 @@
+AUDITORÍA DOCUMENTAL — 2026-05-18 16:56
+
+ORIGINAL: Automatizacion Facturas/.vscode/extensions.json
+PROBLEMA: Contenido idéntico (hash SHA-256) a .vscode/extensions.json
+ACCIÓN: Movido a [ARCHIVADOR] Duplicados; conservada copia en .vscode/
+DESTINO: [ARCHIVADOR] Duplicados/Automatizacion Facturas — extensions — copia.json
+
+ORIGINAL: Presupuesto Whatsapp/data/tenants/demo/sesiones.json
+PROBLEMA: JSON vacío {} idéntico a data/sesiones.json
+ACCIÓN: Movido a [ARCHIVADOR] Duplicados
+DESTINO: [ARCHIVADOR] Duplicados/Presupuesto Whatsapp — demo-sesiones.json
+
+ORIGINAL: Presupuesto Whatsapp/README.md
+PROBLEMA: Cita index.html, simulador.html, configuracion.html, generador_config.py que no existen
+ACCIÓN: Movido a [ARCHIVADOR] Requiere Revisión
+DESTINO: [ARCHIVADOR] Requiere Revisión/[REVISAR] Presupuesto Whatsapp README.md
+
+ORIGINAL: Automatizacion Chatbot/Agencia_Estrategia.md
+PROBLEMA: Describe webhook esqueleto y RAG pendiente; no refleja panel/knowledge_store actuales
+ACCIÓN: Movido a [ARCHIVADOR] Requiere Revisión
+DESTINO: [ARCHIVADOR] Requiere Revisión/[REVISAR] Agencia_Estrategia.md
+
+ORIGINAL: Automatizacion Chatbot/web-frontend/README.md
+PROBLEMA: Texto por defecto create-next-app sin documentar el monorepo
+ACCIÓN: Movido a [ARCHIVADOR] Requiere Revisión
+DESTINO: [ARCHIVADOR] Requiere Revisión/[REVISAR] web-frontend README (plantilla Next.js).md
+
+ORIGINAL: Presupuesto Whatsapp/Guia-Presupuesto-WhatsApp.pdf
+PROBLEMA: Guía anterior a la división chatbot/presupuesto y README actualizados
+ACCIÓN: Movido a [ARCHIVADOR] Requiere Revisión
+DESTINO: [ARCHIVADOR] Requiere Revisión/[REVISAR] Guia-Presupuesto-WhatsApp.pdf
+
+ORIGINAL: Presupuesto Whatsapp/data/tenants/test-flow/
+PROBLEMA: Datos generados en pruebas automatizadas, no producción
+ACCIÓN: Carpeta movida a [ARCHIVADOR] Requiere Revisión
+DESTINO: [ARCHIVADOR] Requiere Revisión/test-flow (datos de prueba)
+
+ORIGINAL: Presupuesto Whatsapp/README.md (nuevo)
+PROBLEMA: Puntero tras archivar README obsoleto
+ACCIÓN: Creado stub mínimo (contenido nuevo, no sobrescribe el archivado)
+DESTINO: Presupuesto Whatsapp/README.md

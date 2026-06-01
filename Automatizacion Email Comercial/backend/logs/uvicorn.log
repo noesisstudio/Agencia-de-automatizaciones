@@ -1,0 +1,83 @@
+INFO:     Will watch for changes in these directories: ['/Users/xagri/Documents/GitHub/Agencia de automatizaciones/Automatizacion Email Comercial/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8020 (Press CTRL+C to quit)
+INFO:     Started reloader process [82451] using WatchFiles
+INFO:     Started server process [82465]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:55534 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55613 - "GET /panel/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55613 - "GET /panel/panel.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55615 - "GET /panel/panel-api.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55616 - "GET /panel/empresa-utils.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55614 - "GET /panel/panel-ui.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55617 - "GET /panel/panel-shell.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55838 - "GET /panel/empresas.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55838 - "GET /panel/empresas-app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55839 - "GET /panel/panel-api.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55840 - "GET /panel/empresa-utils.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55841 - "GET /panel/panel-shell.js HTTP/1.1" 304 Not Modified
+WARNING:  WatchFiles detected changes in 'app/core/config.py', 'app/main.py', 'run.py', 'app/core/prompts.py', 'app/services/anthropic_client.py', 'app/__init__.py', 'app/api/routes_draft.py', 'app/services/draft_engine.py', 'app/api/routes_empresas.py', 'app/services/knowledge_store.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [82465]
+WARNING:  WatchFiles detected changes in 'app/main.py', 'run.py', 'app/core/prompts.py', 'app/services/anthropic_client.py', 'app/__init__.py', 'app/api/routes_draft.py', 'app/services/draft_engine.py', 'app/api/routes_empresas.py', 'app/services/knowledge_store.py'. Reloading...
+INFO:     Started server process [39979]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [39979]
+INFO:     Stopping reloader process [82451]
+INFO:     Will watch for changes in these directories: ['/Users/xagri/Documents/GitHub/Agencia de automatizaciones/Automatizacion Email Comercial/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8020 (Press CTRL+C to quit)
+INFO:     Started reloader process [20034] using WatchFiles
+INFO:     Started server process [20052]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:50608 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50614 - "GET /health HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [20052]
+INFO:     Stopping reloader process [20034]
+INFO:     Will watch for changes in these directories: ['/Users/xagri/Documents/GitHub/Agencia de automatizaciones/Automatizacion Email Comercial/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8020 (Press CTRL+C to quit)
+INFO:     Started reloader process [23199] using WatchFiles
+INFO:     Started server process [23207]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:50750 - "GET /health HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [23207]
+INFO:     Stopping reloader process [23199]
+INFO:     Will watch for changes in these directories: ['/Users/xagri/Documents/GitHub/Agencia de automatizaciones/Automatizacion Email Comercial/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8020 (Press CTRL+C to quit)
+INFO:     Started reloader process [25382] using WatchFiles
+INFO:     Started server process [25390]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:50894 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50904 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53298 - "GET /panel/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53302 - "GET /panel/panel-api.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53301 - "GET /panel/empresa-utils.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53298 - "GET /panel/panel-shell.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53299 - "GET /panel/panel-ui.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53300 - "GET /panel/panel.css HTTP/1.1" 304 Not Modified
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [25390]
+INFO:     Stopping reloader process [25382]
+INFO:     Will watch for changes in these directories: ['/Users/xagri/Documents/GitHub/Agencia de automatizaciones/Automatizacion Email Comercial/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8020 (Press CTRL+C to quit)
+INFO:     Started reloader process [4145] using WatchFiles
+INFO:     Started server process [4161]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:52253 - "GET /health HTTP/1.1" 200 OK

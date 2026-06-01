@@ -1,0 +1,14 @@
+{
+  "empresa": "Demo Clínica",
+  "moneda": "EUR",
+  "iva_porcentaje": 21.0,
+  "mensaje_bienvenida_extra": "Responde con el número del servicio. Cuando termines, escribe LISTO. Comandos: AYUDA, REINICIAR.",
+  "servicios": [
+    {
+      "id": "1",
+      "titulo": "Primera visita",
+      "precio": 80.0,
+      "detalle": ""
+    }
+  ]
+}

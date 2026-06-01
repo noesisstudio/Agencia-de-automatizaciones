@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Probar borrador — Email comercial</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body class="app-shell">
+  <main class="page-main page-main--wide">
+    <div class="page-head">
+      <h1>Probar borrador</h1>
+      <p>Pega el correo del lead y genera un borrador JSON (asunto + cuerpo). No se envía nada al cliente.</p>
+    </div>
+
+    <div id="empresaBanner" class="cliente-banner cliente-banner--warn">—</div>
+
+    <div class="card">
+      <div class="row2">
+        <div>
+          <label for="leadName">Nombre del lead</label>
+          <input id="leadName" placeholder="María García" />
+        </div>
+        <div>
+          <label for="leadCompany">Empresa del lead</label>
+          <input id="leadCompany" placeholder="Clínica Ejemplo SL" />
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="salesRep">Comercial (firma)</label>
+          <input id="salesRep" placeholder="Carlos Ruiz" />
+        </div>
+        <div>
+          <label for="emailSubject">Asunto original (opcional)</label>
+          <input id="emailSubject" placeholder="Consulta integración WhatsApp" />
+        </div>
+      </div>
+      <label for="incomingEmail">Correo entrante del lead</label>
+      <textarea id="incomingEmail" rows="8" placeholder="Hola, nos interesa saber si…"></textarea>
+      <div class="btn-row">
+        <button type="button" class="btn btn--primary" id="btnGenerate">Generar borrador</button>
+        <span id="genStatus" class="hint"></span>
+      </div>
+    </div>
+
+    <div id="resultBox" class="card" style="display:none">
+      <div id="disclaimer" class="diag-box" style="margin-bottom:12px"></div>
+      <h2>Análisis</h2>
+      <pre id="analysisOut" class="preview-box"></pre>
+      <h2>Borrador de email</h2>
+      <p><strong>Asunto:</strong> <span id="subjectOut"></span></p>
+      <pre id="bodyOut" class="preview-box" style="white-space:pre-wrap"></pre>
+      <p class="hint" id="ragHint"></p>
+    </div>
+  </main>
+
+  <script src="panel-ui.js"></script>
+  <script src="panel-api.js"></script>
+  <script src="empresa-utils.js"></script>
+  <script src="panel-shell.js"></script>
+  <script src="borrador-app.js"></script>
+</body>
+</html>
