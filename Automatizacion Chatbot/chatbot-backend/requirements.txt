@@ -1,6 +1,6 @@
-fastapi
-python-multipart
-uvicorn[standard]
-httpx
-pydantic-settings
-pypdf
+fastapi>=0.110.0,<0.116.0
+python-multipart>=0.0.9,<0.0.13
+uvicorn[standard]>=0.27.0,<0.33.0
+httpx>=0.27.0,<0.29.0
+pydantic-settings>=2.0.0,<3.0.0
+pypdf>=4.0.0,<7.0.0

@@ -57,7 +57,13 @@ class Settings(BaseSettings):
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
 
     def anthropic_configured(self) -> bool:
-        return bool((self.anthropic_api_key or "").strip())
+        key = (self.anthropic_api_key or "").strip()
+        placeholders = {
+            "sk-ant-...",
+            "your-anthropic-api-key-here",
+            "your_anthropic_api_key_here",
+        }
+        return bool(key and key.lower() not in placeholders)
 
     def google_sheets_configured(self) -> bool:
         p = self.resolved_service_account_path()

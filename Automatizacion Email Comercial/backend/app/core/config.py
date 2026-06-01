@@ -27,7 +27,13 @@ class Settings(BaseSettings):
         return v
 
     def anthropic_configured(self) -> bool:
-        return bool((self.anthropic_api_key or "").strip())
+        key = (self.anthropic_api_key or "").strip()
+        placeholders = {
+            "sk-ant-...",
+            "your-anthropic-api-key-here",
+            "your_anthropic_api_key_here",
+        }
+        return bool(key and key.lower() not in placeholders)
 
 
 settings = Settings()

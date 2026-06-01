@@ -20,13 +20,12 @@ class CheckResult:
 
 
 def check_anthropic() -> CheckResult:
-    key = (settings.anthropic_api_key or "").strip()
-    if not key:
+    if not settings.anthropic_configured():
         return CheckResult(
             codigo="anthropic_key",
             ok=False,
             titulo="Clave de IA no configurada",
-            detalle="Falta ANTHROPIC_API_KEY en backend/.env",
+            detalle="Falta ANTHROPIC_API_KEY real en backend/.env",
             solucion="Copia .env.example a .env, añade la clave y reinicia el servidor.",
         )
     return CheckResult(
