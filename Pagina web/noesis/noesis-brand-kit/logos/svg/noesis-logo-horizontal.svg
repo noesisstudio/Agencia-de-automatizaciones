@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
+  <title id="title">Noesis horizontal logo</title>
+  <desc id="desc">Noesis compass badge with wordmark.</desc>
+  <rect width="1200" height="320" fill="none"/>
+  <g transform="translate(64 52)">
+    <circle cx="108" cy="108" r="96" fill="#FBFAF5" stroke="#2E8C7C" stroke-opacity="0.28" stroke-width="4"/>
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="108" cy="108" r="62" stroke="#2E8C7C" stroke-opacity="0.22" stroke-width="3"/>
+      <path d="M108 28V188M28 108H188" stroke="#123C35" stroke-opacity="0.18" stroke-width="3"/>
+      <path d="M108 28 130 86 188 108 130 130 108 188 86 130 28 108 86 86Z" stroke="#123C35" stroke-width="8"/>
+      <path d="M108 56 123 93 160 108 123 123 108 160 93 123 56 108 93 93Z" fill="#2E8C7C" fill-opacity="0.14" stroke="#123C35" stroke-width="4"/>
+      <circle cx="108" cy="108" r="13" fill="#FBFAF5" stroke="#123C35" stroke-width="6"/>
+    </g>
+  </g>
+  <text x="330" y="189" fill="#123C35" font-family="Newsreader, Georgia, serif" font-size="116" font-weight="700">Noesis</text>
+  <text x="336" y="236" fill="#6D746F" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="5">ARQUITECTURA OPERATIVA</text>
+</svg>

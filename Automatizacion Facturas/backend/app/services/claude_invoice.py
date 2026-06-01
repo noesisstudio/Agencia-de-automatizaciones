@@ -89,7 +89,7 @@ async def extract_invoice_from_bytes(
     filename: str,
 ) -> dict[str, Any]:
     if not settings.anthropic_configured():
-        raise RuntimeError("Falta ANTHROPIC_API_KEY en backend/.env (o está vacía). Reinicia uvicorn tras editar.")
+        raise RuntimeError("Falta ANTHROPIC_API_KEY real en backend/.env. Reinicia uvicorn tras editar.")
 
     hint = ""
     if settings.mi_nif_empresa or settings.mi_nombre_empresa:

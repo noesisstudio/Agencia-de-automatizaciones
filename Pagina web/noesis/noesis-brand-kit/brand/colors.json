@@ -1,0 +1,55 @@
+{
+  "brand": "Noesis",
+  "colors": [
+    {
+      "name": "Noesis Green",
+      "role": "Primary brand color",
+      "hex": "#123C35"
+    },
+    {
+      "name": "Operational Green",
+      "role": "Secondary green and logo stroke",
+      "hex": "#1E6F62"
+    },
+    {
+      "name": "Aqua Signal",
+      "role": "Functional accent",
+      "hex": "#2E8C7C"
+    },
+    {
+      "name": "Ivory Field",
+      "role": "Main background",
+      "hex": "#F6F2E8"
+    },
+    {
+      "name": "Paper",
+      "role": "Cards and light surfaces",
+      "hex": "#FBFAF5"
+    },
+    {
+      "name": "Mist",
+      "role": "Soft structural tint",
+      "hex": "#DDE9E5"
+    },
+    {
+      "name": "Graphite",
+      "role": "Body text",
+      "hex": "#202725"
+    },
+    {
+      "name": "Muted Grey",
+      "role": "Secondary text",
+      "hex": "#6D746F"
+    },
+    {
+      "name": "Wine",
+      "role": "Editorial accent",
+      "hex": "#6D3F4B"
+    },
+    {
+      "name": "Gold",
+      "role": "Premium accent",
+      "hex": "#B69A62"
+    }
+  ]
+}

@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 import httpx
 
 _DATA_ROOT = Path(__file__).resolve().parents[2] / "data" / "tenants"
-_MAX_KNOWLEDGE_CHARS = 22_000
+_MAX_KNOWLEDGE_CHARS = 40_000
 
 _SECTION_ORDER = (
     "reservas",
