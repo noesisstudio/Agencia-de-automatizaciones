@@ -40,7 +40,8 @@ a {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -307,14 +308,17 @@ p {
 .hero-metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-width: 650px;
+  gap: 12px;
+  max-width: 760px;
   margin: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
 }
 
 .hero-metrics div {
-  padding: 14px 12px 14px 0;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid rgba(18, 60, 53, 0.12);
+  border-radius: 8px;
+  background: rgba(251, 250, 245, 0.68);
 }
 
 .hero-metrics dt {
@@ -322,6 +326,43 @@ p {
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 700;
+}
+
+.metric-row div {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  min-height: 132px;
+}
+
+.metric-row dt {
+  display: grid;
+  gap: 7px;
+  line-height: 0.94;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-number {
+  display: block;
+  letter-spacing: -0.06em;
+  font-size: clamp(2.25rem, 3.2vw, 3.55rem);
+  white-space: nowrap;
+}
+
+.metric-unit {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 999px;
+  color: var(--aqua);
+  background: rgba(221, 233, 229, 0.74);
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .hero-metrics dd {
@@ -590,6 +631,34 @@ p {
   font-weight: 800;
 }
 
+.home-strip > article > span,
+.service-grid > article > span,
+.step-grid > article > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(46, 140, 124, 0.24);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.72), transparent 45%),
+    rgba(221, 233, 229, 0.58);
+  color: var(--green);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-strip > article,
+.service-grid > article,
+.step-grid > article,
+.principles-grid > article {
+  display: grid;
+  align-content: start;
+}
+
 .page-hero {
   max-width: 1040px;
   padding: 54px 0 36px;
@@ -685,9 +754,9 @@ p {
 }
 
 .impact-card div {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 18px;
   min-height: 72px;
   padding: 0 20px;
@@ -704,6 +773,8 @@ p {
   font-family: var(--font-display);
   font-size: 1.2rem;
   text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .impact-card .highlight {
@@ -716,19 +787,21 @@ p {
 }
 
 .contact-page {
-  display: grid;
-  place-items: center;
+  display: block;
 }
 
 .contact-panel {
-  width: min(100%, 1030px);
-  padding: clamp(34px, 6vw, 68px);
+  width: min(100%, 1260px);
+  margin: 20px auto 0;
+  padding: clamp(30px, 5vw, 64px);
   border: 1px solid rgba(18, 60, 53, 0.15);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 82% 24%, rgba(46, 140, 124, 0.13), transparent 28%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(221, 233, 229, 0.44));
-  text-align: center;
+    radial-gradient(circle at 88% 18%, rgba(46, 140, 124, 0.13), transparent 28%),
+    radial-gradient(circle at 12% 88%, rgba(182, 154, 98, 0.12), transparent 26%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.84), rgba(221, 233, 229, 0.36));
+  box-shadow: var(--shadow);
+  text-align: left;
 }
 
 .contact-panel h1,
@@ -737,14 +810,14 @@ p {
 }
 
 .contact-panel p {
-  max-width: 720px;
+  max-width: 760px;
 }
 
 .contact-layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.86fr) minmax(360px, 0.74fr);
-  gap: clamp(26px, 5vw, 68px);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.82fr);
+  gap: clamp(34px, 6vw, 86px);
+  align-items: stretch;
   text-align: left;
 }
 
@@ -753,43 +826,96 @@ p {
   margin-inline: 0;
 }
 
+.contact-layout h1 {
+  max-width: 780px;
+  font-size: clamp(2.4rem, 3.6vw, 4.25rem);
+}
+
+.contact-layout > div {
+  display: grid;
+  align-content: start;
+}
+
 .diagnosis-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  padding: clamp(18px, 3vw, 28px);
+  gap: 16px;
+  align-self: start;
+  padding: clamp(24px, 3.6vw, 38px);
   border: 1px solid rgba(18, 60, 53, 0.13);
   border-radius: 8px;
-  background: rgba(251, 250, 245, 0.78);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(46, 140, 124, 0.1), transparent 30%),
+    rgba(251, 250, 245, 0.86);
+  box-shadow: 0 18px 54px rgba(18, 60, 53, 0.08);
 }
 
 .contact-proof {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 34px;
 }
 
 .contact-proof article {
-  padding: 16px;
+  min-height: 172px;
+  padding: 18px;
   border: 1px solid rgba(18, 60, 53, 0.12);
   border-radius: 8px;
   background: rgba(251, 250, 245, 0.62);
 }
 
 .contact-proof span {
-  color: var(--aqua);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(46, 140, 124, 0.24);
+  border-radius: 50%;
+  color: var(--green);
+  background: rgba(221, 233, 229, 0.58);
   font-size: 0.76rem;
   font-weight: 800;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
 }
 
 .contact-proof strong {
   display: block;
-  margin: 8px 0 4px;
+  margin: 0 0 6px;
   color: var(--green);
 }
 
 .contact-proof p {
   margin: 0;
+  font-size: 0.9rem;
+}
+
+.contact-faq {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.contact-faq details {
+  border: 1px solid rgba(18, 60, 53, 0.12);
+  border-radius: 8px;
+  background: rgba(251, 250, 245, 0.62);
+}
+
+.contact-faq summary {
+  min-height: 50px;
+  padding: 15px 16px;
+  color: var(--green);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.contact-faq p {
+  margin: 0;
+  padding: 0 16px 16px;
   font-size: 0.9rem;
 }
 
@@ -1046,6 +1172,7 @@ p {
 }
 
 .field input,
+.field select,
 .chat-input input {
   width: 100%;
   min-height: 48px;
@@ -1054,6 +1181,15 @@ p {
   border-radius: 6px;
   color: var(--graphite);
   background: rgba(255, 255, 255, 0.74);
+}
+
+.field select {
+  appearance: none;
+  padding-right: 44px;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--green) 50%) right 18px top 52% / 7px 7px no-repeat,
+    linear-gradient(135deg, var(--green) 50%, transparent 50%) right 13px top 52% / 7px 7px no-repeat,
+    rgba(255, 255, 255, 0.74);
 }
 
 .text-link {
@@ -1839,6 +1975,10 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .contact-proof {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .site-footer nav {
     justify-content: flex-start;
   }
@@ -1957,6 +2097,33 @@ p {
   .plan-breakdown,
   .profile-grid {
     grid-template-columns: 1fr;
+  }
+
+  .contact-proof {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-row div {
+    min-height: auto;
+    padding: 16px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .metric-row div:last-child {
+    border-bottom: 0;
+  }
+
+  .metric-row dt {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+  }
+
+  .metric-number {
+    font-size: clamp(2rem, 12vw, 2.8rem);
   }
 
   .compass-stage,
@@ -2088,9 +2255,15 @@ p {
   .document-list a,
   .support-options a,
   .checklist label,
-  .timeline div {
+  .timeline div,
+  .impact-card div {
     align-items: flex-start;
     grid-template-columns: 1fr;
     flex-direction: column;
+  }
+
+  .impact-card strong {
+    text-align: left;
+    white-space: normal;
   }
 }
