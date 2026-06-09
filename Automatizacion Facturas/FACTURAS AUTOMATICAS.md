@@ -425,7 +425,7 @@ python -m pytest tests/ -v
 
 # 2. Verificar endpoints con curl
 curl http://localhost:8010/health
-curl -X POST http://localhost:8010/auth/login -d '{"username":"admin","password":"admin123"}'
+curl -X POST http://localhost:8010/auth/login -d '{"username":"admin","password":"<TU_PASSWORD>"}'
 curl -H "Authorization: Bearer {token}" http://localhost:8010/dashboard/stats
 
 # 3. Verificar DB se crea correctamente

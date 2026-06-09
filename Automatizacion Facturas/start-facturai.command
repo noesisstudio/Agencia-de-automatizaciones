@@ -30,5 +30,5 @@ mkdir -p data logs storage/invoices
 echo ""
 echo "FacturAI — arrancando (se abrirá el navegador). Pulsa Ctrl+C para detener."
 echo "URL: http://127.0.0.1:8010/pagina.html"
-echo "Login: admin / admin123"
+echo "Login: admin / (ver .env para la contraseña)"
 exec python run.py

@@ -4,7 +4,7 @@ window.OPENIX = {
   facturaiApiUrl: "http://127.0.0.1:8010",
   demoLogin: {
     username: "demo",
-    password: "demo123",
+    password: "", // Set in .env or local config
     redirect: "portal.html",
   },
 };

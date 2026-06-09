@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     google_sheet_name: str = "Facturas"
 
     database_url: str = f"sqlite:///{_DATA_DIR / 'facturai.db'}"
-    secret_key: str = "change-me-in-production-use-openssl-rand"
+    secret_key: str = ""
     jwt_algorithm: str = "HS256"
     jwt_expiration_minutes: int = 60 * 24
 
@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     cors_origins: str = "http://127.0.0.1:8010,http://localhost:8010,http://127.0.0.1:8080,http://localhost:8080"
 
     admin_username: str = "admin"
-    admin_password: str = "admin123"
+    admin_password: str = ""
     admin_email: str = "admin@noesis.local"
 
     model_config = SettingsConfigDict(

@@ -179,17 +179,7 @@ async function init() {
   if (authed) {
     await enterApp();
   } else {
-    // Dev convenience: try default admin credentials.
-    try {
-      await login("admin", "admin123");
-      const relogged = await ensureAuth();
-      if (relogged) {
-        await enterApp();
-        return;
-      }
-    } catch (_) {
-      // Auto-login failed — show manual login form.
-    }
+    // Auto-login removed for security — use .env to configure
     showLogin();
   }
 
