@@ -8,9 +8,9 @@
   <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-<title>Iniciar sesión — Noesis</title>
+  <title>Crear cuenta - Noesis</title>
 
-  <meta name="description" content="Acceso al área de clientes Noesis." />
+  <meta name="description" content="Registro para el área de clientes Noesis." />
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -44,7 +44,7 @@
           </ul>
         </nav>
         <div class="site-header__end">
-          <a class="header-login" href="login.html" data-i18n="login" aria-current="page">Iniciar sesión</a>
+          <a class="header-login" href="login.html" data-i18n="login">Iniciar sesión</a>
           <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Abrir menú">
             <span></span><span></span><span></span>
           </button>
@@ -55,22 +55,26 @@
 
   <main id="contenido" class="page-main page-auth page-auth--login">
     <div class="card-surface">
-      <h1 data-i18n="loginTitle">Iniciar sesión</h1>
-      <form id="formulario-login" class="form-stack form-stack--auth" novalidate>
+      <h1>Crear cuenta</h1>
+      <form id="formulario-registro" class="form-stack form-stack--auth" novalidate>
         <label>
-          <span data-i18n="userLabel">Correo electrónico</span>
-          <input id="email" name="email" type="email" autocomplete="email" required />
+          <span>Nombre</span>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" required />
         </label>
         <label>
-          <span data-i18n="passwordLabel">Contraseña</span>
-          <input id="password" name="password" type="password" autocomplete="current-password" required />
+          <span>Correo electrónico</span>
+          <input id="registro-email" name="email" type="email" autocomplete="email" required />
         </label>
+        <label>
+          <span>Contraseña</span>
+          <input id="registro-password" name="password" type="password" autocomplete="new-password" required minlength="8" />
+        </label>
+        <p class="page-auth__meta">La contraseña debe tener mínimo 8 caracteres y contener al menos un número o símbolo.</p>
         <div class="form-actions form-actions--auth">
-          <button class="btn btn--primary btn--block" type="submit" data-i18n="signIn">Entrar</button>
+          <button class="btn btn--primary btn--block" type="submit">Crear cuenta</button>
         </div>
       </form>
-      <p class="page-auth__meta"><a href="recuperar-contrasena.html" data-i18n="forgotPassword">¿Has olvidado tu contraseña?</a></p>
-      <p class="page-auth__meta"><a href="registro.html">¿No tienes cuenta? Crear cuenta</a></p>
+      <p class="page-auth__meta"><a href="login.html">¿Ya tienes cuenta? Inicia sesión</a></p>
     </div>
   </main>
 
