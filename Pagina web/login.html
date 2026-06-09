@@ -9,8 +9,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
 <title>Iniciar sesión — Noesis</title>
-  <meta http-equiv="refresh" content="0; url=noesis/noesis-web/portal.html" />
-  <script>window.location.replace("noesis/noesis-web/portal.html");</script>
+
   <meta name="description" content="Acceso al área de clientes Noesis." />
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -57,14 +56,14 @@
   <main id="contenido" class="page-main page-auth page-auth--login">
     <div class="card-surface">
       <h1 data-i18n="loginTitle">Iniciar sesión</h1>
-      <form id="loginForm" class="form-stack form-stack--auth" novalidate>
+      <form id="formulario-login" class="form-stack form-stack--auth" novalidate>
         <label>
-          <span data-i18n="userLabel">Usuario</span>
-          <input name="username" type="text" autocomplete="username" required />
+          <span data-i18n="userLabel">Correo electrónico</span>
+          <input id="email" name="email" type="email" autocomplete="email" required />
         </label>
         <label>
           <span data-i18n="passwordLabel">Contraseña</span>
-          <input name="password" type="password" autocomplete="current-password" required />
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
         </label>
         <div class="form-actions form-actions--auth">
           <button class="btn btn--primary btn--block" type="submit" data-i18n="signIn">Entrar</button>
@@ -93,5 +92,9 @@
   <script src="js/i18n.js" defer></script>
   <script src="js/main.js" defer></script>
   <script src="js/chatbot-init.js"></script>
+
+  <!-- Supabase Auth -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
 </body>
 </html>
