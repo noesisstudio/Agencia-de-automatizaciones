@@ -5,8 +5,8 @@
  *    https://app.supabase.com  →  Settings  →  API
  *  ────────────────────────────────────────────── */
 
-const SUPABASE_URL  = "TU_URL_AQUI";        // ej: https://xyzcompany.supabase.co
-const SUPABASE_ANON = "TU_ANON_KEY_AQUI";   // ej: eyJhbGciOiJIUzI1NiIs...
+const SUPABASE_URL  = "https://zhvytwqvbtsenzwrsysi.supabase.co";        // ej: https://xyzcompany.supabase.co
+const SUPABASE_ANON = "sb_publishable_lH0fsQmtFYMNashi3YD2yQ_RpMxQ2sj";   // ej: eyJhbGciOiJIUzI1NiIs...
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
