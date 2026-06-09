@@ -3,6 +3,9 @@
 .env.local
 .env.*.local
 
+# Local frontend Supabase config
+Pagina web/js/auth.js
+
 # Google credentials
 *.json.bak
 credentials/
