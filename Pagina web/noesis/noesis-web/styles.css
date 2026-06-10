@@ -821,6 +821,11 @@ p {
   text-align: left;
 }
 
+.contact-layout--form-only {
+  grid-template-columns: minmax(0, 760px);
+  justify-content: center;
+}
+
 .contact-layout h1,
 .contact-layout p {
   margin-inline: 0;
