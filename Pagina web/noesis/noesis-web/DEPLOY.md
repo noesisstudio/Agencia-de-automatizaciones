@@ -7,7 +7,7 @@ Esta web es estatica. Para probarla fuera del ordenador puedes subir la carpeta 
 1. Entra en https://app.netlify.com/drop
 2. Arrastra la carpeta `noesis-web`.
 3. Netlify generara una URL publica temporal.
-4. Revisa `index.html`, `contacte.html`, `portal.html`, `portal-dashboard.html`, `aviso-legal.html`, `privacidad.html` y `cookies.html`.
+4. Revisa `index.html`, `contacto.html`, `portal.html`, `portal-dashboard.html`, `aviso-legal.html`, `privacidad.html` y `cookies.html`.
 
 ## Opcion ordenada: Vercel
 
