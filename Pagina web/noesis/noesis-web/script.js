@@ -19,6 +19,7 @@ if ("IntersectionObserver" in window) {
 
 const CLIENT_SESSION_KEY = "noesisClientSession";
 const PRIVACY_NOTICE_KEY = "noesisPrivacyNotice";
+const WEB3FORMS_ACCESS_KEY = "c0e13644-9a7a-4dc6-8920-6055afcd351a";
 
 function readStorage(key) {
   try {
@@ -95,9 +96,9 @@ if (diagnosisForm) {
     const submitButton = diagnosisForm.querySelector('button[type="submit"]');
     const originalButtonText = submitButton ? submitButton.textContent : "";
 
-    formData.append("_subject", "Diagnostico inicial Noesis");
-    formData.append("_template", "table");
-    formData.append("_captcha", "false");
+    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+    formData.append("subject", "Diagnostico inicial Noesis");
+    formData.append("from_name", "Formulario web Noesis");
 
     if (feedback) {
       feedback.textContent = "Enviando solicitud...";
@@ -109,15 +110,14 @@ if (diagnosisForm) {
     }
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/info@bynoesis.com", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
         body: formData,
       });
 
-      if (!response.ok) {
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
         throw new Error("No se ha podido enviar el formulario.");
       }
 
@@ -533,18 +533,21 @@ if (supportSend && supportInput) {
 
     try {
       const formData = new FormData();
-      formData.append("_subject", "Soporte cliente Noesis");
-      formData.append("_template", "table");
-      formData.append("_captcha", "false");
+      formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+      formData.append("subject", "Soporte cliente Noesis");
+      formData.append("from_name", "Portal cliente Noesis");
       formData.append("message", message);
 
-      await fetch("https://formsubmit.co/ajax/info@bynoesis.com", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
         body: formData,
       });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error("No se ha podido enviar el mensaje.");
+      }
     } catch (error) {
       const thread = document.querySelector(".chat-thread");
       if (thread) {
