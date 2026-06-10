@@ -13,6 +13,7 @@
   var header = document.getElementById("siteHeader");
   var hero = document.querySelector(".hero");
   var heroInner = document.getElementById("heroInner");
+  var web3FormsAccessKey = "c0e13644-9a7a-4dc6-8920-6055afcd351a";
   var reduceMotion =
     typeof window.matchMedia === "function" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -49,15 +50,49 @@
   }
 
   if (form && notice) {
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
       if (!form.reportValidity()) {
         return;
       }
+
+      var submitButton = form.querySelector('button[type="submit"]');
+      var originalButtonText = submitButton ? submitButton.textContent : "";
+      var formData = new FormData(form);
+      formData.append("access_key", web3FormsAccessKey);
+      formData.append("subject", "Contacto web Noesis");
+      formData.append("from_name", "Formulario web Noesis");
+
       notice.removeAttribute("hidden");
-      notice.textContent =
-        "Mensaje recibido (modo demostración). En producción este envío se conectaría a tu correo, CRM o servicio de formularios.";
-      form.reset();
+      notice.textContent = "Enviando mensaje...";
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Enviando...";
+      }
+
+      try {
+        var response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          body: formData,
+        });
+        var result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error("No se ha podido enviar el formulario.");
+        }
+
+        form.reset();
+        notice.textContent = "Mensaje enviado correctamente. Te responderemos lo antes posible.";
+      } catch (err) {
+        notice.textContent = "No se ha podido enviar ahora mismo. Escríbenos a info@bynoesis.com.";
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+        }
+      }
+
       notice.focus();
     });
   }

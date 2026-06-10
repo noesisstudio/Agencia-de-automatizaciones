@@ -513,6 +513,21 @@ languageButtons.forEach((button) => {
 const supportSend = document.querySelector("[data-support-send]");
 const supportInput = document.querySelector("[data-support-input]");
 
+async function getSupportReplyEmail() {
+  try {
+    if (typeof noesisSupabase !== "undefined" && noesisSupabase?.auth) {
+      const { data } = await noesisSupabase.auth.getUser();
+      if (data?.user?.email) {
+        return data.user.email;
+      }
+    }
+  } catch (error) {
+    // The support message can still be sent without session metadata.
+  }
+
+  return "info@bynoesis.com";
+}
+
 if (supportSend && supportInput) {
   supportSend.addEventListener("click", async () => {
     const message = supportInput.value.trim();
@@ -536,6 +551,7 @@ if (supportSend && supportInput) {
       formData.append("access_key", WEB3FORMS_ACCESS_KEY);
       formData.append("subject", "Soporte cliente Noesis");
       formData.append("from_name", "Portal cliente Noesis");
+      formData.append("email", await getSupportReplyEmail());
       formData.append("message", message);
 
       const response = await fetch("https://api.web3forms.com/submit", {
