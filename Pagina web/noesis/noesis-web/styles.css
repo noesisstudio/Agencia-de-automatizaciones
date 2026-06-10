@@ -71,7 +71,7 @@ select {
   gap: 10px;
   color: var(--green);
   font-family: var(--font-display);
-  font-size: 1.24rem;
+  font-size: 1.32rem;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -79,15 +79,15 @@ select {
 .brand-mark {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border: 1px solid rgba(46, 140, 124, 0.28);
   border-radius: 50%;
 }
 
 .brand-mark svg {
-  width: 24px;
-  height: 24px;
+  width: 25px;
+  height: 25px;
   fill: none;
   stroke: currentColor;
   stroke-width: 2.2;
@@ -2055,7 +2055,7 @@ p {
   }
 
   .brand {
-    font-size: 1.06rem;
+    font-size: 1.12rem;
   }
 
   .ghost-link,
