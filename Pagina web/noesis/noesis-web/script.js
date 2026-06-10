@@ -63,8 +63,8 @@ privateLinks.forEach((link) => {
     link.href = "portal-dashboard.html";
     link.textContent = "\u00c1rea privada";
   } else {
-    link.href = "portal.html";
-    link.textContent = "Acceso cliente";
+    link.href = "iniciar-sesion.html";
+    link.textContent = "Iniciar sesi\u00f3n";
   }
 });
 
@@ -88,28 +88,54 @@ document.querySelectorAll("[data-logout]").forEach((logout) => {
 const diagnosisForm = document.querySelector("#diagnosis-form");
 
 if (diagnosisForm) {
-  diagnosisForm.addEventListener("submit", (event) => {
+  diagnosisForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const formData = new FormData(diagnosisForm);
-    const body = [
-      "Hola Noesis,",
-      "",
-      "Quiero solicitar un diagnostico inicial.",
-      "",
-      `Nombre: ${formData.get("name") || ""}`,
-      `Email: ${formData.get("email") || ""}`,
-      `Empresa: ${formData.get("company") || ""}`,
-      `Telefono: ${formData.get("phone") || ""}`,
-      `Servicio de interes: ${formData.get("service") || ""}`,
-      "",
-      "Proceso a revisar:",
-      formData.get("message") || ""
-    ].join("\n");
     const feedback = document.querySelector("#diagnosis-feedback");
+    const submitButton = diagnosisForm.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton ? submitButton.textContent : "";
+
+    formData.append("_subject", "Diagnostico inicial Noesis");
+    formData.append("_template", "table");
+    formData.append("_captcha", "false");
+
     if (feedback) {
-      feedback.textContent = "Perfecto. Se abrir\u00e1 tu correo con la solicitud preparada.";
+      feedback.textContent = "Enviando solicitud...";
     }
-    window.location.href = `mailto:hola@noesis.studio?subject=${encodeURIComponent("Diagnostico inicial Noesis")}&body=${encodeURIComponent(body)}`;
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Enviando...";
+    }
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/info@bynoesis.com", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("No se ha podido enviar el formulario.");
+      }
+
+      diagnosisForm.reset();
+
+      if (feedback) {
+        feedback.textContent = "Solicitud enviada correctamente. Te responderemos lo antes posible.";
+      }
+    } catch (error) {
+      if (feedback) {
+        feedback.textContent = "No se ha podido enviar ahora mismo. Escríbenos a info@bynoesis.com.";
+      }
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    }
   });
 }
 
@@ -488,7 +514,7 @@ const supportSend = document.querySelector("[data-support-send]");
 const supportInput = document.querySelector("[data-support-input]");
 
 if (supportSend && supportInput) {
-  supportSend.addEventListener("click", () => {
+  supportSend.addEventListener("click", async () => {
     const message = supportInput.value.trim();
     if (!message) {
       supportInput.focus();
@@ -504,7 +530,30 @@ if (supportSend && supportInput) {
     }
 
     supportInput.value = "";
-    window.location.href = `mailto:hola@noesis.studio?subject=${encodeURIComponent("Soporte cliente Noesis")}&body=${encodeURIComponent(message)}`;
+
+    try {
+      const formData = new FormData();
+      formData.append("_subject", "Soporte cliente Noesis");
+      formData.append("_template", "table");
+      formData.append("_captcha", "false");
+      formData.append("message", message);
+
+      await fetch("https://formsubmit.co/ajax/info@bynoesis.com", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+    } catch (error) {
+      const thread = document.querySelector(".chat-thread");
+      if (thread) {
+        const bubble = document.createElement("div");
+        bubble.className = "chat-message system";
+        bubble.textContent = "No se ha podido enviar ahora mismo. Escribenos a info@bynoesis.com.";
+        thread.appendChild(bubble);
+      }
+    }
   });
 }
 

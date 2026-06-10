@@ -1199,6 +1199,45 @@ p {
   font-weight: 800;
 }
 
+.auth-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 4px;
+}
+
+.auth-links .text-link {
+  margin-top: 12px;
+}
+
+.text-link.muted {
+  color: var(--muted);
+}
+
+.auth-feedback {
+  margin: 2px 0 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(18, 60, 53, 0.14);
+  border-radius: 6px;
+  background: rgba(221, 233, 229, 0.54);
+  color: var(--green);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.auth-feedback[data-state="error"] {
+  border-color: rgba(109, 63, 75, 0.28);
+  background: rgba(109, 63, 75, 0.08);
+  color: var(--wine);
+}
+
+.auth-feedback[data-state="success"] {
+  border-color: rgba(30, 111, 98, 0.24);
+  background: rgba(46, 140, 124, 0.1);
+  color: var(--green);
+}
+
 .dashboard-topbar {
   position: sticky;
   top: 0;

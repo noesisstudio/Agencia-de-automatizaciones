@@ -70,7 +70,7 @@
             <a href="serveis.html">Servicios</a>
             <a href="proces.html">Proceso</a>
             <a href="impacte.html">Impacto</a>
-            <a href="contacte.html">Contacto</a>
+            <a href="contacto.html">Contacto</a>
             <a class="is-active" href="portal-dashboard.html">&Aacute;rea privada</a>
           </nav>
 
@@ -81,7 +81,7 @@
               <button type="button" data-lang="en">English</button>
             </div>
             <span class="client-user"><span data-i18n="top.user">Usuario:</span> <strong>cliente demo</strong></span>
-            <a class="button secondary compact logout-link" href="portal.html" data-i18n="top.logout" data-logout>Cerrar sesi&oacute;n</a>
+            <a class="button secondary compact logout-link" href="iniciar-sesion.html" data-i18n="top.logout" data-logout>Cerrar sesi&oacute;n</a>
           </div>
         </header>
 
@@ -170,9 +170,9 @@
               <article class="client-card">
                 <h2 data-i18n="billing.docs">Documentos</h2>
                 <div class="document-list">
-                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20factura%20implementacion%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice1">Factura implementaci&oacute;n</strong><small data-i18n="billing.paid">Pagada</small></a>
-                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20factura%20mantenimiento%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice2">Factura mantenimiento junio</strong><small data-i18n="billing.pending">Pendiente</small></a>
-                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20contrato%20de%20servicio%20Noesis"><span>PDF</span><strong data-i18n="billing.contractDoc">Contrato de servicio</strong><small data-i18n="billing.active">Activo</small></a>
+                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20factura%20implementacion%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice1">Factura implementaci&oacute;n</strong><small data-i18n="billing.paid">Pagada</small></a>
+                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20factura%20mantenimiento%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice2">Factura mantenimiento junio</strong><small data-i18n="billing.pending">Pendiente</small></a>
+                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20contrato%20de%20servicio%20Noesis"><span>PDF</span><strong data-i18n="billing.contractDoc">Contrato de servicio</strong><small data-i18n="billing.active">Activo</small></a>
                 </div>
               </article>
             </div>
@@ -243,9 +243,9 @@
               <article class="client-card">
                 <h2 data-i18n="support.channels">Canales</h2>
                 <div class="support-options">
-                  <a href="mailto:hola@noesis.studio"><strong>Email</strong><span>hola@noesis.studio</span></a>
-                  <a href="mailto:hola@noesis.studio?subject=Solicitar%20revision%20mensual%20Noesis"><strong data-i18n="support.meeting">Reuni&oacute;n</strong><span data-i18n="support.meetingText">Solicitar revisi&oacute;n mensual</span></a>
-                  <a href="mailto:hola@noesis.studio?subject=Incidencia%20servicio%20Noesis"><strong data-i18n="support.issue">Incidencia</strong><span data-i18n="support.issueText">Registrar un problema del sistema</span></a>
+                  <a href="mailto:info@bynoesis.com"><strong>Email</strong><span>info@bynoesis.com</span></a>
+                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20revision%20mensual%20Noesis"><strong data-i18n="support.meeting">Reuni&oacute;n</strong><span data-i18n="support.meetingText">Solicitar revisi&oacute;n mensual</span></a>
+                  <a href="mailto:info@bynoesis.com?subject=Incidencia%20servicio%20Noesis"><strong data-i18n="support.issue">Incidencia</strong><span data-i18n="support.issueText">Registrar un problema del sistema</span></a>
                 </div>
               </article>
             </div>
@@ -267,6 +267,9 @@
         </section>
       </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/auth.js"></script>
+    <script src="noesis-auth.js"></script>
     <script src="script.js?v=launch-1"></script>
   </body>
 </html>
