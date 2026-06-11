@@ -3,47 +3,64 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-<title>Noesis | Servicios y dashboard</title>
-    <meta name="description" content="Servicios Noesis: chatbot con IA, facturas, leads, email, WhatsApp, agenda, flujos internos y dashboard privado de cliente." />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title data-i18n-title="site.meta.services.title">Noesis | Servicios y dashboard</title>
+    <meta
+      name="description"
+      data-i18n-meta="site.meta.services.description"
+      content="Servicios Noesis: chatbot con IA, facturas, leads, email, WhatsApp, agenda, flujos internos y dashboard privado de cliente."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=launch-2" />
+    <link rel="stylesheet" href="styles.css?v=launch-3" />
   </head>
   <body>
     <header class="topbar">
-      <a class="brand" href="index.html" aria-label="Noesis inicio">
+      <a class="brand" href="index.html" data-i18n-aria="site.nav.brand" aria-label="Noesis inicio">
         <span class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg>
         </span>
         <span>Noesis</span>
       </a>
-      <nav class="nav" aria-label="Navegaci&oacute;n principal">
-        <a href="index.html">Inicio</a><a class="is-active" href="serveis.html">Servicios</a><a href="proces.html">Proceso</a><a href="impacte.html">Impacto</a><a href="contacto.html">Contacto</a>
+      <nav class="nav" data-i18n-aria="site.nav.mainAria" aria-label="Navegaci&oacute;n principal">
+        <a href="index.html" data-i18n="site.nav.home">Inicio</a>
+        <a class="is-active" href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+        <a href="proces.html" data-i18n="site.nav.process">Proceso</a>
+        <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+        <a href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
       </nav>
       <div class="topbar-actions">
-        <a class="ghost-link" href="iniciar-sesion.html" data-private-link>Iniciar sesi&oacute;n</a>
-        <a class="nav-cta" href="contacto.html">Diagn&oacute;stico</a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">Men&uacute;</button>
+        <div class="language-switcher language-switcher--compact" data-i18n-aria="site.lang.switcher" aria-label="Seleccionar idioma">
+          <button class="is-active" type="button" data-lang="es">ES</button>
+          <button type="button" data-lang="ca">CA</button>
+        </div>
+        <a class="ghost-link" href="iniciar-sesion.html" data-private-link data-i18n="site.nav.login">Iniciar sesi&oacute;n</a>
+        <a class="nav-cta" href="contacto.html" data-i18n="site.nav.diagnosis">Diagn&oacute;stico</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-i18n="site.nav.menu">Men&uacute;</button>
       </div>
-      <nav class="mobile-nav" id="mobile-menu" hidden aria-label="Navegaci&oacute;n m&oacute;vil">
-        <a href="index.html">Inicio</a><a href="serveis.html">Servicios</a><a href="proces.html">Proceso</a><a href="impacte.html">Impacto</a><a href="contacto.html">Contacto</a><a href="iniciar-sesion.html" data-private-link>Iniciar sesi&oacute;n</a>
+      <nav class="mobile-nav" id="mobile-menu" hidden data-i18n-aria="site.nav.mobileAria" aria-label="Navegaci&oacute;n m&oacute;vil">
+        <a href="index.html" data-i18n="site.nav.home">Inicio</a>
+        <a href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+        <a href="proces.html" data-i18n="site.nav.process">Proceso</a>
+        <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+        <a href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
+        <a href="iniciar-sesion.html" data-private-link data-i18n="site.nav.login">Iniciar sesi&oacute;n</a>
       </nav>
     </header>
 
     <main class="page">
       <section class="page-hero narrow" data-reveal>
-        <p class="eyebrow">Servicios completos</p>
-        <h1>Sistemas concretos para procesos que ya pasan cada d&iacute;a.</h1>
-        <p>
+        <p class="eyebrow" data-i18n="site.services.eyebrow">Servicios completos</p>
+        <h1 data-i18n="site.services.title">Sistemas concretos para procesos que ya pasan cada d&iacute;a.</h1>
+        <p data-i18n="site.services.text">
           Empezamos por servicios con dolor claro, valor visible e implementaci&oacute;n controlada. Cada
           sistema se personaliza despu&eacute;s de entender tu operativa, por eso el alcance se define
           contigo cuando contactas con Noesis.
@@ -53,85 +70,85 @@
       <section class="service-grid page-grid">
         <article id="chatbot" data-reveal>
           <span>01</span>
-          <h2>Chatbot con IA</h2>
-          <p>Responde preguntas frecuentes desde la web o WhatsApp usando la documentaci&oacute;n real del negocio: FAQs, manuales, horarios y condiciones.</p>
-          <b>Web &middot; WhatsApp Business &middot; Soporte</b>
+          <h2 data-i18n="site.services.svc1.title">Chatbot con IA</h2>
+          <p data-i18n="site.services.svc1.text">Responde preguntas frecuentes desde la web o WhatsApp usando la documentaci&oacute;n real del negocio: FAQs, manuales, horarios y condiciones.</p>
+          <b data-i18n="site.services.svc1.tags">Web &middot; WhatsApp Business &middot; Soporte</b>
         </article>
         <article id="facturas" data-reveal>
           <span>02</span>
-          <h2>Documentos y facturas</h2>
-          <p>Recepci&oacute;n, lectura, clasificaci&oacute;n, validaci&oacute;n y preparaci&oacute;n documental con criterios estables y exportaci&oacute;n a CSV, hojas o plantillas.</p>
-          <b>Gestor&iacute;as &middot; Asesor&iacute;as &middot; Administraci&oacute;n</b>
+          <h2 data-i18n="site.services.svc2.title">Documentos y facturas</h2>
+          <p data-i18n="site.services.svc2.text">Recepci&oacute;n, lectura, clasificaci&oacute;n, validaci&oacute;n y preparaci&oacute;n documental con criterios estables y exportaci&oacute;n a CSV, hojas o plantillas.</p>
+          <b data-i18n="site.services.svc2.tags">Gestor&iacute;as &middot; Asesor&iacute;as &middot; Administraci&oacute;n</b>
         </article>
         <article id="leads" data-reveal>
           <span>03</span>
-          <h2>Captaci&oacute;n y seguimiento de leads</h2>
-          <p>Formularios web, Typeform o anuncios conectados a CRM o hojas de c&aacute;lculo, con alertas, asignaci&oacute;n y recordatorios autom&aacute;ticos.</p>
-          <b>Equipos comerciales &middot; Servicios locales &middot; Pymes</b>
+          <h2 data-i18n="site.services.svc3.title">Captaci&oacute;n y seguimiento de leads</h2>
+          <p data-i18n="site.services.svc3.text">Formularios web, Typeform o anuncios conectados a CRM o hojas de c&aacute;lculo, con alertas, asignaci&oacute;n y recordatorios autom&aacute;ticos.</p>
+          <b data-i18n="site.services.svc3.tags">Equipos comerciales &middot; Servicios locales &middot; Pymes</b>
         </article>
         <article id="email" data-reveal>
           <span>04</span>
-          <h2>Gesti&oacute;n inteligente de email</h2>
-          <p>Clasificaci&oacute;n por urgencia o tema, borradores asistidos, archivado en carpetas y extracci&oacute;n de datos a hojas de c&aacute;lculo o CRM.</p>
-          <b>Atenci&oacute;n al cliente &middot; Operaciones &middot; Backoffice</b>
+          <h2 data-i18n="site.services.svc4.title">Gesti&oacute;n inteligente de email</h2>
+          <p data-i18n="site.services.svc4.text">Clasificaci&oacute;n por urgencia o tema, borradores asistidos, archivado en carpetas y extracci&oacute;n de datos a hojas de c&aacute;lculo o CRM.</p>
+          <b data-i18n="site.services.svc4.tags">Atenci&oacute;n al cliente &middot; Operaciones &middot; Backoffice</b>
         </article>
         <article id="whatsapp" data-reveal>
           <span>05</span>
-          <h2>Propuestas por WhatsApp</h2>
-          <p>El cliente describe lo que necesita; el sistema consulta tu cat&aacute;logo y genera una respuesta estructurada lista para revisar y enviar.</p>
-          <b>Ventas &middot; Reformas &middot; Servicios t&eacute;cnicos</b>
+          <h2 data-i18n="site.services.svc5.title">Propuestas por WhatsApp</h2>
+          <p data-i18n="site.services.svc5.text">El cliente describe lo que necesita; el sistema consulta tu cat&aacute;logo y genera una respuesta estructurada lista para revisar y enviar.</p>
+          <b data-i18n="site.services.svc5.tags">Ventas &middot; Reformas &middot; Servicios t&eacute;cnicos</b>
         </article>
         <article id="agenda" data-reveal>
           <span>06</span>
-          <h2>Citas y agenda</h2>
-          <p>Reservas, recordatorios, cambios de hora y sincronizaci&oacute;n con calendarios para reducir llamadas repetidas y huecos sin cubrir.</p>
-          <b>Cl&iacute;nicas &middot; Peluquer&iacute;as &middot; Servicios locales</b>
+          <h2 data-i18n="site.services.svc6.title">Citas y agenda</h2>
+          <p data-i18n="site.services.svc6.text">Reservas, recordatorios, cambios de hora y sincronizaci&oacute;n con calendarios para reducir llamadas repetidas y huecos sin cubrir.</p>
+          <b data-i18n="site.services.svc6.tags">Cl&iacute;nicas &middot; Peluquer&iacute;as &middot; Servicios locales</b>
         </article>
         <article id="flujos" data-reveal>
           <span>07</span>
-          <h2>Flujos internos</h2>
-          <p>Conexi&oacute;n entre correos, formularios, documentos y tareas recurrentes para que cada solicitud tenga responsable, estado y siguiente acci&oacute;n.</p>
-          <b>Aut&oacute;nomos &middot; Pymes &middot; Equipos operativos</b>
+          <h2 data-i18n="site.services.svc7.title">Flujos internos</h2>
+          <p data-i18n="site.services.svc7.text">Conexi&oacute;n entre correos, formularios, documentos y tareas recurrentes para que cada solicitud tenga responsable, estado y siguiente acci&oacute;n.</p>
+          <b data-i18n="site.services.svc7.tags">Aut&oacute;nomos &middot; Pymes &middot; Equipos operativos</b>
         </article>
         <article id="dashboard" data-reveal>
           <span>08</span>
-          <h2>Dashboard y portal cliente</h2>
-          <p>&Aacute;rea privada para ver facturaci&oacute;n, contrato, estado del servicio, actividad reciente, soporte y oportunidades de nuevos servicios.</p>
-          <b>Control &middot; Transparencia &middot; Seguimiento mensual</b>
+          <h2 data-i18n="site.services.svc8.title">Dashboard y portal cliente</h2>
+          <p data-i18n="site.services.svc8.text">&Aacute;rea privada para ver facturaci&oacute;n, contrato, estado del servicio, actividad reciente, soporte y oportunidades de nuevos servicios.</p>
+          <b data-i18n="site.services.svc8.tags">Control &middot; Transparencia &middot; Seguimiento mensual</b>
         </article>
         <article id="informes" data-reveal>
           <span>09</span>
-          <h2>Informes de impacto</h2>
-          <p>Resumen peri&oacute;dico de horas recuperadas, errores evitados, incidencias, decisiones pendientes y pr&oacute;ximos pasos para escalar con criterio.</p>
-          <b>Direcci&oacute;n &middot; Operaciones &middot; Mejora continua</b>
+          <h2 data-i18n="site.services.svc9.title">Informes de impacto</h2>
+          <p data-i18n="site.services.svc9.text">Resumen peri&oacute;dico de horas recuperadas, errores evitados, incidencias, decisiones pendientes y pr&oacute;ximos pasos para escalar con criterio.</p>
+          <b data-i18n="site.services.svc9.tags">Direcci&oacute;n &middot; Operaciones &middot; Mejora continua</b>
         </article>
       </section>
 
       <section class="dashboard-service" data-reveal>
         <div>
-          <p class="eyebrow">Apartado dashboard</p>
-          <h2>El cliente no solo recibe una automatizaci&oacute;n: ve su evoluci&oacute;n.</h2>
-          <p>
+          <p class="eyebrow" data-i18n="site.services.dashboard.eyebrow">Apartado dashboard</p>
+          <h2 data-i18n="site.services.dashboard.title">El cliente no solo recibe una automatizaci&oacute;n: ve su evoluci&oacute;n.</h2>
+          <p data-i18n="site.services.dashboard.text">
             El portal privado convierte el servicio en algo visible. Permite consultar pagos,
             vencimientos, avances de implementaci&oacute;n, pr&oacute;ximos pasos y soporte desde un mismo lugar.
           </p>
           <div class="section-actions">
-            <a class="button primary" href="iniciar-sesion.html">Iniciar sesi&oacute;n</a>
-            <a class="button secondary" href="contacto.html">Solicitar diagn&oacute;stico</a>
+            <a class="button primary" href="iniciar-sesion.html" data-i18n="site.services.dashboard.cta1">Iniciar sesi&oacute;n</a>
+            <a class="button secondary" href="contacto.html" data-i18n="site.services.dashboard.cta2">Solicitar diagn&oacute;stico</a>
           </div>
         </div>
-        <div class="dashboard-preview-card" aria-label="Vista resumida del dashboard">
-          <article><span>Acuerdos</span><strong>Alcance, hitos y pr&oacute;ximos pasos</strong></article>
-          <article><span>Servicio</span><strong>Configuraci&oacute;n, pruebas e impacto</strong></article>
-          <article><span>Soporte</span><strong>Mensajes, incidencias y revisiones</strong></article>
-          <article><span>Crecimiento</span><strong>Nuevas automatizaciones posibles</strong></article>
+        <div class="dashboard-preview-card" data-i18n-aria="site.services.dashboard.aria" aria-label="Vista resumida del dashboard">
+          <article><span data-i18n="site.services.dashboard.card1.label">Acuerdos</span><strong data-i18n="site.services.dashboard.card1.text">Alcance, hitos y pr&oacute;ximos pasos</strong></article>
+          <article><span data-i18n="site.services.dashboard.card2.label">Servicio</span><strong data-i18n="site.services.dashboard.card2.text">Configuraci&oacute;n, pruebas e impacto</strong></article>
+          <article><span data-i18n="site.services.dashboard.card3.label">Soporte</span><strong data-i18n="site.services.dashboard.card3.text">Mensajes, incidencias y revisiones</strong></article>
+          <article><span data-i18n="site.services.dashboard.card4.label">Crecimiento</span><strong data-i18n="site.services.dashboard.card4.text">Nuevas automatizaciones posibles</strong></article>
         </div>
       </section>
 
       <section class="launch-note" data-reveal>
-        <p class="eyebrow">Implementaci&oacute;n progresiva</p>
-        <h2>Primero una necesidad concreta. Despu&eacute;s un sistema que se pueda mantener.</h2>
-        <p>
+        <p class="eyebrow" data-i18n="site.services.launch.eyebrow">Implementaci&oacute;n progresiva</p>
+        <h2 data-i18n="site.services.launch.title">Primero una necesidad concreta. Despu&eacute;s un sistema que se pueda mantener.</h2>
+        <p data-i18n="site.services.launch.text">
           El servicio se define con alcance, responsables, indicadores y soporte mensual.
           Noesis prioriza pilotos acotados, documentaci&oacute;n clara y revisiones para que la automatizaci&oacute;n
           siga encajando con el equipo.
@@ -141,11 +158,16 @@
 
     <footer class="site-footer">
       <div>
-        <a class="brand" href="index.html" aria-label="Noesis inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg></span><span>Noesis</span></a>
-        <p>Sistemas operativos a medida para ordenar procesos, recuperar tiempo y tomar mejores decisiones.</p>
+        <a class="brand" href="index.html" data-i18n-aria="site.nav.brand" aria-label="Noesis inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg></span><span>Noesis</span></a>
+        <p data-i18n="site.footer.tagline">Sistemas operativos a medida para ordenar procesos, recuperar tiempo y tomar mejores decisiones.</p>
       </div>
-      <nav aria-label="Enlaces legales"><a href="aviso-legal.html">Aviso legal</a><a href="privacidad.html">Privacidad</a><a href="cookies.html">Cookies</a></nav>
+      <nav data-i18n-aria="site.footer.legalNav" aria-label="Enlaces legales">
+        <a href="aviso-legal.html" data-i18n="site.footer.legal">Aviso legal</a>
+        <a href="privacidad.html" data-i18n="site.footer.privacy">Privacidad</a>
+        <a href="cookies.html" data-i18n="site.footer.cookies">Cookies</a>
+      </nav>
     </footer>
-    <script src="script.js?v=launch-2"></script>
+    <script src="i18n.js?v=launch-3"></script>
+    <script src="script.js?v=launch-3"></script>
   </body>
 </html>

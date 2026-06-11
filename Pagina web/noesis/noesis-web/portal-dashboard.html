@@ -65,20 +65,19 @@
             <strong data-i18n="top.title">Control operativo del cliente</strong>
           </div>
 
-          <nav class="client-site-nav" aria-label="Navegaci&oacute;n web">
-            <a href="index.html">Inicio</a>
-            <a href="serveis.html">Servicios</a>
-            <a href="proces.html">Proceso</a>
-            <a href="impacte.html">Impacto</a>
-            <a href="contacto.html">Contacto</a>
-            <a class="is-active" href="portal-dashboard.html">&Aacute;rea privada</a>
+          <nav class="client-site-nav" data-i18n-aria="site.nav.mainAria" aria-label="Navegaci&oacute;n web">
+            <a href="index.html" data-i18n="site.nav.home">Inicio</a>
+            <a href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+            <a href="proces.html" data-i18n="site.nav.process">Proceso</a>
+            <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+            <a href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
+            <a class="is-active" href="portal-dashboard.html" data-i18n="site.nav.private">&Aacute;rea privada</a>
           </nav>
 
           <div class="client-topbar-actions">
-            <div class="language-switcher" aria-label="Seleccionar idioma">
+            <div class="language-switcher" data-i18n-aria="site.lang.switcher" aria-label="Seleccionar idioma">
               <button class="is-active" type="button" data-lang="es">Espa&ntilde;ol</button>
               <button type="button" data-lang="ca">Catal&agrave;</button>
-              <button type="button" data-lang="en">English</button>
             </div>
             <span class="client-user"><span data-i18n="top.user">Usuario:</span> <strong data-client-email>Cliente Noesis</strong></span>
             <a class="button secondary compact logout-link" href="iniciar-sesion.html" data-i18n="top.logout" data-logout>Cerrar sesi&oacute;n</a>
@@ -270,6 +269,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js?v=launch-2"></script>
     <script src="noesis-auth.js"></script>
-    <script src="script.js?v=launch-2"></script>
+    <script src="i18n.js?v=launch-3"></script>
+    <script src="script.js?v=launch-3"></script>
   </body>
 </html>

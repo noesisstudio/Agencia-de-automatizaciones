@@ -3,39 +3,56 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-<title>Noesis | Proceso</title>
-    <meta name="description" content="Proceso Noesis: entender, cuantificar, dise&ntilde;ar, implementar y medir sistemas operativos para empresas." />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title data-i18n-title="site.meta.process.title">Noesis | Proceso</title>
+    <meta
+      name="description"
+      data-i18n-meta="site.meta.process.description"
+      content="Proceso Noesis: entender, cuantificar, dise&ntilde;ar, implementar y medir sistemas operativos para empresas."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=launch-2" />
+    <link rel="stylesheet" href="styles.css?v=launch-3" />
   </head>
   <body>
     <header class="topbar">
-      <a class="brand" href="index.html" aria-label="Noesis inicio">
+      <a class="brand" href="index.html" data-i18n-aria="site.nav.brand" aria-label="Noesis inicio">
         <span class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg>
         </span>
         <span>Noesis</span>
       </a>
-      <nav class="nav" aria-label="Navegaci&oacute;n principal">
-        <a href="index.html">Inicio</a><a href="serveis.html">Servicios</a><a class="is-active" href="proces.html">Proceso</a><a href="impacte.html">Impacto</a><a href="contacto.html">Contacto</a>
+      <nav class="nav" data-i18n-aria="site.nav.mainAria" aria-label="Navegaci&oacute;n principal">
+        <a href="index.html" data-i18n="site.nav.home">Inicio</a>
+        <a href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+        <a class="is-active" href="proces.html" data-i18n="site.nav.process">Proceso</a>
+        <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+        <a href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
       </nav>
       <div class="topbar-actions">
-        <a class="ghost-link" href="iniciar-sesion.html" data-private-link>Iniciar sesi&oacute;n</a>
-        <a class="nav-cta" href="contacto.html">Diagn&oacute;stico</a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">Men&uacute;</button>
+        <div class="language-switcher language-switcher--compact" data-i18n-aria="site.lang.switcher" aria-label="Seleccionar idioma">
+          <button class="is-active" type="button" data-lang="es">ES</button>
+          <button type="button" data-lang="ca">CA</button>
+        </div>
+        <a class="ghost-link" href="iniciar-sesion.html" data-private-link data-i18n="site.nav.login">Iniciar sesi&oacute;n</a>
+        <a class="nav-cta" href="contacto.html" data-i18n="site.nav.diagnosis">Diagn&oacute;stico</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-i18n="site.nav.menu">Men&uacute;</button>
       </div>
-      <nav class="mobile-nav" id="mobile-menu" hidden aria-label="Navegaci&oacute;n m&oacute;vil">
-        <a href="index.html">Inicio</a><a href="serveis.html">Servicios</a><a href="proces.html">Proceso</a><a href="impacte.html">Impacto</a><a href="contacto.html">Contacto</a><a href="iniciar-sesion.html" data-private-link>Iniciar sesi&oacute;n</a>
+      <nav class="mobile-nav" id="mobile-menu" hidden data-i18n-aria="site.nav.mobileAria" aria-label="Navegaci&oacute;n m&oacute;vil">
+        <a href="index.html" data-i18n="site.nav.home">Inicio</a>
+        <a href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+        <a href="proces.html" data-i18n="site.nav.process">Proceso</a>
+        <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+        <a href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
+        <a href="iniciar-sesion.html" data-private-link data-i18n="site.nav.login">Iniciar sesi&oacute;n</a>
       </nav>
     </header>
 
@@ -50,9 +67,9 @@
           </svg>
         </div>
         <div data-reveal>
-          <p class="eyebrow">La gu&iacute;a Noesis</p>
-          <h1>Primero entendemos. Despu&eacute;s dise&ntilde;amos.</h1>
-          <p>
+          <p class="eyebrow" data-i18n="site.process.eyebrow">La gu&iacute;a Noesis</p>
+          <h1 data-i18n="site.process.title">Primero entendemos. Despu&eacute;s dise&ntilde;amos.</h1>
+          <p data-i18n="site.process.text">
             No empezamos vendiendo tecnolog&iacute;a. Empezamos entendiendo el proceso: qui&eacute;n recibe
             la informaci&oacute;n, qui&eacute;n decide, d&oacute;nde se encalla y qu&eacute; debe poder medirse.
           </p>
@@ -60,18 +77,18 @@
       </section>
 
       <section class="step-grid">
-        <article data-reveal><span>01</span><h2>Observamos</h2><p>Entrevista, mapa de flujos, herramientas actuales y detecci&oacute;n de puntos de fricci&oacute;n.</p></article>
-        <article data-reveal><span>02</span><h2>Cuantificamos</h2><p>Estimamos horas recuperables, errores evitables, volumen mensual e impacto potencial.</p></article>
-        <article data-reveal><span>03</span><h2>Dise&ntilde;amos</h2><p>Definimos reglas, datos, responsables, estados del sistema y criterios de revisi&oacute;n humana.</p></article>
-        <article data-reveal><span>04</span><h2>Implementamos</h2><p>Construimos un piloto acotado, lo probamos con casos reales y documentamos su uso.</p></article>
-        <article data-reveal><span>05</span><h2>Medimos</h2><p>Revisamos resultados, incidencias, ahorro de tiempo y decisiones pendientes.</p></article>
-        <article data-reveal><span>06</span><h2>Escalamos</h2><p>Solo ampliamos cuando el sistema inicial funciona, el equipo lo entiende y hay valor claro.</p></article>
+        <article data-reveal><span>01</span><h2 data-i18n="site.process.step1.title">Observamos</h2><p data-i18n="site.process.step1.text">Entrevista, mapa de flujos, herramientas actuales y detecci&oacute;n de puntos de fricci&oacute;n.</p></article>
+        <article data-reveal><span>02</span><h2 data-i18n="site.process.step2.title">Cuantificamos</h2><p data-i18n="site.process.step2.text">Estimamos horas recuperables, errores evitables, volumen mensual e impacto potencial.</p></article>
+        <article data-reveal><span>03</span><h2 data-i18n="site.process.step3.title">Dise&ntilde;amos</h2><p data-i18n="site.process.step3.text">Definimos reglas, datos, responsables, estados del sistema y criterios de revisi&oacute;n humana.</p></article>
+        <article data-reveal><span>04</span><h2 data-i18n="site.process.step4.title">Implementamos</h2><p data-i18n="site.process.step4.text">Construimos un piloto acotado, lo probamos con casos reales y documentamos su uso.</p></article>
+        <article data-reveal><span>05</span><h2 data-i18n="site.process.step5.title">Medimos</h2><p data-i18n="site.process.step5.text">Revisamos resultados, incidencias, ahorro de tiempo y decisiones pendientes.</p></article>
+        <article data-reveal><span>06</span><h2 data-i18n="site.process.step6.title">Escalamos</h2><p data-i18n="site.process.step6.text">Solo ampliamos cuando el sistema inicial funciona, el equipo lo entiende y hay valor claro.</p></article>
       </section>
 
       <section class="launch-note" data-reveal>
-        <p class="eyebrow">Entregables</p>
-        <h2>Cada fase deja algo utilizable, no solo una reuni&oacute;n.</h2>
-        <p>
+        <p class="eyebrow" data-i18n="site.process.deliver.eyebrow">Entregables</p>
+        <h2 data-i18n="site.process.deliver.title">Cada fase deja algo utilizable, no solo una reuni&oacute;n.</h2>
+        <p data-i18n="site.process.deliver.text">
           El proceso genera un mapa operativo, una propuesta de alcance, el piloto activo,
           documentaci&oacute;n b&aacute;sica, acceso al dashboard y una revisi&oacute;n peri&oacute;dica para decidir
           si conviene mantener, ajustar o ampliar.
@@ -81,11 +98,16 @@
 
     <footer class="site-footer">
       <div>
-        <a class="brand" href="index.html" aria-label="Noesis inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg></span><span>Noesis</span></a>
-        <p>Sistemas operativos a medida para ordenar procesos, recuperar tiempo y tomar mejores decisiones.</p>
+        <a class="brand" href="index.html" data-i18n-aria="site.nav.brand" aria-label="Noesis inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg></span><span>Noesis</span></a>
+        <p data-i18n="site.footer.tagline">Sistemas operativos a medida para ordenar procesos, recuperar tiempo y tomar mejores decisiones.</p>
       </div>
-      <nav aria-label="Enlaces legales"><a href="aviso-legal.html">Aviso legal</a><a href="privacidad.html">Privacidad</a><a href="cookies.html">Cookies</a></nav>
+      <nav data-i18n-aria="site.footer.legalNav" aria-label="Enlaces legales">
+        <a href="aviso-legal.html" data-i18n="site.footer.legal">Aviso legal</a>
+        <a href="privacidad.html" data-i18n="site.footer.privacy">Privacidad</a>
+        <a href="cookies.html" data-i18n="site.footer.cookies">Cookies</a>
+      </nav>
     </footer>
-    <script src="script.js?v=launch-2"></script>
+    <script src="i18n.js?v=launch-3"></script>
+    <script src="script.js?v=launch-3"></script>
   </body>
 </html>

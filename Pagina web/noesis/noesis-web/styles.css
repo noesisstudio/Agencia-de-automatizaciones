@@ -1078,6 +1078,12 @@ p {
   padding: 42px clamp(20px, 4vw, 64px);
 }
 
+.portal-lang-bar {
+  display: flex;
+  justify-content: flex-end;
+  grid-column: 1 / -1;
+}
+
 .portal-entry-frame {
   display: grid;
   grid-template-columns: minmax(0, 1.02fr) minmax(380px, 0.72fr);
@@ -1441,6 +1447,12 @@ p {
   color: var(--green);
   background: #fff;
   box-shadow: 0 8px 24px rgba(18, 60, 53, 0.08);
+}
+
+.language-switcher--compact button {
+  min-height: 30px;
+  padding: 0 10px;
+  font-size: 0.76rem;
 }
 
 .client-user {
