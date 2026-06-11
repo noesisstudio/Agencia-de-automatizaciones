@@ -39,7 +39,7 @@ Transformación completa del prototipo actual de FacturAI en un sistema profesio
 > **Base de datos**: Propongo usar **SQLite** con **SQLAlchemy** para empezar (cero configuración, archivo local, suficiente para un MVP profesional). Si prefieres **PostgreSQL** desde el principio, lo ajusto — pero necesitarás tener Postgres instalado y configurado.
 
 > [!IMPORTANT]
-> **API key de Anthropic expuesta**: El archivo `.env.example` contiene lo que parece ser una API key real (`sk-ant-api03-qkDXrUh5...`). Necesita ser revocada y reemplazada por un placeholder.
+> **API key de Anthropic**: Asegúrate de que `.env.example` solo contiene placeholders y de que la key real vive únicamente en tu `.env` local (no versionado).
 
 ## Open Questions
 
