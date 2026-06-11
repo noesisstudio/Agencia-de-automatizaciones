@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+<title>Noesis | &Aacute;rea de clientes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=launch-2" />
+  </head>
+  <body class="client-area-body">
+    <div class="client-area-shell">
+      <aside class="client-sidebar" aria-label="Navegaci&oacute;n del &aacute;rea de clientes">
+        <a class="brand" href="index.html" aria-label="Volver a Noesis">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg>
+          </span>
+          <span>Noesis</span>
+        </a>
+
+        <div class="sidebar-kicker">&Aacute;rea de clientes</div>
+
+        <nav class="client-nav" aria-label="Secciones del portal">
+          <button class="is-active" type="button" data-panel-target="summary">
+            <span>01</span>
+            <strong data-i18n="nav.summary">Resumen</strong>
+          </button>
+          <button type="button" data-panel-target="billing">
+            <span>02</span>
+            <strong data-i18n="nav.billing">Facturaci&oacute;n</strong>
+          </button>
+          <button type="button" data-panel-target="service">
+            <span>03</span>
+            <strong data-i18n="nav.service">Estado del servicio</strong>
+          </button>
+          <button type="button" data-panel-target="support">
+            <span>04</span>
+            <strong data-i18n="nav.support">Soporte</strong>
+          </button>
+          <button type="button" data-panel-target="growth">
+            <span>05</span>
+            <strong data-i18n="nav.growth">Nuevos servicios</strong>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span data-i18n="sidebar.workspace">Workspace activo</span>
+            <strong data-client-email>Cliente Noesis</strong>
+        </div>
+      </aside>
+
+      <main class="client-main">
+        <header class="client-topbar">
+          <div>
+            <span class="client-overline" data-i18n="top.panel">Panel</span>
+            <strong data-i18n="top.title">Control operativo del cliente</strong>
+          </div>
+
+          <nav class="client-site-nav" data-i18n-aria="site.nav.mainAria" aria-label="Navegaci&oacute;n web">
+            <a href="index.html" data-i18n="site.nav.home">Inicio</a>
+            <a href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+            <a href="proces.html" data-i18n="site.nav.process">Proceso</a>
+            <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+            <a href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
+            <a class="is-active" href="portal-dashboard.html" data-i18n="site.nav.private">&Aacute;rea privada</a>
+          </nav>
+
+          <div class="client-topbar-actions">
+            <div class="language-switcher" data-i18n-aria="site.lang.switcher" aria-label="Seleccionar idioma">
+              <button class="is-active" type="button" data-lang="es">Espa&ntilde;ol</button>
+              <button type="button" data-lang="ca">Catal&agrave;</button>
+            </div>
+            <span class="client-user"><span data-i18n="top.user">Usuario:</span> <strong data-client-email>Cliente Noesis</strong></span>
+            <a class="button secondary compact logout-link" href="iniciar-sesion.html" data-i18n="top.logout" data-logout>Cerrar sesi&oacute;n</a>
+          </div>
+        </header>
+
+        <section class="client-content">
+          <section class="client-panel is-active" id="panel-summary" data-panel="summary">
+            <div class="client-panel-head">
+              <p class="eyebrow" data-i18n="summary.eyebrow">Resumen</p>
+              <h1 data-i18n="summary.title">Tu sistema Noesis, en una sola vista.</h1>
+              <p data-i18n="summary.body">
+                Consulta el estado de tu servicio, los pagos, el rendimiento operativo y los siguientes pasos acordados con el equipo Noesis.
+              </p>
+            </div>
+
+            <div class="client-kpi-grid">
+              <article class="client-kpi highlighted">
+                <span data-i18n="kpi.pending">Pendiente de pago</span>
+                <strong>290&euro;</strong>
+                <p data-i18n="kpi.pendingNote">1 factura pendiente</p>
+              </article>
+              <article class="client-kpi">
+                <span data-i18n="kpi.paid">Total pagado</span>
+                <strong>1.850&euro;</strong>
+                <p data-i18n="kpi.paidNote">Implementaci&oacute;n inicial completada</p>
+              </article>
+              <article class="client-kpi">
+                <span data-i18n="kpi.next">Pr&oacute;xima factura</span>
+                <strong>05/06</strong>
+                <p data-i18n="kpi.nextNote">Mantenimiento mensual</p>
+              </article>
+              <article class="client-kpi">
+                <span data-i18n="kpi.contract">Contrato</span>
+                <strong data-i18n="kpi.contractValue">Activo</strong>
+                <p data-i18n="kpi.contractNote">Servicio en seguimiento</p>
+              </article>
+            </div>
+
+            <div class="client-two-columns">
+              <article class="client-card">
+                <h2 data-i18n="summary.activity">Actividad reciente</h2>
+                <div class="timeline">
+                  <div><span>28/05</span><p data-i18n="summary.act1">Revisi&oacute;n del flujo de chatbot y respuestas frecuentes completada.</p></div>
+                  <div><span>27/05</span><p data-i18n="summary.act2">Ajuste de criterios para leads, email y mensajes de WhatsApp.</p></div>
+                  <div><span>24/05</span><p data-i18n="summary.act3">Presupuesto de mantenimiento mensual confirmado.</p></div>
+                </div>
+              </article>
+              <article class="client-card action-card">
+                <h2 data-i18n="summary.quick">Acceso r&aacute;pido</h2>
+                <p data-i18n="summary.quickBody">Consulta facturas, revisa el estado del servicio o solicita una nueva mejora operativa.</p>
+                <div class="quick-actions">
+                  <button type="button" class="button primary compact" data-panel-target="billing" data-i18n="summary.quickBilling">Ver facturaci&oacute;n</button>
+                  <button type="button" class="button secondary compact" data-panel-target="service" data-i18n="summary.quickService">Ver servicio</button>
+                  <button type="button" class="button secondary compact" data-panel-target="growth" data-i18n="summary.quickGrowth">Nueva mejora</button>
+                </div>
+              </article>
+            </div>
+
+            <div class="client-card">
+              <h2 data-i18n="summary.systems">Sistemas conectados</h2>
+              <div class="integration-list">
+                <span>Gmail</span>
+                <span>Google Sheets</span>
+                <span>Typeform</span>
+                <span>WhatsApp Business</span>
+                <span>CRM</span>
+                <span>FacturAI</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="client-panel" id="panel-billing" data-panel="billing">
+            <div class="client-panel-head">
+              <p class="eyebrow" data-i18n="billing.eyebrow">Facturaci&oacute;n</p>
+              <h1 data-i18n="billing.title">Acuerdos, alcance y mantenimiento.</h1>
+              <p data-i18n="billing.body">Una vista clara de lo aprobado, lo pendiente y los pr&oacute;ximos pasos del servicio.</p>
+            </div>
+            <div class="client-two-columns">
+              <article class="client-card">
+                <h2 data-i18n="billing.budget">Alcance aprobado</h2>
+                <div class="billing-table">
+                  <div><span data-i18n="billing.impl">Implementaci&oacute;n inicial</span><strong>Sistema personalizado</strong></div>
+                  <div><span data-i18n="billing.maint">Mantenimiento mensual</span><strong>Soporte acordado</strong></div>
+                  <div><span data-i18n="billing.status">Estado</span><strong data-i18n="billing.statusValue">Implementaci&oacute;n activa, revisi&oacute;n pendiente</strong></div>
+                  <div><span data-i18n="billing.next">Pr&oacute;ximo vencimiento</span><strong>05/06/2026</strong></div>
+                </div>
+              </article>
+              <article class="client-card">
+                <h2 data-i18n="billing.docs">Documentos</h2>
+                <div class="document-list">
+                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20factura%20implementacion%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice1">Factura implementaci&oacute;n</strong><small data-i18n="billing.paid">Pagada</small></a>
+                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20factura%20mantenimiento%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice2">Factura mantenimiento junio</strong><small data-i18n="billing.pending">Pendiente</small></a>
+                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20contrato%20de%20servicio%20Noesis"><span>PDF</span><strong data-i18n="billing.contractDoc">Contrato de servicio</strong><small data-i18n="billing.active">Activo</small></a>
+                </div>
+              </article>
+            </div>
+            <div class="client-card">
+              <h2 data-i18n="billing.plan">Plan contratado</h2>
+              <div class="plan-breakdown">
+                <article><span>01</span><strong data-i18n="billing.plan1">Diagn&oacute;stico y mapa operativo</strong><p data-i18n="billing.plan1Body">Proceso revisado, alcance del piloto y responsables definidos.</p></article>
+                <article><span>02</span><strong data-i18n="billing.plan2">Automatizaci&oacute;n inicial</strong><p data-i18n="billing.plan2Body">Flujo activo con pruebas, ajustes y documentaci&oacute;n b&aacute;sica.</p></article>
+                <article><span>03</span><strong data-i18n="billing.plan3">Soporte mensual</strong><p data-i18n="billing.plan3Body">Monitorizaci&oacute;n, peque&ntilde;os ajustes e informe de seguimiento.</p></article>
+              </div>
+            </div>
+          </section>
+
+          <section class="client-panel" id="panel-service" data-panel="service">
+            <div class="client-panel-head">
+              <p class="eyebrow" data-i18n="service.eyebrow">Estado del servicio</p>
+              <h1 data-i18n="service.title">Seguimiento del sistema activo.</h1>
+              <p data-i18n="service.body">Visualiza el progreso de configuraci&oacute;n, pruebas, adopci&oacute;n e impacto del sistema contratado.</p>
+            </div>
+            <div class="client-two-columns">
+              <article class="client-card wide-card">
+                <span class="status-pill">En curso</span>
+                <h2 data-i18n="service.name">Chatbot, leads y seguimiento comercial</h2>
+                <p data-i18n="service.description">Sistema para responder preguntas frecuentes, ordenar solicitudes entrantes y activar recordatorios comerciales con seguimiento medible.</p>
+                <div class="agent-progress">
+                  <div><header><span data-i18n="service.config">Configuraci&oacute;n</span><strong>90%</strong></header><i><b style="width: 90%"></b></i></div>
+                  <div><header><span data-i18n="service.tests">Pruebas con casos reales</span><strong>72%</strong></header><i><b style="width: 72%"></b></i></div>
+                  <div><header><span data-i18n="service.adoption">Adopci&oacute;n del equipo</span><strong>58%</strong></header><i><b style="width: 58%"></b></i></div>
+                  <div><header><span data-i18n="service.impact">Impacto medido</span><strong>32h</strong></header><i><b style="width: 76%"></b></i></div>
+                </div>
+              </article>
+              <article class="client-card">
+                <h2 data-i18n="service.next">Pr&oacute;ximos pasos</h2>
+                <div class="checklist">
+                  <label><input type="checkbox" checked /> <span data-i18n="service.step1">Validar documentaci&oacute;n del chatbot</span></label>
+                  <label><input type="checkbox" checked /> <span data-i18n="service.step2">Probar alertas internas de leads</span></label>
+                  <label><input type="checkbox" /> <span data-i18n="service.step3">Revisar adopci&oacute;n con el equipo</span></label>
+                  <label><input type="checkbox" /> <span data-i18n="service.step4">Emitir informe mensual</span></label>
+                </div>
+              </article>
+            </div>
+            <div class="service-opportunities">
+              <article class="opportunity-card"><span>01</span><h2 data-i18n="service.module1">Chatbot web</h2><p data-i18n="service.module1Body">Respuestas con FAQs, condiciones internas y documentaci&oacute;n validada.</p></article>
+              <article class="opportunity-card"><span>02</span><h2 data-i18n="service.module2">Leads</h2><p data-i18n="service.module2Body">Registro, prioridad, asignaci&oacute;n y recordatorios autom&aacute;ticos.</p></article>
+              <article class="opportunity-card"><span>03</span><h2 data-i18n="service.module3">Email</h2><p data-i18n="service.module3Body">Clasificaci&oacute;n, borradores asistidos y extracci&oacute;n de datos.</p></article>
+            </div>
+          </section>
+
+          <section class="client-panel" id="panel-support" data-panel="support">
+            <div class="client-panel-head">
+              <p class="eyebrow" data-i18n="support.eyebrow">Soporte</p>
+              <h1 data-i18n="support.title">Contacto directo con Noesis.</h1>
+              <p data-i18n="support.body">Un canal para resolver dudas, pedir ajustes o dejar constancia de incidencias del servicio.</p>
+            </div>
+            <div class="client-two-columns">
+              <article class="client-card chat-box">
+                <h2 data-i18n="support.chat">Chat del proyecto</h2>
+                <div class="chat-thread">
+                  <div class="chat-message" data-i18n="support.msg1">Hemos detectado menos revisi&oacute;n manual en la clasificaci&oacute;n de leads esta semana.</div>
+                  <div class="chat-message user" data-i18n="support.msg2">Podemos valorar propuestas por WhatsApp m&aacute;s adelante?</div>
+                  <div class="chat-message" data-i18n="support.msg3">S&iacute;. Lo pondr&iacute;amos como fase 2 y validar&iacute;amos alcance antes de activarlo.</div>
+                </div>
+                <div class="chat-input">
+                  <input data-i18n-placeholder="support.placeholder" placeholder="Escribe un mensaje..." aria-label="Mensaje para Noesis" data-support-input />
+                  <button class="button primary compact" type="button" data-i18n="support.send" data-support-send>Enviar</button>
+                </div>
+              </article>
+              <article class="client-card">
+                <h2 data-i18n="support.channels">Canales</h2>
+                <div class="support-options">
+                  <a href="mailto:info@bynoesis.com"><strong>Email</strong><span>info@bynoesis.com</span></a>
+                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20revision%20mensual%20Noesis"><strong data-i18n="support.meeting">Reuni&oacute;n</strong><span data-i18n="support.meetingText">Solicitar revisi&oacute;n mensual</span></a>
+                  <a href="mailto:info@bynoesis.com?subject=Incidencia%20servicio%20Noesis"><strong data-i18n="support.issue">Incidencia</strong><span data-i18n="support.issueText">Registrar un problema del sistema</span></a>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="client-panel" id="panel-growth" data-panel="growth">
+            <div class="client-panel-head">
+              <p class="eyebrow" data-i18n="growth.eyebrow">Nuevos servicios</p>
+              <h1 data-i18n="growth.title">Oportunidades para ordenar m&aacute;s procesos.</h1>
+              <p data-i18n="growth.body">Propuestas de mejora que podr&iacute;an implementarse cuando el sistema actual est&eacute; consolidado.</p>
+            </div>
+            <div class="service-opportunities">
+              <article class="opportunity-card"><span>01</span><h2 data-i18n="growth.card1">Documentos y facturas</h2><p data-i18n="growth.card1Body">Centralizar recepci&oacute;n de documentos, validaci&oacute;n y preparaci&oacute;n para revisi&oacute;n.</p></article>
+              <article class="opportunity-card"><span>02</span><h2 data-i18n="growth.card2">Presupuestos por WhatsApp</h2><p data-i18n="growth.card2Body">Convertir conversaciones entrantes en propuestas estructuradas listas para revisar.</p></article>
+              <article class="opportunity-card"><span>03</span><h2 data-i18n="growth.card3">Citas y agenda</h2><p data-i18n="growth.card3Body">Reservas, recordatorios, cambios de hora y sincronizaci&oacute;n con calendarios.</p></article>
+              <article class="opportunity-card"><span>04</span><h2 data-i18n="growth.card4">Informe mensual</h2><p data-i18n="growth.card4Body">Resumen de horas recuperadas, incidencias, decisiones y pr&oacute;ximas acciones.</p></article>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js?v=launch-2"></script>
+    <script src="noesis-auth.js"></script>
+    <script src="i18n.js?v=launch-3"></script>
+    <script src="script.js?v=launch-3"></script>
+  </body>
+</html>

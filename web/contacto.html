@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title data-i18n-title="site.meta.contact.title">Noesis | Contacto</title>
+    <meta
+      name="description"
+      data-i18n-meta="site.meta.contact.description"
+      content="Solicita una primera revisi&oacute;n Noesis para detectar procesos repetitivos, fricciones y oportunidades de mejora."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=launch-3" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html" data-i18n-aria="site.nav.brand" aria-label="Noesis inicio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg>
+        </span>
+        <span>Noesis</span>
+      </a>
+      <nav class="nav" data-i18n-aria="site.nav.mainAria" aria-label="Navegaci&oacute;n principal">
+        <a href="index.html" data-i18n="site.nav.home">Inicio</a>
+        <a href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+        <a href="proces.html" data-i18n="site.nav.process">Proceso</a>
+        <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+        <a class="is-active" href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
+      </nav>
+      <div class="topbar-actions">
+        <div class="language-switcher language-switcher--compact" data-i18n-aria="site.lang.switcher" aria-label="Seleccionar idioma">
+          <button class="is-active" type="button" data-lang="es">ES</button>
+          <button type="button" data-lang="ca">CA</button>
+        </div>
+        <a class="ghost-link" href="iniciar-sesion.html" data-private-link data-i18n="site.nav.login">Iniciar sesi&oacute;n</a>
+        <a class="nav-cta" href="contacto.html" data-i18n="site.nav.diagnosis">Diagn&oacute;stico</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-i18n="site.nav.menu">Men&uacute;</button>
+      </div>
+      <nav class="mobile-nav" id="mobile-menu" hidden data-i18n-aria="site.nav.mobileAria" aria-label="Navegaci&oacute;n m&oacute;vil">
+        <a href="index.html" data-i18n="site.nav.home">Inicio</a>
+        <a href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+        <a href="proces.html" data-i18n="site.nav.process">Proceso</a>
+        <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+        <a href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
+        <a href="iniciar-sesion.html" data-private-link data-i18n="site.nav.login">Iniciar sesi&oacute;n</a>
+      </nav>
+    </header>
+
+    <main class="page contact-page">
+      <section class="contact-panel contact-layout contact-layout--form-only" data-reveal>
+        <form class="diagnosis-form" id="diagnosis-form">
+          <label class="field">
+            <span data-i18n="site.contact.name">Nombre</span>
+            <input name="name" required autocomplete="name" data-i18n-placeholder="site.contact.namePh" placeholder="Tu nombre" />
+          </label>
+          <label class="field">
+            <span data-i18n="site.contact.email">Email</span>
+            <input name="email" type="email" required autocomplete="email" data-i18n-placeholder="site.contact.emailPh" placeholder="tu@empresa.com" />
+          </label>
+          <label class="field">
+            <span data-i18n="site.contact.company">Empresa</span>
+            <input name="company" required autocomplete="organization" data-i18n-placeholder="site.contact.companyPh" placeholder="Nombre de la empresa" />
+          </label>
+          <label class="field">
+            <span data-i18n="site.contact.phone">Tel&eacute;fono</span>
+            <input name="phone" autocomplete="tel" data-i18n-placeholder="site.contact.phonePh" placeholder="+34 ..." />
+          </label>
+          <label class="field full">
+            <span data-i18n="site.contact.service">&iquest;Qu&eacute; servicio Noesis te interesa?</span>
+            <select name="service" required>
+              <option value="" data-i18n="site.contact.serviceEmpty">Selecciona una opci&oacute;n</option>
+              <option data-i18n="site.contact.service1">Diagn&oacute;stico operativo</option>
+              <option data-i18n="site.contact.service2">Documentos y facturas</option>
+              <option data-i18n="site.contact.service3">Citas y agenda</option>
+              <option data-i18n="site.contact.service4">Captaci&oacute;n y seguimiento de leads</option>
+              <option data-i18n="site.contact.service5">Gesti&oacute;n inteligente de email</option>
+              <option data-i18n="site.contact.service6">Flujos internos</option>
+              <option data-i18n="site.contact.service7">Chatbot web o WhatsApp</option>
+              <option data-i18n="site.contact.service8">Propuestas por WhatsApp</option>
+              <option data-i18n="site.contact.service9">Dashboard y portal cliente</option>
+              <option data-i18n="site.contact.service10">Proyecto personalizado o varios sistemas</option>
+            </select>
+          </label>
+          <label class="field full">
+            <span data-i18n="site.contact.message">&iquest;Qu&eacute; proceso te gustar&iacute;a ordenar?</span>
+            <textarea name="message" rows="5" data-i18n-placeholder="site.contact.messagePh" placeholder="Facturas, agenda, correos, tareas internas..."></textarea>
+          </label>
+          <label class="consent full">
+            <input type="checkbox" required />
+            <span data-i18n-html="site.contact.consent">Acepto que Noesis utilice estos datos para responder a mi solicitud. He le&iacute;do la <a href="privacidad.html">pol&iacute;tica de privacidad</a>.</span>
+          </label>
+          <button class="button primary full" type="submit" data-i18n="site.contact.submit">Solicitar diagn&oacute;stico</button>
+          <p class="form-feedback full" id="diagnosis-feedback" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <a class="brand" href="index.html" data-i18n-aria="site.nav.brand" aria-label="Noesis inicio"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg></span><span>Noesis</span></a>
+        <p data-i18n="site.footer.tagline">Sistemas operativos a medida para ordenar procesos, recuperar tiempo y tomar mejores decisiones.</p>
+      </div>
+      <nav data-i18n-aria="site.footer.legalNav" aria-label="Enlaces legales">
+        <a href="aviso-legal.html" data-i18n="site.footer.legal">Aviso legal</a>
+        <a href="privacidad.html" data-i18n="site.footer.privacy">Privacidad</a>
+        <a href="cookies.html" data-i18n="site.footer.cookies">Cookies</a>
+      </nav>
+    </footer>
+    <script src="i18n.js?v=launch-3"></script>
+    <script src="script.js?v=launch-3"></script>
+  </body>
+</html>

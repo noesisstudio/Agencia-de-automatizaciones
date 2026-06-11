@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title data-i18n-title="site.meta.home.title">Noesis | Sistemas operativos a medida para empresas</title>
+    <meta
+      name="description"
+      data-i18n-meta="site.meta.home.description"
+      content="Noesis ordena procesos, recupera tiempo y da control operativo a empresas que quieren crecer con sistemas claros."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=launch-3" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html" data-i18n-aria="site.nav.brand" aria-label="Noesis inicio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="22" />
+            <path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" />
+            <circle cx="32" cy="32" r="5" />
+          </svg>
+        </span>
+        <span>Noesis</span>
+      </a>
+
+      <nav class="nav" data-i18n-aria="site.nav.mainAria" aria-label="Navegaci&oacute;n principal">
+        <a class="is-active" href="index.html" data-i18n="site.nav.home">Inicio</a>
+        <a href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+        <a href="proces.html" data-i18n="site.nav.process">Proceso</a>
+        <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+        <a href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
+      </nav>
+
+      <div class="topbar-actions">
+        <div class="language-switcher language-switcher--compact" data-i18n-aria="site.lang.switcher" aria-label="Seleccionar idioma">
+          <button class="is-active" type="button" data-lang="es">ES</button>
+          <button type="button" data-lang="ca">CA</button>
+        </div>
+        <a class="ghost-link" href="iniciar-sesion.html" data-private-link data-i18n="site.nav.login">Iniciar sesi&oacute;n</a>
+        <a class="nav-cta" href="contacto.html" data-i18n="site.nav.diagnosis">Diagn&oacute;stico</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-i18n="site.nav.menu">Men&uacute;</button>
+      </div>
+
+      <nav class="mobile-nav" id="mobile-menu" hidden data-i18n-aria="site.nav.mobileAria" aria-label="Navegaci&oacute;n m&oacute;vil">
+        <a href="index.html" data-i18n="site.nav.home">Inicio</a>
+        <a href="serveis.html" data-i18n="site.nav.services">Servicios</a>
+        <a href="proces.html" data-i18n="site.nav.process">Proceso</a>
+        <a href="impacte.html" data-i18n="site.nav.impact">Impacto</a>
+        <a href="contacto.html" data-i18n="site.nav.contact">Contacto</a>
+        <a href="iniciar-sesion.html" data-private-link data-i18n="site.nav.login">Iniciar sesi&oacute;n</a>
+      </nav>
+    </header>
+
+    <main class="page home-page">
+      <section class="home-hero">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow" data-i18n="site.home.hero.eyebrow">Arquitectura operativa para empresas</p>
+          <h1 class="hero-title">
+            <span data-i18n="site.home.hero.title1">Procesos claros.</span>
+            <span data-i18n="site.home.hero.title2">Tiempo recuperado.</span>
+            <span data-i18n="site.home.hero.title3">Control para crecer.</span>
+          </h1>
+          <p class="hero-text" data-i18n="site.home.hero.text">
+            Noesis observa c&oacute;mo trabaja una empresa, detecta fricciones repetitivas y dise&ntilde;a
+            sistemas digitales simples, medibles y f&aacute;ciles de mantener.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="contacto.html" data-i18n="site.home.hero.cta1">Solicitar diagn&oacute;stico</a>
+            <a class="button secondary" href="proces.html" data-i18n="site.home.hero.cta2">Ver c&oacute;mo trabajamos</a>
+          </div>
+          <dl class="hero-metrics metric-row" data-i18n-aria="site.home.metrics.aria" aria-label="Propuesta de valor">
+            <div>
+              <dt><span class="metric-number" data-i18n="site.home.metric1.value">30-45</span><span class="metric-unit" data-i18n="site.home.metric1.unit">min</span></dt>
+              <dd data-i18n="site.home.metric1.desc">diagn&oacute;stico inicial para entender el proceso</dd>
+            </div>
+            <div>
+              <dt><span class="metric-number" data-i18n="site.home.metric2.value">2-4</span><span class="metric-unit" data-i18n="site.home.metric2.unit">sem.</span></dt>
+              <dd data-i18n="site.home.metric2.desc">primer piloto acotado y probado</dd>
+            </div>
+            <div>
+              <dt><span class="metric-number" data-i18n="site.home.metric3.value">12-40</span><span class="metric-unit" data-i18n="site.home.metric3.unit">h/mes</span></dt>
+              <dd data-i18n="site.home.metric3.desc">objetivo de tiempo recuperable seg&uacute;n volumen</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="hero-visual" data-reveal data-i18n-aria="site.home.compass.aria" aria-label="Br&uacute;jula Noesis">
+          <div class="compass-stage">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="orbit orbit-three"></div>
+            <svg class="compass-symbol" viewBox="0 0 320 320" aria-hidden="true">
+              <circle class="soft-ring" cx="160" cy="160" r="126" />
+              <circle class="soft-ring" cx="160" cy="160" r="82" />
+              <path class="axis" d="M160 25v270M25 160h270" />
+              <path class="star-outer" d="M160 25 198 122 295 160 198 198 160 295 122 198 25 160 122 122Z" />
+              <path class="star-inner" d="M160 78 184 136 242 160 184 184 160 242 136 184 78 160 136 136Z" />
+              <circle class="center-dot" cx="160" cy="160" r="18" />
+            </svg>
+            <div class="floating-tag tag-a"><span data-i18n="site.home.tagA.label">Procesos</span><strong data-i18n="site.home.tagA.value">claros</strong></div>
+            <div class="floating-tag tag-b"><span data-i18n="site.home.tagB.label">Tareas</span><strong data-i18n="site.home.tagB.value">asistidas</strong></div>
+            <div class="floating-tag tag-c"><span data-i18n="site.home.tagC.label">Tiempo</span><strong data-i18n="site.home.tagC.value">recuperado</strong></div>
+            <div class="floating-tag tag-d"><span data-i18n="site.home.tagD.label">Impacto</span><strong data-i18n="site.home.tagD.value">medible</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-strip" data-reveal>
+        <article>
+          <span>01</span>
+          <h2 data-i18n="site.home.strip1.title">Entendemos antes de construir.</h2>
+          <p data-i18n="site.home.strip1.text">Primero miramos c&oacute;mo circula la informaci&oacute;n, qui&eacute;n decide y d&oacute;nde se pierde tiempo.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2 data-i18n="site.home.strip2.title">Dise&ntilde;amos sistemas aplicables.</h2>
+          <p data-i18n="site.home.strip2.text">No vendemos ruido t&eacute;cnico. Convertimos procesos reales en circuitos ordenados.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2 data-i18n="site.home.strip3.title">Medimos el resultado.</h2>
+          <p data-i18n="site.home.strip3.text">El ahorro importa, pero debe aparecer como consecuencia de una operativa mejor.</p>
+        </article>
+      </section>
+
+      <section class="section-block" data-reveal>
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="site.home.services.eyebrow">Soluciones principales</p>
+          <h2 data-i18n="site.home.services.title">Automatizaciones concretas para procesos que ya existen en tu empresa.</h2>
+          <p data-i18n="site.home.services.text">
+            Noesis define el alcance despu&eacute;s de entender tu caso. Descubre los servicios,
+            selecciona lo que encaja con tu operativa y te prepararemos una propuesta personalizada
+            cuando contactes con nosotros.
+          </p>
+        </div>
+
+        <div class="service-grid page-grid">
+          <article data-reveal>
+            <span>01</span>
+            <h2 data-i18n="site.home.svc1.title">Chatbot con IA</h2>
+            <p data-i18n="site.home.svc1.text">Atiende preguntas frecuentes desde la web o WhatsApp usando condiciones, manuales y documentos del negocio sin inventar respuestas.</p>
+            <b data-i18n="site.home.svc1.tags">Web &middot; WhatsApp &middot; Soporte</b>
+          </article>
+          <article data-reveal>
+            <span>02</span>
+            <h2 data-i18n="site.home.svc2.title">Facturas y documentos</h2>
+            <p data-i18n="site.home.svc2.text">Lectura de PDF o imagen, extracci&oacute;n de datos clave, clasificaci&oacute;n y preparaci&oacute;n para revisi&oacute;n o exportaci&oacute;n.</p>
+            <b data-i18n="site.home.svc2.tags">Gestor&iacute;as &middot; Administraci&oacute;n &middot; Finanzas</b>
+          </article>
+          <article data-reveal>
+            <span>03</span>
+            <h2 data-i18n="site.home.svc3.title">Leads y seguimiento</h2>
+            <p data-i18n="site.home.svc3.text">Formularios, Typeform o anuncios conectados a CRM, alertas internas y recordatorios para no perder oportunidades.</p>
+            <b data-i18n="site.home.svc3.tags">Comercial &middot; Servicios locales &middot; Pymes</b>
+          </article>
+          <article data-reveal>
+            <span>04</span>
+            <h2 data-i18n="site.home.svc4.title">Email inteligente</h2>
+            <p data-i18n="site.home.svc4.text">Clasificaci&oacute;n por urgencia o tema, borradores asistidos, archivado y extracci&oacute;n de datos a hojas o CRM.</p>
+            <b data-i18n="site.home.svc4.tags">Operaciones &middot; Atenci&oacute;n al cliente</b>
+          </article>
+          <article data-reveal>
+            <span>05</span>
+            <h2 data-i18n="site.home.svc5.title">Propuestas por WhatsApp</h2>
+            <p data-i18n="site.home.svc5.text">El cliente describe lo que necesita y el sistema prepara una respuesta estructurada lista para revisar y enviar.</p>
+            <b data-i18n="site.home.svc5.tags">Ventas &middot; Reformas &middot; Servicios t&eacute;cnicos</b>
+          </article>
+          <article data-reveal>
+            <span>06</span>
+            <h2 data-i18n="site.home.svc6.title">Portal de cliente</h2>
+            <p data-i18n="site.home.svc6.text">Dashboard privado para ver facturaci&oacute;n, estado del servicio, soporte, avances y nuevas oportunidades de automatizaci&oacute;n.</p>
+            <b data-i18n="site.home.svc6.tags">Control &middot; Transparencia &middot; Seguimiento</b>
+          </article>
+        </div>
+
+        <div class="section-actions">
+          <a class="button primary" href="serveis.html" data-i18n="site.home.services.cta1">Descubrir servicios</a>
+          <a class="button secondary" href="iniciar-sesion.html" data-i18n="site.home.services.cta2">Iniciar sesi&oacute;n</a>
+        </div>
+      </section>
+
+      <section class="section-block split-feature" data-reveal>
+        <div>
+          <p class="eyebrow" data-i18n="site.home.method.eyebrow">M&eacute;todo de trabajo</p>
+          <h2 data-i18n="site.home.method.title">Un piloto acotado antes de escalar.</h2>
+          <p data-i18n="site.home.method.text">
+            Cada proyecto empieza con diagn&oacute;stico, mapa de proceso y una primera automatizaci&oacute;n
+            medible. Si funciona, se despliega por fases con documentaci&oacute;n, soporte y revisiones.
+          </p>
+        </div>
+        <div class="mini-roadmap">
+          <article><span data-i18n="site.home.method.step1.label">Diagn&oacute;stico</span><strong data-i18n="site.home.method.step1.text">Proceso, herramientas y fricciones.</strong></article>
+          <article><span data-i18n="site.home.method.step2.label">Piloto</span><strong data-i18n="site.home.method.step2.text">Un flujo real con alcance controlado.</strong></article>
+          <article><span data-i18n="site.home.method.step3.label">Despliegue</span><strong data-i18n="site.home.method.step3.text">Formaci&oacute;n m&iacute;nima y soporte mensual.</strong></article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <a class="brand" href="index.html" data-i18n-aria="site.nav.brand" aria-label="Noesis inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" /><path d="M32 4 42 24 60 32 42 40 32 60 22 40 4 32 22 24Z" /><circle cx="32" cy="32" r="5" /></svg>
+          </span>
+          <span>Noesis</span>
+        </a>
+        <p data-i18n="site.footer.tagline">Sistemas operativos a medida para ordenar procesos, recuperar tiempo y tomar mejores decisiones.</p>
+      </div>
+      <nav data-i18n-aria="site.footer.legalNav" aria-label="Enlaces legales">
+        <a href="aviso-legal.html" data-i18n="site.footer.legal">Aviso legal</a>
+        <a href="privacidad.html" data-i18n="site.footer.privacy">Privacidad</a>
+        <a href="cookies.html" data-i18n="site.footer.cookies">Cookies</a>
+      </nav>
+    </footer>
+
+    <script src="i18n.js?v=launch-3"></script>
+    <script src="script.js?v=launch-3"></script>
+  </body>
+</html>
