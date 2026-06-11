@@ -103,6 +103,13 @@ if (isClientArea) {
     }
 
     writeNoesisStorage(NOESIS_CLIENT_SESSION_KEY, "active");
+
+    const userEmail = data.session.user?.email;
+    if (userEmail) {
+      document.querySelectorAll("[data-client-email]").forEach((node) => {
+        node.textContent = userEmail;
+      });
+    }
   })();
 }
 
