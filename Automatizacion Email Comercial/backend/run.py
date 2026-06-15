@@ -11,11 +11,12 @@ import uvicorn
 
 HOST = os.environ.get("EMAIL_COMERCIAL_HOST", "127.0.0.1")
 PORT = int(os.environ.get("EMAIL_COMERCIAL_PORT", "8020"))
+RELOAD = os.environ.get("EMAIL_COMERCIAL_RELOAD", "1" if HOST == "127.0.0.1" else "0").lower() in ("1", "true", "yes")
 
 if __name__ == "__main__":
     uvicorn.run(
         "app.main:app",
         host=HOST,
         port=PORT,
-        reload=True,
+        reload=RELOAD,
     )

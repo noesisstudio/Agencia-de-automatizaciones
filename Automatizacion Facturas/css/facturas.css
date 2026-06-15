@@ -582,6 +582,7 @@ body.facturas-app {
 
 .empty-state { text-align: center; padding: 3rem 2rem; color: var(--text-muted); }
 .empty-state__icon { font-size: 3rem; margin-bottom: 0.75rem; display: block; }
+.empty-state__icon svg { width: 48px; height: 48px; display: inline-block; }
 .empty-state p { margin: 0.25rem 0; }
 .empty-state .btn { margin-top: 1rem; }
 
@@ -640,7 +641,10 @@ body.facturas-app {
   pointer-events: none;
 }
 .toast {
-  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
   font-weight: 500;
@@ -652,6 +656,24 @@ body.facturas-app {
   animation: toast-in 0.3s ease;
   max-width: 380px;
 }
+.toast__icon { flex-shrink: 0; display: flex; align-items: center; margin-top: 1px; }
+.toast__icon svg { width: 16px; height: 16px; }
+.toast__message { flex: 1; min-width: 0; }
+.toast__close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.toast__close:hover { opacity: 1; }
+.toast__close svg { width: 14px; height: 14px; }
 .toast--success { border-left-color: var(--success); background: var(--bg-surface); }
 .toast--error { border-left-color: var(--danger); background: var(--bg-surface); }
 .toast--warning { border-left-color: var(--warning); background: var(--bg-surface); }
@@ -880,8 +902,12 @@ body.facturas-app {
   align-items: center;
   gap: 0.5rem;
 }
-.alert-card--warn { background: var(--warning-bg); color: #92400e; }
-[data-theme="dark"] .alert-card--warn { color: var(--warning); }
+.alert-card--warn  { background: var(--warning-bg); color: #92400e; }
+.alert-card--ok    { background: var(--success-bg); color: #065f46; }
+.alert-card--error { background: var(--danger-bg);  color: var(--danger); }
+[data-theme="dark"] .alert-card--warn  { color: var(--warning); }
+[data-theme="dark"] .alert-card--ok    { color: var(--success); }
+[data-theme="dark"] .alert-card--error { color: var(--danger); }
 
 /* ───── Misc ───── */
 .list-row {
@@ -898,6 +924,8 @@ body.facturas-app {
 
 .login-only, #login-only { padding: 1rem; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
 #login-only[hidden] { display: none !important; }
+/* app-shell uses display:grid which overrides the HTML [hidden] attribute — force it hidden */
+#app-shell[hidden] { display: none !important; }
 /* Extra safety: if app is visible, login must never overlay interactions */
 #app-shell:not([hidden]) ~ #login-only { display: none !important; }
 .facturas-link { color: var(--accent); font-weight: 600; }

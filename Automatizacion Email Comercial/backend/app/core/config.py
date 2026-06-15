@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     anthropic_model: str = "claude-sonnet-4-5-20250929"
     empresa_default: str = "openix"
+    api_key: str = ""  # Clave para proteger los endpoints — define API_KEY en .env
 
     model_config = SettingsConfigDict(
         env_file=_ENV_FILE,

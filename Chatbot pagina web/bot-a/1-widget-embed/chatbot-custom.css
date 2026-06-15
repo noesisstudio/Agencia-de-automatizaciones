@@ -1,0 +1,36 @@
+/*
+  Personalización del widget Voiceflow para clientes Bot A.
+  Alojado en el dominio del cliente o en un CDN de la agencia.
+  Referenciado desde el parámetro assistant.stylesheet del snippet.
+
+  Voiceflow expone estas custom properties — ajustar por cliente.
+*/
+
+:root {
+  /* Color principal del widget — cambiar al color de marca del cliente */
+  --vf-chat-launcher-color: #0066cc;
+  --vf-chat-header-bg: #0066cc;
+  --vf-chat-header-color: #ffffff;
+  --vf-chat-bubble-bg-user: #0066cc;
+  --vf-chat-bubble-color-user: #ffffff;
+  --vf-chat-bubble-bg-bot: #f0f4f8;
+  --vf-chat-bubble-color-bot: #1a1a2e;
+  --vf-chat-font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Botón flotante del chat */
+.vfrc-launcher {
+  bottom: 20px !important;
+  right: 20px !important;
+}
+
+/* Cabecera: nombre del bot */
+.vfrc-header {
+  border-radius: 12px 12px 0 0 !important;
+}
+
+/* Mensaje de bienvenida */
+.vfrc-chat-message--system .vfrc-chat-message-content {
+  font-size: 14px;
+  line-height: 1.5;
+}

@@ -1,17 +1,22 @@
-import { api } from "./api.js";
-import { el, formatMoney, showToast, escapeHtml, downloadWithAuth } from "./utils.js";
+import { api, resolveApiBase } from "./api.js";
+import { el, formatMoney, showToast, escapeHtml, openModal, downloadWithAuth } from "./utils.js";
 
 let folders = [];
-const batch = []; // { filename, ok, invoiceId, cliente, total, estado, sheetOk, message }
+const batch = [];
 
 export async function renderUpload(root) {
   batch.length = 0;
-  root.innerHTML = `<div class="page-head"><h1>Subir Facturas</h1></div>` +
+  root.innerHTML = `<div class="page-head"><h1>Contabilizar Facturas</h1></div>` +
     `<div class="loading-skeleton"><div class="skeleton-line"></div></div>`;
 
   try {
-    folders = await api("/folders");
-    render(root);
+    const base = await resolveApiBase();
+    const [foldersRes, healthRes] = await Promise.all([
+      api("/folders"),
+      base ? fetch(`${base}/health`).then(r => r.json()).catch(() => ({})) : Promise.resolve({})
+    ]);
+    folders = foldersRes;
+    render(root, healthRes);
   } catch (err) {
     root.innerHTML = `<div class="empty-state">
       <div class="empty-state__icon error"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>
@@ -21,14 +26,36 @@ export async function renderUpload(root) {
   }
 }
 
-function render(root) {
+function render(root, health = {}) {
   root.innerHTML = "";
 
-  const head = el("div", { className: "page-head" }, [el("h1", { text: "Subir Facturas con IA" })]);
-  const p = el("p", { className: "muted mb-lg", text: "Sube uno o varios PDF/imágenes. La IA extrae los datos, se guardan como facturas y podrás exportarlas a Excel o a Google Sheets." });
+  const head = el("div", { className: "page-head" }, [el("h1", { text: "Contabilizar Facturas Recibidas" })]);
+  const p = el("p", {
+    className: "muted mb-lg",
+    text: "Sube el PDF o imagen de una factura recibida. La IA extrae los datos y tú los revisas antes de guardar."
+  });
+
+  // Banner de advertencia cuando Anthropic no está configurado
+  const warnings = [];
+  if (health.anthropic_configured === false) {
+    warnings.push(el("div", {
+      className: "alert-card alert-card--warn",
+      style: { marginBottom: "1rem", borderRadius: "var(--radius-sm)" }
+    }, [
+      el("span", { innerHTML: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>' }),
+      el("div", {}, [
+        el("strong", { text: "Clave de IA no configurada — la extracción automática no funcionará." }),
+        el("br"),
+        el("span", { text: 'Abre el archivo ' }),
+        el("code", { text: "Automatizacion Facturas/backend/.env" }),
+        el("span", { text: " y pon tu clave real: " }),
+        el("code", { text: "ANTHROPIC_API_KEY=sk-ant-..." }),
+        el("span", { text: " Luego reinicia el backend." })
+      ])
+    ]));
+  }
 
   const panel = el("div", { className: "upload-panel panel" });
-
   const folderPicker = createFolderPicker(folders);
   const form = el("form", { className: "stack", id: "upload-form" }, [
     el("div", { className: "stack-field" }, [
@@ -46,9 +73,15 @@ function render(root) {
   });
 
   const dropZone = el("label", { className: "upload-zone mt-md", id: "drop-zone" }, [
-    el("div", { className: "upload-zone__icon", innerHTML: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:48px;height:48px;color:var(--accent)"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>' }),
-    el("div", { className: "upload-zone__title mt-sm", text: "Haz clic o arrastra uno o varios archivos aquí" }),
-    el("div", { className: "upload-zone__hint mt-xs", text: "Soporta PDF, JPG, PNG (máx. 15MB por archivo)" }),
+    el("div", {
+      className: "upload-zone__icon",
+      innerHTML: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:48px;height:48px;color:var(--accent)"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>'
+    }),
+    el("div", { className: "upload-zone__title mt-sm", text: "Haz clic o arrastra facturas aquí" }),
+    el("div", {
+      className: "upload-zone__hint mt-xs",
+      text: "PDF, JPG, PNG — máx. 15 MB · La IA extrae los datos y tú los confirmas antes de guardar"
+    }),
     fileInput
   ]);
 
@@ -71,6 +104,7 @@ function render(root) {
 
   root.appendChild(head);
   root.appendChild(p);
+  warnings.forEach(w => root.appendChild(w));
   root.appendChild(panel);
   root.appendChild(statusWrap);
   root.appendChild(resultWrap);
@@ -78,53 +112,190 @@ function render(root) {
   async function handleFiles(fileList) {
     const files = Array.from(fileList || []).filter(Boolean);
     if (!files.length) return;
-
     const folderId = folderPicker.getValue();
     dropZone.classList.add("is-busy");
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+
       if (file.size > 15 * 1024 * 1024) {
-        batch.push({ filename: file.name, ok: false, estado: "Demasiado grande (>15MB)" });
+        batch.push({ filename: file.name, ok: false, estado: "Demasiado grande (>15 MB)" });
         renderBatch(resultWrap);
         continue;
       }
-      statusWrap.innerHTML = `
-        <div class="flex items-center gap-sm p-md">
-          <svg class="spin text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
-          <span class="font-medium">Procesando ${i + 1} de ${files.length}: ${escapeHtml(file.name)}</span>
-        </div>`;
+
+      setStatus(statusWrap, `Analizando ${i + 1} de ${files.length}: ${file.name}…`);
 
       const fd = new FormData();
       fd.append("file", file);
       if (folderId) fd.append("folder_id", folderId);
-      fd.append("save_to_db", "true");
+      fd.append("save_to_db", "false");
       fd.append("include_template", "false");
 
+      let extracted;
       try {
         const data = await api("/invoice/process", { method: "POST", body: fd });
-        const ext = data.extracted || {};
+        extracted = data.extracted || {};
+      } catch (err) {
+        batch.push({ filename: file.name, ok: false, estado: "Error al extraer", message: err.message });
+        renderBatch(resultWrap);
+        setStatus(statusWrap, "");
+        continue;
+      }
+
+      setStatus(statusWrap, "");
+
+      const { confirmed, corrected } = await showReviewModal(file.name, extracted, i + 1, files.length);
+
+      if (!confirmed) {
+        batch.push({ filename: file.name, ok: false, estado: "Descartada" });
+        renderBatch(resultWrap);
+        continue;
+      }
+
+      setStatus(statusWrap, `Guardando ${file.name}…`);
+
+      try {
+        const saved = await api("/invoice/save-extracted", {
+          method: "POST",
+          body: {
+            extracted: corrected,
+            folder_id: folderId ? parseInt(folderId) : null,
+            filename: file.name
+          }
+        });
+
         batch.push({
           filename: file.name,
           ok: true,
-          invoiceId: data.invoice?.id || null,
-          cliente: ext.cliente || ext.emisor || "—",
-          numero: ext.numero || (data.invoice?.number ?? "—"),
-          total: ext.total != null ? parseFloat(ext.total) : (data.invoice?.total_amount ?? null),
-          estado: data.invoice?.id ? "Guardada" : "Procesada",
-          sheetOk: !!data.sheets?.ok
+          invoiceId: saved.id,
+          cliente: corrected.emisor || corrected.cliente || "—",
+          numero: saved.number || corrected.numero || "—",
+          total: saved.total_amount,
+          estado: "Guardada"
         });
       } catch (err) {
-        batch.push({ filename: file.name, ok: false, estado: "Error", message: err.message });
+        batch.push({ filename: file.name, ok: false, estado: "Error al guardar", message: err.message });
       }
+
       renderBatch(resultWrap);
+      setStatus(statusWrap, "");
     }
 
     dropZone.classList.remove("is-busy");
-    statusWrap.innerHTML = "";
+    setStatus(statusWrap, "");
     const okCount = batch.filter(b => b.ok).length;
-    showToast(`${okCount} de ${batch.length} facturas procesadas`, okCount ? "success" : "error");
+    showToast(
+      `${okCount} de ${batch.length} factura${batch.length !== 1 ? "s" : ""} guardada${okCount !== 1 ? "s" : ""}`,
+      okCount ? "success" : "warning"
+    );
   }
+}
+
+function setStatus(wrap, text) {
+  if (!text) { wrap.innerHTML = ""; return; }
+  wrap.innerHTML = `
+    <div class="flex items-center gap-sm p-md">
+      <svg class="spin text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg>
+      <span class="font-medium">${escapeHtml(text)}</span>
+    </div>`;
+}
+
+function showReviewModal(filename, extracted, current, total) {
+  return new Promise((resolve) => {
+    const confianza = Number(extracted.confianza ?? 0);
+    const confBg = confianza >= 85 ? "var(--success-bg)" : confianza >= 60 ? "var(--warning-bg)" : "var(--danger-bg)";
+    const confColor = confianza >= 85 ? "var(--success)" : confianza >= 60 ? "#92400e" : "var(--danger)";
+    const confLabel = confianza >= 85
+      ? "Alta — los datos parecen correctos"
+      : confianza >= 60
+      ? "Media — revisa los campos antes de guardar"
+      : "Baja — revisa todos los datos con atención";
+    const confIcon = confianza >= 85
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;flex-shrink:0"><path d="M20 6L9 17l-5-5"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:16px;flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>';
+
+    const mkInput = (type, val, extra = {}) => {
+      const inp = el("input", { type, ...extra });
+      inp.value = val ?? "";
+      return inp;
+    };
+    const mkTextarea = (val) => {
+      const ta = el("textarea");
+      ta.value = val ?? "";
+      return ta;
+    };
+
+    const emisorIn   = mkInput("text",   extracted.emisor);
+    const nifIn      = mkInput("text",   extracted.nif_emisor);
+    const numIn      = mkInput("text",   extracted.numero);
+    const fechaIn    = mkInput("text",   extracted.fecha);
+    const baseIn     = mkInput("number", extracted.base_imponible, { step: "0.01" });
+    const ivaRateIn  = mkInput("number", extracted.porcentaje_iva ?? 21, { step: "0.1", min: "0", max: "100" });
+    const ivaCuotaIn = mkInput("number", extracted.cuota_iva, { step: "0.01" });
+    const totalIn    = mkInput("number", extracted.total, { step: "0.01" });
+    const conceptoIn = mkTextarea(extracted.concepto);
+
+    const sf = (label, inp) => el("div", { className: "stack-field" }, [el("label", { text: label }), inp]);
+
+    const confBanner = el("div", {
+      className: "alert-card",
+      style: { background: confBg, color: confColor, marginBottom: "1rem" }
+    }, [
+      el("span", { innerHTML: confIcon }),
+      el("span", { innerHTML: `Confianza de extracción: <strong>${confianza}%</strong> — ${confLabel}` })
+    ]);
+
+    const formBody = el("div", { className: "stack" }, [
+      confBanner,
+      el("div", { className: "grid-2" }, [
+        sf("Emisor / Proveedor", emisorIn),
+        sf("NIF Emisor", nifIn),
+        sf("Nº Factura", numIn),
+        sf("Fecha (DD/MM/AAAA)", fechaIn),
+        sf("Base imponible (€)", baseIn),
+        sf("% IVA", ivaRateIn),
+        sf("Cuota IVA (€)", ivaCuotaIn),
+        sf("Total factura (€)", totalIn)
+      ]),
+      sf("Concepto / descripción", conceptoIn)
+    ]);
+
+    const btnDiscard = el("button", { className: "btn btn--ghost", text: "Descartar" });
+    const btnSave    = el("button", { className: "btn btn--primary", text: "Guardar factura" });
+
+    btnDiscard.addEventListener("click", () => { modal.close(); resolve({ confirmed: false }); });
+    btnSave.addEventListener("click", () => {
+      const corrected = {
+        ...extracted,
+        emisor:          emisorIn.value.trim(),
+        nif_emisor:      nifIn.value.trim(),
+        numero:          numIn.value.trim(),
+        fecha:           fechaIn.value.trim(),
+        base_imponible:  baseIn.value,
+        porcentaje_iva:  ivaRateIn.value,
+        cuota_iva:       ivaCuotaIn.value,
+        total:           totalIn.value,
+        concepto:        conceptoIn.value.trim()
+      };
+      modal.close();
+      resolve({ confirmed: true, corrected });
+    });
+
+    const footer = el("div", { className: "flex gap-sm justify-end" }, [btnDiscard, btnSave]);
+
+    const titleText = total > 1
+      ? `Revisar extracción (${current}/${total})`
+      : `Revisar: ${filename}`;
+
+    const modal = openModal({
+      title: titleText,
+      body: formBody,
+      footer,
+      size: "lg",
+      onClose: () => resolve({ confirmed: false })
+    });
+  });
 }
 
 function renderBatch(wrap) {
@@ -166,8 +337,9 @@ function renderBatch(wrap) {
       el("td", { className: "font-mono text-sm", text: b.numero || "—" }),
       el("td", { className: "text-right font-mono", text: b.total != null ? formatMoney(b.total) : "—" }),
       el("td", { className: "text-center", innerHTML: b.ok
-        ? `<span class="pill pill--ok"><span class="pill__dot"></span>${escapeHtml(b.estado)}${b.sheetOk ? " · Sheets" : ""}</span>`
-        : `<span class="pill pill--danger"><span class="pill__dot"></span>${escapeHtml(b.estado)}</span>` }),
+        ? `<span class="pill pill--ok"><span class="pill__dot"></span>${escapeHtml(b.estado)}</span>`
+        : `<span class="pill pill--${b.estado === "Descartada" ? "muted" : "danger"}"><span class="pill__dot"></span>${escapeHtml(b.estado)}</span>`
+      }),
       el("td", { className: "actions" }, [
         b.invoiceId ? el("a", {
           className: "btn btn--icon btn--sm",
@@ -182,7 +354,7 @@ function renderBatch(wrap) {
   const table = el("table", { className: "data-table" }, [
     el("thead", {}, [el("tr", {}, [
       el("th", { text: "Archivo" }),
-      el("th", { text: "Cliente" }),
+      el("th", { text: "Emisor" }),
       el("th", { text: "Nº" }),
       el("th", { className: "text-right", text: "Total" }),
       el("th", { className: "text-center", text: "Estado" }),
@@ -198,7 +370,10 @@ function renderBatch(wrap) {
 function createFolderPicker(folderList) {
   let selectedValue = "";
   const valueEl = el("span", { className: "folder-picker__value", text: "-- Sin carpeta --" });
-  const chevron = el("span", { className: "folder-picker__chevron", innerHTML: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg>' });
+  const chevron = el("span", {
+    className: "folder-picker__chevron",
+    innerHTML: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg>'
+  });
 
   const trigger = el("button", {
     type: "button",

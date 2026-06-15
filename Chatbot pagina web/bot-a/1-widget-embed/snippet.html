@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Snippet de integración — Bot A (Voiceflow)</title>
+</head>
+<body>
+
+<!--
+  ============================================================
+  SNIPPET BOT A — VOICEFLOW
+  Pegar esto justo antes del </body> en la web del cliente.
+  Sustituir TU_PROJECT_ID por el ID del proyecto Voiceflow.
+  ============================================================
+-->
+
+<!-- 1. Aviso de asistente virtual (LSSI + AI Act preventivo) -->
+<div id="chatbot-legal-notice" style="display:none;
+  position:fixed; bottom:90px; right:20px; z-index:9998;
+  background:#fff; border:1px solid #e0e0e0; border-radius:12px;
+  padding:14px 18px; max-width:280px;
+  font-family:sans-serif; font-size:13px; color:#444;
+  box-shadow:0 4px 16px rgba(0,0,0,.12);">
+  <strong>Asistente virtual</strong><br>
+  Soy un sistema automatizado de atención al cliente, no una persona.
+  Las conversaciones pueden ser revisadas para mejorar el servicio.
+  <a href="/politica-de-privacidad" target="_blank"
+     style="color:#0066cc; text-decoration:none;">Política de privacidad</a>
+  <br><br>
+  <button onclick="document.getElementById('chatbot-legal-notice').style.display='none';
+                   localStorage.setItem('chatbot_notice_accepted','1');"
+    style="background:#0066cc; color:#fff; border:none; border-radius:6px;
+           padding:6px 14px; cursor:pointer; font-size:13px;">
+    Entendido
+  </button>
+</div>
+
+<!-- 2. Widget Voiceflow -->
+<script type="text/javascript">
+  (function(d, t) {
+    var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+    v.onload = function() {
+      window.voiceflow.chat.load({
+        verify: { projectID: 'TU_PROJECT_ID' },
+        url: 'https://general-runtime.voiceflow.com',
+        versionID: 'production',
+        // Opciones de personalización
+        assistant: {
+          stylesheet: 'https://TU_DOMINIO.com/chatbot-custom.css' // opcional
+        }
+      });
+
+      // Mostrar el aviso legal si no fue aceptado antes
+      if (!localStorage.getItem('chatbot_notice_accepted')) {
+        setTimeout(function() {
+          document.getElementById('chatbot-legal-notice').style.display = 'block';
+        }, 1500);
+      }
+    };
+    v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs';
+    v.type = 'text/javascript';
+    s.parentNode.insertBefore(v, s);
+  })(document, 'script');
+</script>
+
+<!--
+  ============================================================
+  NOTAS DE IMPLEMENTACIÓN
+  ============================================================
+
+  REQUISITOS PREVIOS:
+  1. Crear el proyecto en Voiceflow (voiceflow.com) y copiar el Project ID.
+  2. Activar el widget en Voiceflow: Settings → Integrations → Web Chat.
+  3. En Voiceflow, configurar el primer mensaje del bot como:
+     "Hola, soy el asistente virtual de [Empresa]. ¿En qué puedo ayudarte?"
+
+  CONFIGURACIÓN DE COOKIES (OBLIGATORIO — RGPD/ePrivacy):
+  El widget usa localStorage (clave: chatbot_notice_accepted) para recordar
+  que el usuario aceptó el aviso. Esta clave debe aparecer en el banner de
+  cookies del cliente como:
+    Nombre: chatbot_notice_accepted
+    Tipo: localStorage
+    Duración: Persistente (hasta que el usuario borre datos del navegador)
+    Propósito: Funcional — preferencias del asistente virtual
+    Proveedor: [Nombre del cliente]
+
+  GDPR CHECKLIST ANTES DE ACTIVAR:
+  [ ] TU_PROJECT_ID sustituido
+  [ ] Enlace /politica-de-privacidad apunta a la política real del cliente
+  [ ] Cookie chatbot_notice_accepted añadida al banner del cliente
+  [ ] Primer mensaje del bot incluye "asistente virtual"
+  [ ] DPA firmado con el cliente
+  [ ] DPA de Voiceflow revisado (voiceflow.com/legal)
+
+  ============================================================
+-->
+
+</body>
+</html>

@@ -235,8 +235,7 @@ def invoice_from_extracted(
             ],
             0.0,
         )
-    else:
-        record_status_change(db, invoice, InvoiceStatus.borrador, user_id, "Importación IA")
+    record_status_change(db, invoice, InvoiceStatus.borrador, user_id, "Importación IA")
 
     db.commit()
     db.refresh(invoice)

@@ -1,0 +1,12 @@
+{
+  "name": "bot-a-webhook-receiver",
+  "version": "1.0.0",
+  "description": "Receptor de webhook entre Voiceflow y Make.com para Bot A",
+  "main": "webhook-receiver.js",
+  "scripts": {
+    "start": "node webhook-receiver.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

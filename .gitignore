@@ -1,7 +1,11 @@
-# Secrets & environment
+# Secrets & environment — NUNCA subir al repositorio
 .env
 .env.local
 .env.*.local
+**/.env
+**/backend/.env
+**/backend/data/*.db
+**/backend/storage/
 
 # Local frontend Supabase config
 Pagina web/js/auth.js

@@ -97,8 +97,9 @@ async def no_cache_static(request: Request, call_next):
 
 @app.exception_handler(Exception)
 async def global_exception_handler(_: Request, exc: Exception) -> JSONResponse:
-    logger.exception("unhandled")
-    return JSONResponse(status_code=500, content={"detail": str(exc)})
+    logger.exception("unhandled error: %s", exc)
+    # No exponer el mensaje interno al cliente — puede contener rutas, claves o datos sensibles
+    return JSONResponse(status_code=500, content={"detail": "Error interno del servidor. Consulta los logs."})
 
 
 @app.get("/health")
@@ -120,5 +121,20 @@ async def root() -> RedirectResponse:
     return RedirectResponse(url="/pagina.html", status_code=307)
 
 
+# Servir solo los ficheros del frontend — nunca el directorio backend/
+# parent = app/, parent.parent = backend/, parent.parent.parent = Automatizacion Facturas/
+# Montamos Automatizacion Facturas/ pero bloqueamos backend/ con la ruta de exclusión
+# La forma más segura: montar solo las subcarpetas conocidas del frontend.
 _UI_ROOT = Path(__file__).resolve().parent.parent.parent
-app.mount("/", StaticFiles(directory=str(_UI_ROOT), html=True), name="ui")
+_FRONTEND_DIRS = ["css", "js"]
+
+for _dir in _FRONTEND_DIRS:
+    _path = _UI_ROOT / _dir
+    if _path.is_dir():
+        app.mount(f"/{_dir}", StaticFiles(directory=str(_path)), name=f"static_{_dir}")
+
+# HTML principal — solo pagina.html, no exponer el directorio backend/
+@app.get("/pagina.html")
+async def serve_pagina():
+    from fastapi.responses import FileResponse
+    return FileResponse(str(_UI_ROOT / "pagina.html"))

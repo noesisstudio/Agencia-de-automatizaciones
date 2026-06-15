@@ -4,6 +4,7 @@ import logging
 from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.core.auth import get_current_user, get_current_user_optional
@@ -139,6 +140,43 @@ async def process_invoice(
         "template_html": template_html,
         "invoice": saved_invoice,
     }
+
+
+class _SaveExtractedBody(BaseModel):
+    extracted: dict[str, Any]
+    folder_id: int | None = None
+    client_id: int | None = None
+    filename: str = "importado"
+
+
+@legacy_router.post("/save-extracted", response_model=InvoiceResponse)
+def save_extracted_invoice(
+    body: _SaveExtractedBody,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+) -> InvoiceResponse:
+    """Guarda una factura a partir de datos ya extraídos (y revisados) por el usuario."""
+    try:
+        inv = invoice_from_extracted(
+            db,
+            body.extracted,
+            folder_id=body.folder_id,
+            client_id=body.client_id,
+            user_id=user.id,
+            filename=body.filename,
+        )
+    except Exception as e:
+        logger.exception("save_extracted_invoice")
+        raise HTTPException(500, f"No se pudo guardar la factura: {e}") from e
+
+    cfg = resolve_sheets_config(db)
+    if cfg.auto_sync and cfg.configured:
+        try:
+            append_db_invoice(cfg, inv)
+        except Exception:
+            logger.exception("sheets sync after save-extracted")
+
+    return invoice_to_response(inv)
 
 
 @legacy_router.post("/plantilla")

@@ -205,7 +205,9 @@
   <!-- ═══════════════════════════════════════════════════ -->
   <!-- LOGIN SCREEN                                       -->
   <!-- ═══════════════════════════════════════════════════ -->
-  <div id="login-only" class="login-only"></div>
+  <div id="login-only" class="login-only">
+    <div class="spinner spinner--lg" aria-label="Cargando…"></div>
+  </div>
 
   <!-- ═══════════════════════════════════════════════════ -->
   <!-- MODAL CONTAINER                                    -->
@@ -265,6 +267,24 @@
     </symbol>
   </svg>
 
+  <script>
+    // Runs before the ES-module bundle. Chrome blocks module imports on file://.
+    if (location.protocol === 'file:') {
+      var _r = document.getElementById('login-only');
+      if (_r) {
+        _r.innerHTML =
+          '<div class="auth-card" style="text-align:center;max-width:440px;padding:2.5rem 2rem">' +
+            '<div style="font-size:2rem;margin-bottom:1rem">&#9888;</div>' +
+            '<h2 style="margin:0 0 .6rem">Abre desde el servidor</h2>' +
+            '<p style="margin:0 0 1.2rem;line-height:1.65;color:var(--muted)">Esta aplicaci&oacute;n no puede abrirse como archivo local.<br>Inicia el servidor backend con:</p>' +
+            '<code style="display:block;background:rgba(0,0,0,.06);padding:.7rem 1rem;border-radius:8px;font-size:.85rem;text-align:left;margin-bottom:1.25rem">python backend/run.py</code>' +
+            '<p style="margin:0;font-size:.875rem">Luego accede a&nbsp;' +
+              '<a href="http://127.0.0.1:8010" style="color:var(--accent);font-weight:600">http://127.0.0.1:8010</a>' +
+            '</p>' +
+          '</div>';
+      }
+    }
+  </script>
   <script type="module" src="js/app.js?v=20260529-5"></script>
 </body>
 </html>

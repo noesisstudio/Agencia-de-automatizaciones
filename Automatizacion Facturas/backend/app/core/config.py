@@ -13,7 +13,7 @@ _CREDENTIALS_DIR = _BACKEND_DIR / "credentials"
 class Settings(BaseSettings):
     app_env: str = "development"
     anthropic_api_key: str = ""
-    anthropic_model: str = "claude-sonnet-4-5-20250929"
+    anthropic_model: str = "claude-sonnet-4-6"
     mi_nif_empresa: str = ""
     mi_nombre_empresa: str = ""
     google_service_account_json: str = ""
@@ -21,9 +21,24 @@ class Settings(BaseSettings):
     google_sheet_name: str = "Facturas"
 
     database_url: str = f"sqlite:///{_DATA_DIR / 'facturai.db'}"
-    secret_key: str = ""
+    secret_key: str = ""  # OBLIGATORIO en .env — ver .env.example
     jwt_algorithm: str = "HS256"
     jwt_expiration_minutes: int = 60 * 24
+
+    @field_validator("secret_key", mode="before")
+    @classmethod
+    def require_secret_key(cls, v: object) -> object:
+        if not v or str(v).strip() in ("", "cambia_esto", "your-secret-key"):
+            import secrets
+            import warnings
+            warnings.warn(
+                "SECRET_KEY no configurada en .env. "
+                "Generando una temporal — los tokens no sobrevivirán reinicios. "
+                "Añade SECRET_KEY al .env con: python3 -c \"import secrets; print(secrets.token_hex(32))\"",
+                stacklevel=2,
+            )
+            return secrets.token_hex(32)
+        return v
 
     smtp_host: str = ""
     smtp_port: int = 587
@@ -37,8 +52,18 @@ class Settings(BaseSettings):
     cors_origins: str = "http://127.0.0.1:8010,http://localhost:8010,http://127.0.0.1:8080,http://localhost:8080"
 
     admin_username: str = "admin"
-    admin_password: str = ""
+    admin_password: str = ""  # OBLIGATORIO en .env
     admin_email: str = "admin@noesis.local"
+
+    @field_validator("admin_password", mode="before")
+    @classmethod
+    def require_admin_password(cls, v: object) -> object:
+        if not v or str(v).strip() == "":
+            raise ValueError(
+                "ADMIN_PASSWORD no puede estar vacío. "
+                "Añádelo al .env: ADMIN_PASSWORD=tu_contraseña_segura"
+            )
+        return v
 
     model_config = SettingsConfigDict(
         env_file=_ENV_FILE,

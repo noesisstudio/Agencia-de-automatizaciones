@@ -1,0 +1,13 @@
+backend/.env
+backend/.env.*
+backend/data/
+backend/storage/
+backend/credentials/
+backend/__pycache__/
+**/__pycache__/
+*.pyc
+.venv/
+.git/
+.DS_Store
+*.db
+*.sqlite

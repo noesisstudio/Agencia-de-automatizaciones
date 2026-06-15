@@ -1,13 +1,24 @@
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Security
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import APIKeyHeader
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
 
 from app.api.routes_draft import router as draft_router
 from app.api.routes_empresas import router as empresas_router
 from app.core.config import settings
+
+_api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+
+async def require_api_key(key: str | None = Security(_api_key_header)) -> str:
+    configured = (settings.api_key or "").strip()
+    if not configured:
+        return "no-key-configured"
+    if key != configured:
+        raise HTTPException(status_code=403, detail="API key inválida")
 
 _PANEL_DIR = Path(__file__).resolve().parents[2] / "panel"
 
@@ -22,14 +33,20 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://www.openix.es",
+        "https://openix.es",
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
     allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "X-API-Key"],
 )
 
-app.include_router(empresas_router)
-app.include_router(draft_router)
+app.include_router(empresas_router, dependencies=[Security(require_api_key)])
+app.include_router(draft_router, dependencies=[Security(require_api_key)])
 
 if _PANEL_DIR.is_dir():
     app.mount("/panel", StaticFiles(directory=str(_PANEL_DIR), html=True), name="panel")
