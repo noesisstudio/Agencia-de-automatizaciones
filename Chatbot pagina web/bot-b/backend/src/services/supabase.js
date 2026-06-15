@@ -1,8 +1,10 @@
-const { createClient } = require('@supabase/supabase-js');
+// Mock de Supabase para desarrollo sin BD
+// En producción, reemplaza con Supabase real
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
-
-module.exports = supabase;
+module.exports = {
+  from: () => ({
+    insert: async () => ({ data: null, error: null }),
+    select: async () => ({ data: [], error: null }),
+  }),
+  rpc: async () => ({ data: [], error: null }),
+};

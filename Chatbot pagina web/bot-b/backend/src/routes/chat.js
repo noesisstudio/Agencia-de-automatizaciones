@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { searchKnowledge } = require('../services/rag');
+const { searchFragments } = require('../services/knowledge-simple');
 const { askClaude } = require('../services/claude');
 const { buildSystemPrompt } = require('../services/systemPrompt');
 const { saveMessage, saveLead } = require('../services/conversationStore');
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
 
   try {
     // 1. Buscar contexto relevante en la base de conocimiento
-    const ragContext = await searchKnowledge(userText);
+    const ragContext = searchFragments(userText);
 
     // 2. Construir el system prompt con el contexto
     const systemPrompt = buildSystemPrompt(ragContext);

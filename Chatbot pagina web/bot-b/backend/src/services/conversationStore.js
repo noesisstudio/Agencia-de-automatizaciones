@@ -1,35 +1,22 @@
-/**
- * Guarda cada mensaje en Supabase para:
- * - Registro legal (RGPD: poder demostrar qué dijo el bot)
- * - Análisis posterior (qué preguntas no supo responder)
- * - Reportes mensuales al cliente
- */
+// Almacenamiento en memoria (desarrollo)
+// En producción, usar Supabase real
 
-const supabase = require('./supabase');
-const TENANT_ID = process.env.TENANT_ID;
+const conversations = {};
 
 async function saveMessage(sessionId, role, content) {
-  const { error } = await supabase.from('conversations').insert({
-    tenant_id: TENANT_ID,
-    session_id: sessionId,
-    role,
-    content,
-  });
-
-  if (error) console.error('Error guardando mensaje:', error.message);
+  if (!conversations[sessionId]) {
+    conversations[sessionId] = [];
+  }
+  conversations[sessionId].push({ role, content, timestamp: new Date() });
+  return { data: null, error: null };
 }
 
-async function saveLead({ sessionId, nombre, email, telefono, consulta }) {
-  const { error } = await supabase.from('leads').insert({
-    tenant_id: TENANT_ID,
-    session_id: sessionId,
-    nombre,
-    email,
-    telefono,
-    consulta,
-  });
-
-  if (error) console.error('Error guardando lead:', error.message);
+async function saveLead(data) {
+  console.log('📊 Lead capturado:', data);
+  return { data: null, error: null };
 }
 
-module.exports = { saveMessage, saveLead };
+module.exports = {
+  saveMessage,
+  saveLead,
+};

@@ -1,10 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const { loadKnowledge } = require('./services/knowledge-simple');
 const chatRoute = require('./routes/chat');
 const leadRoute = require('./routes/lead');
 
 const app = express();
+
+// Cargar base de conocimiento al iniciar
+loadKnowledge();
 
 app.use(cors({
   origin: (process.env.ALLOWED_ORIGINS || '').split(',').map(o => o.trim()).filter(Boolean),

@@ -1,2 +1,50 @@
+# Configuración de Netlify para Noesis Web + Chatbot
+
 [build]
-publish = "web"
+# Apunta a la carpeta noesis-web
+publish = "Pagina web/noesis/noesis-web"
+# No hay build necesario (es HTML estático)
+command = "echo 'Publicando..'"
+# Override de la rama base
+base = "."
+
+# Redirige a privacidad para URL legales
+[[redirects]]
+from = "/privacidad"
+to = "/privacidad.html"
+status = 200
+
+[[redirects]]
+from = "/aviso-legal"
+to = "/aviso-legal.html"
+status = 200
+
+[[redirects]]
+from = "/cookies"
+to = "/cookies.html"
+status = 200
+
+# Variables de entorno (configura en Netlify panel)
+[env]
+[env.production]
+CHATBOT_BACKEND = "https://noesis-chatbot-api.railway.app"
+
+[env.staging]
+CHATBOT_BACKEND = "https://noesis-chatbot-staging.railway.app"
+
+# Funciones Netlify (opcional, para backend sin servidor)
+[functions]
+directory = "netlify/functions"
+node_bundler = "esbuild"
+
+# Contexto de producción
+[context.production]
+command = "echo 'Build producción'"
+
+# Contexto de preview
+[context.deploy-preview]
+command = "echo 'Build preview'"
+
+# Contexto de branch
+[context.branch-deploy]
+command = "echo 'Build branch'"
