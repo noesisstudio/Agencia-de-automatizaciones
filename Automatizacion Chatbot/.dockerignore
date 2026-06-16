@@ -1,8 +1,0 @@
-chatbot-backend/.env
-chatbot-backend/.env.*
-chatbot-backend/__pycache__/
-**/__pycache__/
-*.pyc
-.venv/
-.git/
-.DS_Store

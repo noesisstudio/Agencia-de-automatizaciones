@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WhatsApp — Openix Chatbot</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body class="app-shell">
+  <main class="page-main page-main--wide">
+    <div class="page-head">
+      <h1>WhatsApp Meta</h1>
+      <p>Phone number ID, webhook y envío de mensaje de prueba.</p>
+    </div>
+
+    <div id="clienteBanner" class="cliente-banner cliente-banner--warn">Cargando…</div>
+
+    <div class="wa-grid">
+      <div class="card">
+        <h2>Configuración del cliente</h2>
+        <label for="tenant">ID cliente</label>
+        <input id="tenant" placeholder="clinica-norte" readonly />
+        <label for="phoneId">Phone number ID (Meta)</label>
+        <input id="phoneId" placeholder="123456789012345" inputmode="numeric" />
+        <div class="btn-row">
+          <button type="button" class="btn btn--primary" id="btnSavePhone">Guardar Phone ID</button>
+        </div>
+      </div>
+
+      <div id="statusBox" class="card">
+        <h2>Estado</h2>
+        <button type="button" class="btn btn--ghost btn--sm" id="btnRefresh" style="margin-bottom:12px">Actualizar</button>
+        <div id="statusGrid" class="status-grid"></div>
+      </div>
+
+      <div class="card">
+        <h2>Variables .env</h2>
+        <p class="hint">Una vez en el servidor. <a href="/docs/META_WHATSAPP.md" target="_blank" rel="noopener">Guía Meta</a></p>
+        <pre class="code">META_ACCESS_TOKEN=EAAxxxxx...
+META_VERIFY_TOKEN=token_secreto
+META_APP_SECRET=app_secret</pre>
+      </div>
+
+      <div class="card">
+        <h2>Webhook</h2>
+        <p class="hint">Meta → WhatsApp → Configuration. Suscríbete a <strong>messages</strong>.</p>
+        <code class="code" id="webhookUrl">—</code>
+        <div class="btn-row">
+          <button type="button" class="btn btn--ghost btn--sm" id="btnCopyWebhook">Copiar URL</button>
+        </div>
+        <p class="hint" style="margin-bottom:0">Local: <code>ngrok http 8000</code></p>
+      </div>
+
+      <div class="card card--highlight wa-grid__full" id="testCard">
+        <h2>Enviar mensaje de prueba</h2>
+        <p class="hint">El número debe estar autorizado en tu app de Meta (modo desarrollo).</p>
+
+        <div id="sendStatus" class="send-status" hidden></div>
+
+        <form id="testForm" novalidate>
+          <div class="row2">
+            <div>
+              <label for="testPhone">Teléfono destino</label>
+              <input id="testPhone" type="tel" placeholder="34600111222" required />
+              <p class="field-hint">Sin + — España: 34 + 9 dígitos</p>
+            </div>
+            <div>
+              <label for="testMsg">Mensaje</label>
+              <textarea id="testMsg" class="input-msg" rows="3" placeholder="Hola, prueba Openix…" required></textarea>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button type="submit" class="btn btn--primary" id="btnSendTest">Enviar WhatsApp</button>
+          </div>
+        </form>
+
+        <pre id="testResult" class="code" style="display:none;margin-top:16px" aria-label="Respuesta API"></pre>
+      </div>
+    </div>
+  </main>
+
+  <script src="panel-ui.js"></script>
+  <script src="panel-api.js?v=5"></script>
+  <script src="cliente-utils.js"></script>
+  <script src="panel-shell.js"></script>
+  <script src="whatsapp-app.js"></script>
+</body>
+</html>

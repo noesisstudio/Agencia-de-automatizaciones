@@ -1,0 +1,286 @@
+{
+  "name": "Meta WhatsApp Chatbot - Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "meta-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "f3ce2aa3-1d5c-4be1-84e1-43f6924d0021",
+      "name": "Webhook Verificacion (GET)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        640
+      ],
+      "webhookId": "meta-webhook-verify"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-token",
+              "leftValue": "={{ $json.query['hub.verify_token'] }}",
+              "rightValue": "Token_Prova",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "fff0eded-cf2d-494b-b9d1-9d954793864c",
+      "name": "Token valido?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -176,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "63aa9de9-5da2-4922-be34-fcfeb51cce97",
+      "name": "Responder Challenge",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        64,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "Forbidden",
+        "options": {
+          "responseCode": 403
+        }
+      },
+      "id": "e0dfb47b-c812-4727-992f-4b9a67288b00",
+      "name": "Responder 403",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        64,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meta-webhook",
+        "options": {}
+      },
+      "id": "285f5a6c-ee3d-4691-adea-c096c72c6af8",
+      "name": "Webhook Mensajes (POST)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        960
+      ],
+      "webhookId": "meta-webhook-messages"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond-is-message",
+              "leftValue": "={{ $json.body.entry[0].changes[0].value.messages }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b5a60c74-4357-4a35-9a26-a5e32d1463ef",
+      "name": "Es un mensaje?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -176,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f-from",
+              "name": "from",
+              "value": "={{ $json.body.entry[0].changes[0].value.messages[0].from }}",
+              "type": "string"
+            },
+            {
+              "id": "f-text",
+              "name": "text",
+              "value": "={{ $json.body.entry[0].changes[0].value.messages[0].text.body }}",
+              "type": "string"
+            },
+            {
+              "id": "f-phone-id",
+              "name": "phone_number_id",
+              "value": "={{ $json.body.entry[0].changes[0].value.metadata.phone_number_id }}",
+              "type": "string"
+            },
+            {
+              "id": "f-name",
+              "name": "nombre",
+              "value": "={{ $json.body.entry[0].changes[0].value.contacts[0].profile.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ecadc4dc-daf2-4517-ab10-bc64ef962186",
+      "name": "Extraer datos",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        64,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{ $json.phone_number_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAiyriPWk84BRoY5SaTf8gbVZApA3bw8NOumO3YQVXnk62uJsJBC0m5wv3wUvXKZAoMV8zmN71HSoEsO8ZCHSWc3M9xGgCsjjZA71SJx5MI25NlvtR8ZCzW7zZBaZBdynKO6idb50kaF12WugDdxbIEPUfW0OjXTUsyKEs4fwQwGinyVnJJZCVTDJH2FiZAFE2AbZBHgZDZD"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $json.from }}\",\n  \"type\": \"text\",\n  \"text\": { \"body\": \"Hola {{ $json.nombre }} 👋 Recibi tu mensaje: {{ $json.text }}\" }\n}",
+        "options": {}
+      },
+      "id": "540ead4d-97d8-4633-830d-57f46ceab7e1",
+      "name": "Enviar respuesta (Graph API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        336,
+        832
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Verificacion (GET)": {
+      "main": [
+        [
+          {
+            "node": "Token valido?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token valido?": {
+      "main": [
+        [
+          {
+            "node": "Responder Challenge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Responder 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Mensajes (POST)": {
+      "main": [
+        [
+          {
+            "node": "Es un mensaje?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es un mensaje?": {
+      "main": [
+        [
+          {
+            "node": "Extraer datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extraer datos": {
+      "main": [
+        [
+          {
+            "node": "Enviar respuesta (Graph API)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "2f90d024-4cec-46f1-a1ed-1f2e07556aaf",
+  "meta": {
+    "instanceId": "ac445a9d5b3456a5428e421948d7f467dc8f3ff24fcee2dbf66446dad094bac3"
+  },
+  "id": "N1CFSYpTCOB0rKjv",
+  "tags": []
+}

@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "54b031f4e6118757",
+        "id": "321849f1133b1812",
         "type": "tabs",
         "children": [
           {
-            "id": "405f29e4e91c18e7",
+            "id": "99f5850a2a9bed08",
             "type": "leaf",
             "state": {
-              "type": "graph",
+              "type": "empty",
               "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Vista gráfica"
+              "icon": "lucide-file",
+              "title": "Nueva pestaña"
             }
           }
         ]
@@ -176,8 +176,18 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "405f29e4e91c18e7",
+  "active": "22d898992c7f5f67",
   "lastOpenFiles": [
+    "Chatbot pagina web/chatbot-sin-ia/5-checklist-entrega/checklist-entrega.md",
+    "Chatbot pagina web/README.md",
+    "Chatbot pagina web/chatbot-ia-netlify/INSTALACION.md",
+    "Chatbot pagina web/chatbot-ia-netlify",
+    "Automatizacion Chatbot meta/whatsapp-bot/README.md",
+    "Automatizacion Chatbot meta/whatsapp-bot/4-WORKFLOW-bot-con-ia.md",
+    "Automatizacion Chatbot meta/whatsapp-bot/3-WORKFLOW-bot-sin-ia.md",
+    "Automatizacion Chatbot meta/whatsapp-bot/2-BASE-DE-DATOS-google-sheets.md",
+    "Automatizacion Chatbot meta/whatsapp-bot/1-DIFERENCIAS-LEGALES.md",
+    "Automatizacion Chatbot meta/whatsapp-bot",
     "Automatizacion Chatbot/chatbot-backend/data/tenants/prueba/uploads",
     "Automatizacion Chatbot/chatbot-backend/data/tenants/prueba/sources.json",
     "Automatizacion Chatbot/chatbot-backend/data/tenants/prueba/meta.json",
@@ -187,9 +197,6 @@
     "Automatizacion Chatbot/chatbot-backend/data",
     "Automatizacion Chatbot/chatbot-backend/app/api/__pycache__/routes_whatsapp.cpython-314.pyc",
     "Automatizacion Chatbot/chatbot-backend/app/services/__pycache__/whatsapp_bot.cpython-314.pyc",
-    "Automatizacion Chatbot/chatbot-backend/app/services/__pycache__/tenant_resolver.cpython-314.pyc",
-    "Automatizacion Chatbot/chatbot-backend/app/services/__pycache__/motor_presupuesto.cpython-314.pyc",
-    "Automatizacion Chatbot/chatbot-backend/app/services/__pycache__/presupuesto_store.cpython-314.pyc",
     "Sin título.md"
   ]
 }
