@@ -15,6 +15,8 @@ Webhook de Meta ya conectado en n8n. Aquí está todo para montar los dos tipos 
 2. **2-BASE-DE-DATOS-google-sheets.md** — estructura del Google Sheet (pestañas y columnas).
 3. **3-WORKFLOW-bot-sin-ia.md** — explicación del bot por base de datos.
 4. **4-WORKFLOW-bot-con-ia.md** — explicación del bot con IA (Claude).
+5. **5-INSTALACION-n8n.md** — cómo instalar n8n e importar/conectar el workflow.
+- **conocimiento-noesis.md** — bloque de conocimiento de Noesis listo para pegar en el nodo *Construir prompt*.
 
 ## Workflows listos (basados en TU workflow real)
 
