@@ -61,7 +61,11 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: JSON.stringify({ error: 'Método no permitido' }) };
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
+  // Acepta varios nombres de variable para evitar fallos de configuración.
+  // Recomendado: ANTHROPIC_API_KEY. También vale 'anthropic' o 'ANTHROPIC'.
+  const API_KEY = process.env.ANTHROPIC_API_KEY || process.env.anthropic || process.env.ANTHROPIC;
+
+  if (!API_KEY) {
     return {
       statusCode: 500,
       body: JSON.stringify({ reply: 'El asistente no está configurado todavía. Escríbenos a info@bynoesis.com.' }),
@@ -90,7 +94,7 @@ exports.handler = async (event) => {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'x-api-key': API_KEY,
         'anthropic-version': '2023-06-01',
         'content-type': 'application/json',
       },
