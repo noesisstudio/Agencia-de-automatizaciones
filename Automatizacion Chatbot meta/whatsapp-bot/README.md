@@ -16,32 +16,30 @@ Webhook de Meta ya conectado en n8n. Aquí está todo para montar los dos tipos 
 3. **3-WORKFLOW-bot-sin-ia.md** — explicación del bot por base de datos.
 4. **4-WORKFLOW-bot-con-ia.md** — explicación del bot con IA (Claude).
 
-## Workflows listos para importar y probar
+## Workflows listos (basados en TU workflow real)
 
-- **workflow-bot-sin-ia.json** — bot por base de datos (respuestas por palabras clave).
-- **workflow-bot-con-ia.json** — bot con IA (llama a la API de Anthropic / Claude).
+Están en la carpeta `../Workflow n8n copia/` (junto a tu webhook original):
 
-> Son **auto-contenidos**: las respuestas (bot sin IA) y el conocimiento (bot con IA)
-> van DENTRO del propio workflow, en un nodo Code, para que puedas probar al instante
-> sin configurar Google. En producción se pasan a Google Sheets (guías 3 y 4).
+- **Meta WhatsApp Chatbot - SIN IA (base de datos).json** — tu flujo + respuestas por palabras clave.
+- **Meta WhatsApp Chatbot - CON IA.json** — tu flujo + llamada a la API de Anthropic (Claude).
+- **Meta WhatsApp Chatbot - Webhook (1).json** — tu webhook original (sin cerebro).
 
-### Cómo importar y probar
+Son **tu mismo flujo** (mismos nodos, tus tokens, tu verify token), con el cerebro
+añadido entre *Extraer datos* y *Enviar respuesta*. El conocimiento (bot IA) y las
+respuestas (bot BD) van dentro de un nodo Code; en producción se pasan a Google
+Sheets (guías 2, 3 y 4).
 
-1. En n8n: **⋮ → Import from File** → elige el `.json`.
-2. Rellena los marcadores `REEMPLAZA_...`:
-   - **Token valido?** → `REEMPLAZA_TU_VERIFY_TOKEN` (el verify token que pusiste en Meta).
-   - **Enviar respuesta (Graph API)** → header Authorization: `Bearer REEMPLAZA_TU_META_ACCESS_TOKEN`.
-   - **(Solo bot con IA) Claude** → header `x-api-key`: `REEMPLAZA_TU_ANTHROPIC_API_KEY`.
-     - Mejor aún: usa una **credencial** de n8n en vez de pegar la clave en el header.
-3. **Guarda y activa** el workflow.
-4. En Meta, el webhook ya apunta a `/webhook/meta-webhook` (mismo path que tu webhook actual).
+### Cómo usarlos
+
+1. En n8n: **⋮ → Import from File** → elige el `.json` que quieras (SIN IA o CON IA).
+2. Solo en el **CON IA**: en el nodo *Claude*, pon tu clave en `x-api-key`
+   (`REEMPLAZA_TU_ANTHROPIC_API_KEY`). Mejor con una **credencial** de n8n.
+3. Edita el nodo *Buscar respuesta (BD)* o *Construir prompt* con los datos reales.
+4. **Guarda y activa.**
 5. Escribe al WhatsApp del negocio y comprueba la respuesta.
 
-> ⚠️ Los dos workflows usan el **mismo path** `meta-webhook`. **Activa solo uno a la vez**
-> (o cambia el path de uno) para que no choquen.
->
-> ⚠️ Edita las respuestas (nodo *Buscar respuesta (BD)*) o el conocimiento
-> (nodo *Construir prompt*) con los datos reales del cliente antes de entregar.
+> ⚠️ Los tres usan el **mismo path** `meta-webhook`. **Activa solo uno a la vez**
+> (desactiva el webhook original antes de activar el que tenga cerebro).
 
 ## Instalar para un cliente nuevo (resumen)
 

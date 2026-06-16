@@ -1,5 +1,5 @@
 {
-  "name": "WhatsApp Bot - SIN IA (base de datos)",
+  "name": "Meta WhatsApp Chatbot - SIN IA (base de datos)",
   "nodes": [
     {
       "parameters": {
@@ -7,15 +7,15 @@
         "responseMode": "responseNode",
         "options": {}
       },
-      "id": "node-get",
+      "id": "f3ce2aa3-1d5c-4be1-84e1-43f6924d0021",
       "name": "Webhook Verificacion (GET)",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -360,
-        200
+        -400,
+        640
       ],
-      "webhookId": "meta-webhook-get"
+      "webhookId": "meta-webhook-verify"
     },
     {
       "parameters": {
@@ -30,7 +30,7 @@
             {
               "id": "cond-token",
               "leftValue": "={{ $json.query['hub.verify_token'] }}",
-              "rightValue": "REEMPLAZA_TU_VERIFY_TOKEN",
+              "rightValue": "Token_Prova",
               "operator": {
                 "type": "string",
                 "operation": "equals"
@@ -41,13 +41,13 @@
         },
         "options": {}
       },
-      "id": "node-iftoken",
+      "id": "fff0eded-cf2d-494b-b9d1-9d954793864c",
       "name": "Token valido?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -140,
-        200
+        -176,
+        640
       ]
     },
     {
@@ -58,13 +58,13 @@
           "responseCode": 200
         }
       },
-      "id": "node-challenge",
+      "id": "63aa9de9-5da2-4922-be34-fcfeb51cce97",
       "name": "Responder Challenge",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
       "position": [
-        80,
-        120
+        64,
+        528
       ]
     },
     {
@@ -75,13 +75,13 @@
           "responseCode": 403
         }
       },
-      "id": "node-403",
+      "id": "e0dfb47b-c812-4727-992f-4b9a67288b00",
       "name": "Responder 403",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
       "position": [
-        80,
-        300
+        64,
+        720
       ]
     },
     {
@@ -90,15 +90,15 @@
         "path": "meta-webhook",
         "options": {}
       },
-      "id": "node-post",
+      "id": "285f5a6c-ee3d-4691-adea-c096c72c6af8",
       "name": "Webhook Mensajes (POST)",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -360,
-        560
+        -400,
+        960
       ],
-      "webhookId": "meta-webhook-post"
+      "webhookId": "meta-webhook-messages"
     },
     {
       "parameters": {
@@ -125,13 +125,13 @@
         },
         "options": {}
       },
-      "id": "node-ismsg",
+      "id": "b5a60c74-4357-4a35-9a26-a5e32d1463ef",
       "name": "Es un mensaje?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -140,
-        560
+        -176,
+        960
       ]
     },
     {
@@ -166,26 +166,13 @@
         },
         "options": {}
       },
-      "id": "node-extraer",
+      "id": "ecadc4dc-daf2-4517-ab10-bc64ef962186",
       "name": "Extraer datos",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        80,
-        560
-      ]
-    },
-    {
-      "parameters": {
-        "jsCode": "// Respuestas del negocio (en producción: muévelas a Google Sheets, ver guía 3)\nconst d = $('Extraer datos').first().json;\nconst texto = (d.text || '').toLowerCase().normalize('NFD').replace(/\\p{Diacritic}/gu, '');\n\nconst respuestas = [\n  { claves: ['horario','abris','abrís','abierto','hora','horas'], respuesta: 'Abrimos de lunes a sábado de 7:00 a 14:00 y de 17:00 a 20:00. Domingos cerrado.' },\n  { claves: ['direccion','dirección','donde','dónde','ubicacion','ubicación','llegar'], respuesta: 'Estamos en C/ Mayor 12, Barcelona.' },\n  { claves: ['precio','precios','cuanto','cuánto','vale','coste','cuesta'], respuesta: 'Tenemos productos desde 1,20 €. Dime qué te interesa y te informo.' },\n  { claves: ['encargo','reservar','pedido','reserva'], respuesta: 'Puedes hacer tu encargo respondiendo por aquí o llamando al 600 000 000.' },\n  { claves: ['gracias'], respuesta: '¡A ti! ¿Algo más en lo que pueda ayudarte?' },\n];\n\nlet respuesta = 'No estoy seguro de eso. Te paso con una persona del equipo: info@empresa.com';\nfor (const r of respuestas) {\n  if (r.claves.some(c => texto.includes(c))) { respuesta = r.respuesta; break; }\n}\nreturn [{ json: { ...d, respuesta } }];\n"
-      },
-      "id": "node-buscar",
-      "name": "Buscar respuesta (BD)",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        420,
-        560
+        64,
+        880
       ]
     },
     {
@@ -197,7 +184,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer REEMPLAZA_TU_META_ACCESS_TOKEN"
+              "value": "Bearer EAAiyriPWk84BRoY5SaTf8gbVZApA3bw8NOumO3YQVXnk62uJsJBC0m5wv3wUvXKZAoMV8zmN71HSoEsO8ZCHSWc3M9xGgCsjjZA71SJx5MI25NlvtR8ZCzW7zZBaZBdynKO6idb50kaF12WugDdxbIEPUfW0OjXTUsyKEs4fwQwGinyVnJJZCVTDJH2FiZAFE2AbZBHgZDZD"
             },
             {
               "name": "Content-Type",
@@ -210,16 +197,30 @@
         "jsonBody": "={{ JSON.stringify({ messaging_product: 'whatsapp', to: $json.from, type: 'text', text: { body: $json.respuesta } }) }}",
         "options": {}
       },
-      "id": "node-enviar",
+      "id": "540ead4d-97d8-4633-830d-57f46ceab7e1",
       "name": "Enviar respuesta (Graph API)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        740,
-        560
+        1180,
+        832
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Respuestas del negocio (edítalas; en producción muévelas a Google Sheets)\nconst d = $('Extraer datos').first().json;\nconst texto = (d.text || '').toLowerCase().normalize('NFD').replace(/\\p{Diacritic}/gu, '');\n\nconst respuestas = [\n  { claves: ['horario','abris','abrís','abierto','hora','horas'], respuesta: 'Abrimos de lunes a sábado de 7:00 a 14:00 y de 17:00 a 20:00. Domingos cerrado.' },\n  { claves: ['direccion','dirección','donde','dónde','ubicacion','ubicación','llegar'], respuesta: 'Estamos en C/ Mayor 12, Barcelona.' },\n  { claves: ['precio','precios','cuanto','cuánto','vale','coste','cuesta'], respuesta: 'Tenemos productos desde 1,20 €. Dime qué te interesa y te informo.' },\n  { claves: ['encargo','reservar','pedido','reserva'], respuesta: 'Puedes hacer tu encargo respondiendo por aquí o llamando al 600 000 000.' },\n  { claves: ['gracias'], respuesta: '¡A ti! ¿Algo más en lo que pueda ayudarte?' },\n];\n\nlet respuesta = 'No estoy seguro de eso. Te paso con una persona del equipo: info@empresa.com';\nfor (const r of respuestas) {\n  if (r.claves.some(c => texto.includes(c))) { respuesta = r.respuesta; break; }\n}\nreturn [{ json: { ...d, respuesta } }];\n"
+      },
+      "id": "brain-buscar",
+      "name": "Buscar respuesta (BD)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        600,
+        1040
       ]
     }
   ],
+  "pinData": {},
   "connections": {
     "Webhook Verificacion (GET)": {
       "main": [
@@ -295,10 +296,15 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
-  "pinData": {},
+  "versionId": "2f90d024-4cec-46f1-a1ed-1f2e07556aaf",
+  "meta": {
+    "instanceId": "ac445a9d5b3456a5428e421948d7f467dc8f3ff24fcee2dbf66446dad094bac3"
+  },
+  "id": "N1CFSYpTCOB0rKjv",
   "tags": []
 }
