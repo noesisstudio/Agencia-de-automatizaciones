@@ -17,21 +17,30 @@ router = APIRouter(prefix="/folders", tags=["folders"])
 @router.get("", response_model=list[ClientFolderResponse])
 def list_folders(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> list[ClientFolder]:
-    return db.query(ClientFolder).order_by(ClientFolder.name).all()
+    return (
+        db.query(ClientFolder)
+        .filter(ClientFolder.owner_id == user.id)
+        .order_by(ClientFolder.name)
+        .all()
+    )
 
 
 @router.post("", response_model=ClientFolderResponse)
 def create_folder(
     body: ClientFolderCreate,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> ClientFolder:
-    existing = db.query(ClientFolder).filter(ClientFolder.name == body.name).first()
+    existing = (
+        db.query(ClientFolder)
+        .filter(ClientFolder.owner_id == user.id, ClientFolder.name == body.name)
+        .first()
+    )
     if existing:
         raise HTTPException(400, "La carpeta ya existe")
-    folder = ClientFolder(name=body.name, description=body.description)
+    folder = ClientFolder(name=body.name, description=body.description, owner_id=user.id)
     db.add(folder)
     db.commit()
     db.refresh(folder)
@@ -43,9 +52,13 @@ def rename_folder(
     folder_id: int,
     body: ClientFolderCreate,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> ClientFolder:
-    folder = db.query(ClientFolder).filter(ClientFolder.id == folder_id).first()
+    folder = (
+        db.query(ClientFolder)
+        .filter(ClientFolder.id == folder_id, ClientFolder.owner_id == user.id)
+        .first()
+    )
     if not folder:
         raise HTTPException(404, "Carpeta no encontrada")
     folder.name = body.name
@@ -59,11 +72,15 @@ def rename_folder(
 def folder_invoices(
     folder_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> list[InvoiceResponse]:
     rows = (
         db.query(Invoice)
-        .filter(Invoice.folder_id == folder_id, Invoice.is_deleted.is_(False))
+        .filter(
+            Invoice.folder_id == folder_id,
+            Invoice.owner_id == user.id,
+            Invoice.is_deleted.is_(False),
+        )
         .order_by(Invoice.created_at.desc())
         .all()
     )

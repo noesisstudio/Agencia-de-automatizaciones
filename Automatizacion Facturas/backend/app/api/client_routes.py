@@ -50,12 +50,12 @@ def _client_response(db: Session, client: Client) -> ClientResponse:
 @router.get("", response_model=list[ClientResponse])
 def list_clients(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
     search: str = Query(""),
     page: int = Query(1, ge=1),
     limit: int = Query(50, ge=1, le=200),
 ) -> list[ClientResponse]:
-    q = db.query(Client)
+    q = db.query(Client).filter(Client.owner_id == user.id)
     if search.strip():
         q = q.filter(Client.name.ilike(f"%{search.strip()}%"))
     rows = q.order_by(Client.name).offset((page - 1) * limit).limit(limit).all()
@@ -76,6 +76,7 @@ def create_client(
         address=body.address,
         folder_id=body.folder_id,
         created_by=user.id,
+        owner_id=user.id,
     )
     db.add(client)
     db.commit()
@@ -87,9 +88,13 @@ def create_client(
 def get_client(
     client_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> ClientResponse:
-    client = db.query(Client).filter(Client.id == client_id).first()
+    client = (
+        db.query(Client)
+        .filter(Client.id == client_id, Client.owner_id == user.id)
+        .first()
+    )
     if not client:
         raise HTTPException(404, "Cliente no encontrado")
     return _client_response(db, client)
@@ -100,9 +105,13 @@ def update_client(
     client_id: int,
     body: ClientUpdate,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> ClientResponse:
-    client = db.query(Client).filter(Client.id == client_id).first()
+    client = (
+        db.query(Client)
+        .filter(Client.id == client_id, Client.owner_id == user.id)
+        .first()
+    )
     if not client:
         raise HTTPException(404, "Cliente no encontrado")
     if body.name is not None:
@@ -126,9 +135,13 @@ def update_client(
 def delete_client(
     client_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> dict[str, str]:
-    client = db.query(Client).filter(Client.id == client_id).first()
+    client = (
+        db.query(Client)
+        .filter(Client.id == client_id, Client.owner_id == user.id)
+        .first()
+    )
     if not client:
         raise HTTPException(404, "Cliente no encontrado")
     invoice_count = (
@@ -151,11 +164,15 @@ def delete_client(
 def client_invoices(
     client_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> list[InvoiceResponse]:
     rows = (
         db.query(Invoice)
-        .filter(Invoice.client_id == client_id, Invoice.is_deleted.is_(False))
+        .filter(
+            Invoice.client_id == client_id,
+            Invoice.owner_id == user.id,
+            Invoice.is_deleted.is_(False),
+        )
         .order_by(Invoice.created_at.desc())
         .all()
     )
@@ -166,9 +183,13 @@ def client_invoices(
 def client_folders(
     client_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> list[ClientFolder]:
-    client = db.query(Client).filter(Client.id == client_id).first()
+    client = (
+        db.query(Client)
+        .filter(Client.id == client_id, Client.owner_id == user.id)
+        .first()
+    )
     if not client:
         raise HTTPException(404, "Cliente no encontrado")
     if client.folder:
@@ -181,14 +202,22 @@ def assign_folder(
     client_id: int,
     body: ClientFolderCreate,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> ClientFolder:
-    client = db.query(Client).filter(Client.id == client_id).first()
+    client = (
+        db.query(Client)
+        .filter(Client.id == client_id, Client.owner_id == user.id)
+        .first()
+    )
     if not client:
         raise HTTPException(404, "Cliente no encontrado")
-    folder = db.query(ClientFolder).filter(ClientFolder.name == body.name).first()
+    folder = (
+        db.query(ClientFolder)
+        .filter(ClientFolder.owner_id == user.id, ClientFolder.name == body.name)
+        .first()
+    )
     if not folder:
-        folder = ClientFolder(name=body.name, description=body.description)
+        folder = ClientFolder(name=body.name, description=body.description, owner_id=user.id)
         db.add(folder)
         db.flush()
     client.folder_id = folder.id

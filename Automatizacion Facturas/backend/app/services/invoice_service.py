@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from app.core.security import encrypt_nif
 from app.models import (
     Client,
+    ClientFolder,
     CompanySettings,
     Invoice,
     InvoiceLine,
@@ -19,19 +20,35 @@ from app.models import (
 from app.schemas import InvoiceLineSchema, InvoiceResponse
 from app.services.tax_calculator import calculate_invoice_totals, calculate_line_totals
 
+# Carpetas que recibe cada empresa nueva al darse de alta.
+DEFAULT_FOLDERS = ["General", "Stripe", "PayPal", "Software contable"]
 
-def get_or_create_company_settings(db: Session) -> CompanySettings:
-    row = db.query(CompanySettings).first()
+
+def ensure_default_folders(db: Session, owner_id: int) -> None:
+    """Crea las carpetas por defecto para una empresa si aún no las tiene."""
+    for name in DEFAULT_FOLDERS:
+        exists = (
+            db.query(ClientFolder)
+            .filter(ClientFolder.owner_id == owner_id, ClientFolder.name == name)
+            .first()
+        )
+        if not exists:
+            db.add(ClientFolder(name=name, owner_id=owner_id))
+    db.commit()
+
+
+def get_or_create_company_settings(db: Session, owner_id: int) -> CompanySettings:
+    row = db.query(CompanySettings).filter(CompanySettings.owner_id == owner_id).first()
     if not row:
-        row = CompanySettings()
+        row = CompanySettings(owner_id=owner_id)
         db.add(row)
         db.commit()
         db.refresh(row)
     return row
 
 
-def next_invoice_number(db: Session) -> str:
-    cs = get_or_create_company_settings(db)
+def next_invoice_number(db: Session, owner_id: int) -> str:
+    cs = get_or_create_company_settings(db, owner_id)
     number = f"{cs.invoice_prefix}-{cs.next_invoice_number:05d}"
     cs.next_invoice_number += 1
     db.commit()
@@ -56,8 +73,9 @@ def ensure_client_from_extracted(
     *,
     folder_id: int | None,
     user_id: int | None,
+    owner_id: int,
 ) -> int | None:
-    """Busca o crea cliente a partir de los datos extraídos por IA."""
+    """Busca o crea cliente a partir de los datos extraídos por IA (dentro de la empresa)."""
     ctx = extracted.get("empresa_contexto") or {}
     rol = ctx.get("rol_detectado")
     if rol == "emitida_por_mi_empresa":
@@ -71,7 +89,11 @@ def ensure_client_from_extracted(
         nif = extracted.get("nif_cliente") or extracted.get("nif_emisor")
     if not name:
         return None
-    client = db.query(Client).filter(Client.name.ilike(name)).first()
+    client = (
+        db.query(Client)
+        .filter(Client.owner_id == owner_id, Client.name.ilike(name))
+        .first()
+    )
     if client:
         if folder_id and not client.folder_id:
             client.folder_id = folder_id
@@ -81,6 +103,7 @@ def ensure_client_from_extracted(
         encrypted_nif=encrypt_nif(str(nif) if nif else None),
         folder_id=folder_id,
         created_by=user_id,
+        owner_id=owner_id,
     )
     db.add(client)
     db.flush()
@@ -178,18 +201,23 @@ def invoice_from_extracted(
     folder_id: int | None,
     client_id: int | None,
     user_id: int | None,
+    owner_id: int,
     filename: str,
 ) -> Invoice:
     if not client_id:
         client_id = ensure_client_from_extracted(
-            db, extracted, folder_id=folder_id, user_id=user_id
+            db, extracted, folder_id=folder_id, user_id=user_id, owner_id=owner_id
         )
 
     raw_num = str(extracted.get("numero") or "").strip()
-    number = raw_num if raw_num else next_invoice_number(db)
-    existing = db.query(Invoice).filter(Invoice.number == number).first()
+    number = raw_num if raw_num else next_invoice_number(db, owner_id)
+    existing = (
+        db.query(Invoice)
+        .filter(Invoice.owner_id == owner_id, Invoice.number == number)
+        .first()
+    )
     if existing:
-        number = next_invoice_number(db)
+        number = next_invoice_number(db, owner_id)
 
     invoice = Invoice(
         number=number,
@@ -204,6 +232,7 @@ def invoice_from_extracted(
         source_filename=filename,
         extracted_json=json.dumps(extracted, ensure_ascii=False),
         created_by=user_id,
+        owner_id=owner_id,
     )
     db.add(invoice)
     db.flush()

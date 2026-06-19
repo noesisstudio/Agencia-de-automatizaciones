@@ -22,6 +22,7 @@ from app.core.config import settings
 from app.database import get_db
 from app.models import User, UserRole
 from app.schemas import PasswordChange, Token, UserCreate, UserResponse
+from app.services.invoice_service import ensure_default_folders
 
 logger = logging.getLogger(__name__)
 
@@ -58,6 +59,7 @@ def register(
     db.add(user)
     db.commit()
     db.refresh(user)
+    ensure_default_folders(db, user.id)
     return user
 
 
@@ -111,14 +113,19 @@ def supabase_sso(
             hashed_password=hash_password(secrets.token_hex(32)),
             supabase_id=sub,
             role=UserRole.user,
+            is_active=False,
         )
         db.add(user)
         db.commit()
         db.refresh(user)
-        logger.info("Nuevo usuario SSO creado: %s (supabase: %s)", username, sub)
+        ensure_default_folders(db, user.id)
+        logger.info("Nuevo usuario SSO creado (pendiente activación): %s", username)
 
     if not user.is_active:
-        raise HTTPException(status.HTTP_403_FORBIDDEN, "Cuenta desactivada")
+        raise HTTPException(
+            status.HTTP_403_FORBIDDEN,
+            "Tu cuenta está pendiente de activación. Contacta con Noesis para activar el acceso a FacturAI.",
+        )
 
     token = create_access_token(user.username, user.id, user.role.value)
     return Token(access_token=token)
@@ -127,6 +134,42 @@ def supabase_sso(
 @router.get("/me", response_model=UserResponse)
 def me(user: Annotated[User, Depends(get_current_user)]) -> User:
     return user
+
+
+@router.get("/clients")
+def list_clients(
+    _: Annotated[User, Depends(require_admin)],
+    db: Annotated[Session, Depends(get_db)],
+) -> list[dict]:
+    """List all SSO clients (admin only). Never exposes passwords."""
+    users = db.query(User).filter(User.supabase_id.isnot(None)).order_by(User.created_at.desc()).all()
+    return [
+        {
+            "id": u.id,
+            "username": u.username,
+            "email": u.email,
+            "is_active": u.is_active,
+            "created_at": u.created_at.isoformat() if u.created_at else None,
+        }
+        for u in users
+    ]
+
+
+@router.put("/clients/{user_id}/toggle")
+def toggle_client_access(
+    user_id: int,
+    _: Annotated[User, Depends(require_admin)],
+    db: Annotated[Session, Depends(get_db)],
+) -> dict:
+    """Activate or deactivate a client's access (admin only)."""
+    user = db.query(User).filter(User.id == user_id, User.supabase_id.isnot(None)).first()
+    if not user:
+        raise HTTPException(404, "Cliente no encontrado")
+    user.is_active = not user.is_active
+    db.commit()
+    action = "activado" if user.is_active else "desactivado"
+    logger.info("Acceso %s para %s (id=%d)", action, user.email, user.id)
+    return {"id": user.id, "email": user.email, "is_active": user.is_active, "message": f"Acceso {action}"}
 
 
 @router.put("/change-password")

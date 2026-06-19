@@ -19,44 +19,98 @@ from app.api.product_routes import router as product_router
 from app.core.auth import hash_password
 from app.core.config import settings
 from app.database import SessionLocal, init_db
-from app.models import ClientFolder, User, UserRole
+from app.models import User, UserRole
 
 logger = logging.getLogger(__name__)
 
 
 def _migrate_db() -> None:
-    """Add columns that may not exist in older databases."""
+    """Add columns that may not exist in older databases (idempotent)."""
     from sqlalchemy import inspect, text
     db = SessionLocal()
     try:
         inspector = inspect(db.bind)
-        if "users" in inspector.get_table_names():
-            columns = {c["name"] for c in inspector.get_columns("users")}
-            if "supabase_id" not in columns:
-                db.execute(text("ALTER TABLE users ADD COLUMN supabase_id VARCHAR(255) UNIQUE"))
-                db.commit()
-                logger.info("Migración: columna supabase_id añadida a users")
+        tables = set(inspector.get_table_names())
+
+        def has_col(table: str, col: str) -> bool:
+            return table in tables and col in {c["name"] for c in inspector.get_columns(table)}
+
+        # users.supabase_id
+        if "users" in tables and not has_col("users", "supabase_id"):
+            db.execute(text("ALTER TABLE users ADD COLUMN supabase_id VARCHAR(255)"))
+            db.commit()
+            logger.info("Migración: columna supabase_id añadida a users")
+
+        # owner_id en todas las tablas multi-empresa
+        owner_tables = [
+            "clients",
+            "products",
+            "client_folders",
+            "invoices",
+            "company_settings",
+            "integration_settings",
+        ]
+        added_any = False
+        for table in owner_tables:
+            if table in tables and not has_col(table, "owner_id"):
+                db.execute(text(f"ALTER TABLE {table} ADD COLUMN owner_id INTEGER"))
+                added_any = True
+        if added_any:
+            db.commit()
+            logger.info("Migración: columnas owner_id añadidas")
+
+        # PostgreSQL: elimina restricciones únicas globales heredadas del esquema
+        # single-tenant. La unicidad ahora es POR empresa (owner_id + number/name).
+        if db.bind.dialect.name == "postgresql":
+            for stmt in (
+                "ALTER TABLE invoices DROP CONSTRAINT IF EXISTS invoices_number_key",
+                "ALTER TABLE client_folders DROP CONSTRAINT IF EXISTS client_folders_name_key",
+            ):
+                try:
+                    db.execute(text(stmt))
+                    db.commit()
+                except Exception:  # noqa: BLE001
+                    db.rollback()
+
+        # Backfill: asigna los datos existentes al admin (evita datos huérfanos).
+        admin = db.query(User).filter(User.username == settings.admin_username).first()
+        if admin:
+            # invoices/clients: usa created_by si existe, si no el admin.
+            db.execute(
+                text("UPDATE invoices SET owner_id = COALESCE(created_by, :aid) WHERE owner_id IS NULL"),
+                {"aid": admin.id},
+            )
+            db.execute(
+                text("UPDATE clients SET owner_id = COALESCE(created_by, :aid) WHERE owner_id IS NULL"),
+                {"aid": admin.id},
+            )
+            for table in ("products", "client_folders", "company_settings", "integration_settings"):
+                if table in tables:
+                    db.execute(
+                        text(f"UPDATE {table} SET owner_id = :aid WHERE owner_id IS NULL"),
+                        {"aid": admin.id},
+                    )
+            db.commit()
     finally:
         db.close()
 
 
 def _seed_admin() -> None:
+    from app.services.invoice_service import ensure_default_folders
     db = SessionLocal()
     try:
-        if not db.query(User).filter(User.username == settings.admin_username).first():
-            db.add(
-                User(
-                    username=settings.admin_username,
-                    email=settings.admin_email,
-                    hashed_password=hash_password(settings.admin_password),
-                    role=UserRole.admin,
-                )
+        admin = db.query(User).filter(User.username == settings.admin_username).first()
+        if not admin:
+            admin = User(
+                username=settings.admin_username,
+                email=settings.admin_email,
+                hashed_password=hash_password(settings.admin_password),
+                role=UserRole.admin,
             )
-        defaults = ["General", "Stripe", "PayPal", "Software contable"]
-        for name in defaults:
-            if not db.query(ClientFolder).filter(ClientFolder.name == name).first():
-                db.add(ClientFolder(name=name))
-        db.commit()
+            db.add(admin)
+            db.commit()
+            db.refresh(admin)
+        ensure_default_folders(db, admin.id)
     finally:
         db.close()
 

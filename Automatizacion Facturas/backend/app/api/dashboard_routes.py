@@ -27,9 +27,11 @@ router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 @router.get("/stats", response_model=DashboardStats)
 def dashboard_stats(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> DashboardStats:
-    base = db.query(Invoice).filter(Invoice.is_deleted.is_(False))
+    base = db.query(Invoice).filter(
+        Invoice.owner_id == user.id, Invoice.is_deleted.is_(False)
+    )
     total = base.count()
     now = datetime.now(UTC)
     month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
@@ -37,12 +39,17 @@ def dashboard_stats(
 
     monthly = (
         db.query(func.coalesce(func.sum(Invoice.total_amount), 0))
-        .filter(Invoice.is_deleted.is_(False), Invoice.created_at >= month_start)
+        .filter(
+            Invoice.owner_id == user.id,
+            Invoice.is_deleted.is_(False),
+            Invoice.created_at >= month_start,
+        )
         .scalar()
     )
     prev_monthly = (
         db.query(func.coalesce(func.sum(Invoice.total_amount), 0))
         .filter(
+            Invoice.owner_id == user.id,
             Invoice.is_deleted.is_(False),
             Invoice.created_at >= prev_start,
             Invoice.created_at < month_start,
@@ -66,48 +73,58 @@ def dashboard_stats(
         overdue_count=count_status(InvoiceStatus.vencida),
         monthly_revenue=float(monthly or 0),
         monthly_change_pct=change_pct,
-        total_clients=db.query(Client).count(),
-        total_products=db.query(Product).count(),
+        total_clients=db.query(Client).filter(Client.owner_id == user.id).count(),
+        total_products=db.query(Product).filter(Product.owner_id == user.id).count(),
     )
 
 
 @router.get("/chart-data", response_model=DashboardChartData)
 def chart_data(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> DashboardChartData:
-    monthly: list[ChartMonthPoint] = []
     now = datetime.now(UTC)
-    # Build exactly 12 distinct calendar months (no duplicates)
+
+    # 12 meses naturales (más reciente al final). Etiqueta "YYYY-MM".
+    labels: list[str] = []
     for i in range(11, -1, -1):
-        # Step by whole months: subtract i months from current year/month
         month_offset = now.month - i
         year = now.year + (month_offset - 1) // 12
         month = ((month_offset - 1) % 12) + 1
-        label = f"{year:04d}-{month:02d}"
-        total = (
-            db.query(func.coalesce(func.sum(Invoice.total_amount), 0))
-            .filter(
-                Invoice.is_deleted.is_(False),
-                func.strftime("%Y-%m", Invoice.created_at) == label,
-            )
-            .scalar()
-        )
-        count = (
-            db.query(Invoice)
-            .filter(
-                Invoice.is_deleted.is_(False),
-                func.strftime("%Y-%m", Invoice.created_at) == label,
-            )
-            .count()
-        )
-        monthly.append(ChartMonthPoint(month=label, total=float(total or 0), count=count))
+        labels.append(f"{year:04d}-{month:02d}")
+
+    buckets = {lbl: {"total": 0.0, "count": 0} for lbl in labels}
+    earliest = labels[0]
+
+    # Agregación en Python: portable entre SQLite y PostgreSQL.
+    rows = (
+        db.query(Invoice.created_at, Invoice.total_amount)
+        .filter(Invoice.owner_id == user.id, Invoice.is_deleted.is_(False))
+        .all()
+    )
+    for created_at, total_amount in rows:
+        if not created_at:
+            continue
+        lbl = f"{created_at.year:04d}-{created_at.month:02d}"
+        if lbl < earliest or lbl not in buckets:
+            continue
+        buckets[lbl]["total"] += float(total_amount or 0)
+        buckets[lbl]["count"] += 1
+
+    monthly = [
+        ChartMonthPoint(month=lbl, total=buckets[lbl]["total"], count=buckets[lbl]["count"])
+        for lbl in labels
+    ]
 
     by_status: list[ChartStatusPoint] = []
     for st in InvoiceStatus:
         c = (
             db.query(Invoice)
-            .filter(Invoice.is_deleted.is_(False), Invoice.status == st)
+            .filter(
+                Invoice.owner_id == user.id,
+                Invoice.is_deleted.is_(False),
+                Invoice.status == st,
+            )
             .count()
         )
         by_status.append(ChartStatusPoint(status=st.value, count=c))
@@ -118,11 +135,11 @@ def chart_data(
 @router.get("/recent", response_model=list[InvoiceResponse])
 def recent_invoices(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> list[InvoiceResponse]:
     rows = (
         db.query(Invoice)
-        .filter(Invoice.is_deleted.is_(False))
+        .filter(Invoice.owner_id == user.id, Invoice.is_deleted.is_(False))
         .order_by(Invoice.created_at.desc())
         .limit(10)
         .all()
@@ -133,11 +150,12 @@ def recent_invoices(
 @router.get("/alerts", response_model=list[InvoiceResponse])
 def alerts(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> list[InvoiceResponse]:
     rows = (
         db.query(Invoice)
         .filter(
+            Invoice.owner_id == user.id,
             Invoice.is_deleted.is_(False),
             Invoice.status.in_([InvoiceStatus.enviada, InvoiceStatus.vencida]),
         )
@@ -151,18 +169,18 @@ def alerts(
 @router.get("/settings", response_model=CompanySettingsResponse)
 def get_settings(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> CompanySettings:
-    return get_or_create_company_settings(db)
+    return get_or_create_company_settings(db, user.id)
 
 
 @router.put("/settings", response_model=CompanySettingsResponse)
 def update_settings(
     body: CompanySettingsUpdate,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> CompanySettings:
-    row = get_or_create_company_settings(db)
+    row = get_or_create_company_settings(db, user.id)
     for k, v in body.model_dump(exclude_unset=True).items():
         setattr(row, k, v)
     db.commit()

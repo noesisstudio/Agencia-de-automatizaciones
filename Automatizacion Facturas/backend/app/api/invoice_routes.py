@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, Upload
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app.core.auth import get_current_user, get_current_user_optional
+from app.core.auth import get_current_user
 from app.database import get_db
 from app.models import Client, Invoice, InvoiceLine, InvoiceStatus, User
 from app.schemas import (
@@ -73,7 +73,7 @@ async def process_invoice(
     client_id: str | None = Form(None),
     save_to_db: str = Form("true"),
     db: Session = Depends(get_db),
-    user: User | None = Depends(get_current_user_optional),
+    user: User = Depends(get_current_user),
 ) -> dict[str, Any]:
     folder_id_int = int(folder_id) if folder_id and str(folder_id).isdigit() else None
     client_id_int = int(client_id) if client_id and str(client_id).isdigit() else None
@@ -94,7 +94,7 @@ async def process_invoice(
         logger.exception("extract_invoice")
         raise HTTPException(500, f"Error extrayendo factura: {e}") from e
 
-    cfg = resolve_sheets_config(db)
+    cfg = resolve_sheets_config(db, user.id)
     sheets_result: dict[str, Any]
     try:
         sheets_result = append_invoice(cfg, extracted, file.filename)
@@ -118,7 +118,8 @@ async def process_invoice(
                 extracted,
                 folder_id=folder_id_int,
                 client_id=client_id_int,
-                user_id=user.id if user else None,
+                user_id=user.id,
+                owner_id=user.id,
                 filename=file.filename,
             )
             saved_invoice = invoice_to_response(inv)
@@ -163,13 +164,14 @@ def save_extracted_invoice(
             folder_id=body.folder_id,
             client_id=body.client_id,
             user_id=user.id,
+            owner_id=user.id,
             filename=body.filename,
         )
     except Exception as e:
         logger.exception("save_extracted_invoice")
         raise HTTPException(500, f"No se pudo guardar la factura: {e}") from e
 
-    cfg = resolve_sheets_config(db)
+    cfg = resolve_sheets_config(db, user.id)
     if cfg.auto_sync and cfg.configured:
         try:
             append_db_invoice(cfg, inv)
@@ -200,7 +202,9 @@ def list_invoices(
     page: int = Query(1, ge=1),
     limit: int = Query(50, ge=1, le=200),
 ) -> InvoiceListResponse:
-    q = db.query(Invoice).filter(Invoice.is_deleted.is_(False))
+    q = db.query(Invoice).filter(
+        Invoice.owner_id == user.id, Invoice.is_deleted.is_(False)
+    )
     if status:
         try:
             q = q.filter(Invoice.status == InvoiceStatus(status))
@@ -230,7 +234,7 @@ def create_invoice(
     user: Annotated[User, Depends(get_current_user)],
 ) -> InvoiceResponse:
     inv = Invoice(
-        number=next_invoice_number(db),
+        number=next_invoice_number(db, user.id),
         client_id=body.client_id,
         folder_id=body.folder_id,
         status=InvoiceStatus.borrador,
@@ -239,6 +243,7 @@ def create_invoice(
         notes=body.notes,
         payment_terms=body.payment_terms,
         created_by=user.id,
+        owner_id=user.id,
     )
     db.add(inv)
     db.flush()
@@ -247,7 +252,7 @@ def create_invoice(
     db.commit()
     db.refresh(inv)
     # Reflejo automático en Google Sheets (best-effort: nunca bloquea la creación).
-    cfg = resolve_sheets_config(db)
+    cfg = resolve_sheets_config(db, user.id)
     if cfg.auto_sync and cfg.configured:
         append_db_invoice(cfg, inv)
     return invoice_to_response(inv)
@@ -257,9 +262,17 @@ def create_invoice(
 def get_invoice(
     invoice_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> InvoiceResponse:
-    inv = db.query(Invoice).filter(Invoice.id == invoice_id, Invoice.is_deleted.is_(False)).first()
+    inv = (
+        db.query(Invoice)
+        .filter(
+            Invoice.id == invoice_id,
+            Invoice.owner_id == user.id,
+            Invoice.is_deleted.is_(False),
+        )
+        .first()
+    )
     if not inv:
         raise HTTPException(404, "Factura no encontrada")
     return invoice_to_response(inv)
@@ -272,7 +285,15 @@ def update_invoice(
     db: Annotated[Session, Depends(get_db)],
     user: Annotated[User, Depends(get_current_user)],
 ) -> InvoiceResponse:
-    inv = db.query(Invoice).filter(Invoice.id == invoice_id, Invoice.is_deleted.is_(False)).first()
+    inv = (
+        db.query(Invoice)
+        .filter(
+            Invoice.id == invoice_id,
+            Invoice.owner_id == user.id,
+            Invoice.is_deleted.is_(False),
+        )
+        .first()
+    )
     if not inv:
         raise HTTPException(404, "Factura no encontrada")
     if inv.status != InvoiceStatus.borrador:
@@ -303,7 +324,11 @@ def patch_status(
     db: Annotated[Session, Depends(get_db)],
     user: Annotated[User, Depends(get_current_user)],
 ) -> InvoiceResponse:
-    inv = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+    inv = (
+        db.query(Invoice)
+        .filter(Invoice.id == invoice_id, Invoice.owner_id == user.id)
+        .first()
+    )
     if not inv:
         raise HTTPException(404, "Factura no encontrada")
     try:
@@ -320,9 +345,13 @@ def patch_status(
 def delete_invoice(
     invoice_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> dict[str, str]:
-    inv = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+    inv = (
+        db.query(Invoice)
+        .filter(Invoice.id == invoice_id, Invoice.owner_id == user.id)
+        .first()
+    )
     if not inv:
         raise HTTPException(404, "Factura no encontrada")
     if inv.status != InvoiceStatus.borrador:
@@ -338,11 +367,15 @@ def duplicate_invoice(
     db: Annotated[Session, Depends(get_db)],
     user: Annotated[User, Depends(get_current_user)],
 ) -> InvoiceResponse:
-    src = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+    src = (
+        db.query(Invoice)
+        .filter(Invoice.id == invoice_id, Invoice.owner_id == user.id)
+        .first()
+    )
     if not src:
         raise HTTPException(404, "Factura no encontrada")
     dup = Invoice(
-        number=next_invoice_number(db),
+        number=next_invoice_number(db, user.id),
         client_id=src.client_id,
         folder_id=src.folder_id,
         status=InvoiceStatus.borrador,
@@ -351,6 +384,7 @@ def duplicate_invoice(
         notes=src.notes,
         payment_terms=src.payment_terms,
         created_by=user.id,
+        owner_id=user.id,
     )
     db.add(dup)
     db.flush()
@@ -380,7 +414,11 @@ async def send_invoice(
     db: Annotated[Session, Depends(get_db)],
     user: Annotated[User, Depends(get_current_user)],
 ) -> dict[str, Any]:
-    inv = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+    inv = (
+        db.query(Invoice)
+        .filter(Invoice.id == invoice_id, Invoice.owner_id == user.id)
+        .first()
+    )
     if not inv:
         raise HTTPException(404, "Factura no encontrada")
     if not inv.client or not inv.client.email:

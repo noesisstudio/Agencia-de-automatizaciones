@@ -14,6 +14,7 @@ from sqlalchemy import (
     Integer,
     String,
     Text,
+    UniqueConstraint,
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -49,14 +50,18 @@ class User(Base):
         DateTime, server_default=func.now(), onupdate=func.now()
     )
 
-    invoices: Mapped[list[Invoice]] = relationship(back_populates="created_by_user")
+    invoices: Mapped[list[Invoice]] = relationship(
+        back_populates="created_by_user", foreign_keys="Invoice.created_by"
+    )
 
 
 class ClientFolder(Base):
     __tablename__ = "client_folders"
+    __table_args__ = (UniqueConstraint("owner_id", "name", name="uq_folder_owner_name"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(120), unique=True, index=True)
+    owner_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True, index=True)
+    name: Mapped[str] = mapped_column(String(120), index=True)
     description: Mapped[str | None] = mapped_column(String(255), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
@@ -68,6 +73,7 @@ class Client(Base):
     __tablename__ = "clients"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    owner_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True, index=True)
     name: Mapped[str] = mapped_column(String(255), index=True)
     encrypted_nif: Mapped[str | None] = mapped_column(String(512), nullable=True)
     email: Mapped[str | None] = mapped_column(String(255), nullable=True)
@@ -88,6 +94,7 @@ class Product(Base):
     __tablename__ = "products"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    owner_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True, index=True)
     name: Mapped[str] = mapped_column(String(255), index=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     unit_price: Mapped[float] = mapped_column(Float, default=0.0)
@@ -102,9 +109,11 @@ class Product(Base):
 
 class Invoice(Base):
     __tablename__ = "invoices"
+    __table_args__ = (UniqueConstraint("owner_id", "number", name="uq_invoice_owner_number"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    number: Mapped[str] = mapped_column(String(50), unique=True, index=True)
+    owner_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True, index=True)
+    number: Mapped[str] = mapped_column(String(50), index=True)
     client_id: Mapped[int | None] = mapped_column(ForeignKey("clients.id"), nullable=True)
     folder_id: Mapped[int | None] = mapped_column(ForeignKey("client_folders.id"), nullable=True)
     status: Mapped[InvoiceStatus] = mapped_column(
@@ -130,7 +139,9 @@ class Invoice(Base):
 
     client: Mapped[Client | None] = relationship(back_populates="invoices")
     folder: Mapped[ClientFolder | None] = relationship(back_populates="invoices")
-    created_by_user: Mapped[User | None] = relationship(back_populates="invoices")
+    created_by_user: Mapped[User | None] = relationship(
+        back_populates="invoices", foreign_keys="Invoice.created_by"
+    )
     lines: Mapped[list[InvoiceLine]] = relationship(
         back_populates="invoice", cascade="all, delete-orphan"
     )
@@ -176,6 +187,9 @@ class IntegrationSettings(Base):
     __tablename__ = "integration_settings"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    owner_id: Mapped[int | None] = mapped_column(
+        ForeignKey("users.id"), nullable=True, unique=True, index=True
+    )
     google_spreadsheet_id: Mapped[str] = mapped_column(String(255), default="")
     google_sheet_name: Mapped[str] = mapped_column(String(120), default="")
     sheets_auto_sync: Mapped[bool] = mapped_column(Boolean, default=True)
@@ -188,6 +202,9 @@ class CompanySettings(Base):
     __tablename__ = "company_settings"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    owner_id: Mapped[int | None] = mapped_column(
+        ForeignKey("users.id"), nullable=True, unique=True, index=True
+    )
     name: Mapped[str] = mapped_column(String(255), default="")
     nif: Mapped[str] = mapped_column(String(20), default="")
     address: Mapped[str | None] = mapped_column(Text, nullable=True)

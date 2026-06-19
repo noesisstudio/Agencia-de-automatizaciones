@@ -16,12 +16,12 @@ router = APIRouter(prefix="/products", tags=["products"])
 @router.get("", response_model=list[ProductResponse])
 def list_products(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
     search: str = Query(""),
     page: int = Query(1, ge=1),
     limit: int = Query(100, ge=1, le=500),
 ) -> list[Product]:
-    q = db.query(Product)
+    q = db.query(Product).filter(Product.owner_id == user.id)
     if search.strip():
         q = q.filter(Product.name.ilike(f"%{search.strip()}%"))
     return q.order_by(Product.name).offset((page - 1) * limit).limit(limit).all()
@@ -31,9 +31,9 @@ def list_products(
 def create_product(
     body: ProductCreate,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> Product:
-    row = Product(**body.model_dump())
+    row = Product(**body.model_dump(), owner_id=user.id)
     db.add(row)
     db.commit()
     db.refresh(row)
@@ -44,9 +44,13 @@ def create_product(
 def get_product(
     product_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> Product:
-    row = db.query(Product).filter(Product.id == product_id).first()
+    row = (
+        db.query(Product)
+        .filter(Product.id == product_id, Product.owner_id == user.id)
+        .first()
+    )
     if not row:
         raise HTTPException(404, "Producto no encontrado")
     return row
@@ -57,9 +61,13 @@ def update_product(
     product_id: int,
     body: ProductUpdate,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> Product:
-    row = db.query(Product).filter(Product.id == product_id).first()
+    row = (
+        db.query(Product)
+        .filter(Product.id == product_id, Product.owner_id == user.id)
+        .first()
+    )
     if not row:
         raise HTTPException(404, "Producto no encontrado")
     for k, v in body.model_dump(exclude_unset=True).items():
@@ -73,9 +81,13 @@ def update_product(
 def delete_product(
     product_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> dict[str, str]:
-    row = db.query(Product).filter(Product.id == product_id).first()
+    row = (
+        db.query(Product)
+        .filter(Product.id == product_id, Product.owner_id == user.id)
+        .first()
+    )
     if not row:
         raise HTTPException(404, "Producto no encontrado")
     db.delete(row)

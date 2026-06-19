@@ -39,13 +39,14 @@ EXPORT_HEADERS = [
 
 def _filtered_invoices(
     db: Session,
+    owner_id: int,
     status: str | None,
     folder_id: int | None,
     search: str | None,
     client_ids: list[int] | None = None,
     invoice_ids: list[int] | None = None,
 ) -> list[Invoice]:
-    q = db.query(Invoice).filter(Invoice.is_deleted.is_(False))
+    q = db.query(Invoice).filter(Invoice.owner_id == owner_id, Invoice.is_deleted.is_(False))
     if invoice_ids:
         q = q.filter(Invoice.id.in_(invoice_ids))
     if status:
@@ -87,14 +88,14 @@ def _invoice_values(inv: Invoice) -> list[Any]:
 @router.get("/export/invoices/csv")
 def export_csv(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
     status: str | None = Query(None),
     folder_id: int | None = Query(None),
     search: str | None = Query(None),
     client_id: Annotated[list[int] | None, Query()] = None,
     invoice_id: Annotated[list[int] | None, Query()] = None,
 ) -> StreamingResponse:
-    rows = _filtered_invoices(db, status, folder_id, search, client_id, invoice_id)
+    rows = _filtered_invoices(db, user.id, status, folder_id, search, client_id, invoice_id)
 
     buf = io.StringIO()
     buf.write("\ufeff")  # BOM para que Excel reconozca UTF-8 (acentos)
@@ -113,7 +114,7 @@ def export_csv(
 @router.get("/export/invoices/excel")
 def export_excel(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
     status: str | None = Query(None),
     folder_id: int | None = Query(None),
     search: str | None = Query(None),
@@ -127,7 +128,7 @@ def export_excel(
     except ImportError as e:
         raise HTTPException(501, "openpyxl no instalado") from e
 
-    rows = _filtered_invoices(db, status, folder_id, search, client_id, invoice_id)
+    rows = _filtered_invoices(db, user.id, status, folder_id, search, client_id, invoice_id)
 
     wb = Workbook()
     ws = wb.active
@@ -167,8 +168,8 @@ def export_excel(
     )
 
 
-def _status_payload(db: Session) -> SheetsStatusResponse:
-    cfg = resolve_sheets_config(db)
+def _status_payload(db: Session, owner_id: int) -> SheetsStatusResponse:
+    cfg = resolve_sheets_config(db, owner_id)
     return SheetsStatusResponse(
         configured=cfg.configured,
         credentials_detected=cfg.credentials_detected,
@@ -184,18 +185,18 @@ def _status_payload(db: Session) -> SheetsStatusResponse:
 @router.get("/export/sheets/status", response_model=SheetsStatusResponse)
 def sheets_status_endpoint(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> SheetsStatusResponse:
-    return _status_payload(db)
+    return _status_payload(db, user.id)
 
 
 @router.put("/export/sheets/config", response_model=SheetsStatusResponse)
 def sheets_config_endpoint(
     body: SheetsConfigUpdate,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> SheetsStatusResponse:
-    row = get_integration_settings(db)
+    row = get_integration_settings(db, user.id)
     if body.google_spreadsheet_id is not None:
         row.google_spreadsheet_id = body.google_spreadsheet_id.strip()
     if body.google_sheet_name is not None:
@@ -203,34 +204,34 @@ def sheets_config_endpoint(
     if body.sheets_auto_sync is not None:
         row.sheets_auto_sync = body.sheets_auto_sync
     db.commit()
-    return _status_payload(db)
+    return _status_payload(db, user.id)
 
 
 @router.post("/export/sheets/test")
 def sheets_test_endpoint(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> dict[str, Any]:
-    return test_connection(resolve_sheets_config(db))
+    return test_connection(resolve_sheets_config(db, user.id))
 
 
 @router.post("/export/sheets/sync")
 def sheets_sync_endpoint(
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
     status: str | None = Query(None),
     folder_id: int | None = Query(None),
     search: str | None = Query(None),
     client_id: Annotated[list[int] | None, Query()] = None,
 ) -> dict[str, Any]:
-    cfg = resolve_sheets_config(db)
+    cfg = resolve_sheets_config(db, user.id)
     if not cfg.configured:
         raise HTTPException(
             400,
             "Google Sheets no está configurado. Copia el JSON de la cuenta de servicio "
             "en backend/credentials/ y define el ID de la hoja en Configuración.",
         )
-    rows = _filtered_invoices(db, status, folder_id, search, client_id)
+    rows = _filtered_invoices(db, user.id, status, folder_id, search, client_id)
     try:
         return sync_invoices(cfg, rows)
     except Exception as e:  # noqa: BLE001
@@ -241,9 +242,13 @@ def sheets_sync_endpoint(
 def download_pdf(
     invoice_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> FileResponse:
-    inv = db.query(Invoice).filter(Invoice.id == invoice_id).first()
+    inv = (
+        db.query(Invoice)
+        .filter(Invoice.id == invoice_id, Invoice.owner_id == user.id)
+        .first()
+    )
     if not inv:
         raise HTTPException(404, "Factura no encontrada")
     folder = inv.folder.name if inv.folder else "General"
@@ -258,6 +263,6 @@ def download_pdf(
 def preview_pdf(
     invoice_id: int,
     db: Annotated[Session, Depends(get_db)],
-    _: Annotated[User, Depends(get_current_user)],
+    user: Annotated[User, Depends(get_current_user)],
 ) -> FileResponse:
-    return download_pdf(invoice_id, db, _)
+    return download_pdf(invoice_id, db, user)

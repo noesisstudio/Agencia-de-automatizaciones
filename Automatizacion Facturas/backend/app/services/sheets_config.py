@@ -58,13 +58,14 @@ def _service_account_email(creds_path: Path | None) -> str:
         return ""
 
 
-def get_integration_settings(db: "Session"):
-    """Devuelve la fila de IntegrationSettings (la crea si no existe)."""
+def get_integration_settings(db: "Session", owner_id: int):
+    """Devuelve la fila de IntegrationSettings de la empresa (la crea si no existe)."""
     from app.models import IntegrationSettings
 
-    row = db.query(IntegrationSettings).first()
+    row = db.query(IntegrationSettings).filter(IntegrationSettings.owner_id == owner_id).first()
     if not row:
         row = IntegrationSettings(
+            owner_id=owner_id,
             google_spreadsheet_id="",
             google_sheet_name="",
             sheets_auto_sync=True,
@@ -75,9 +76,9 @@ def get_integration_settings(db: "Session"):
     return row
 
 
-def resolve_sheets_config(db: "Session") -> SheetsConfig:
-    """Construye un SheetsConfig fusionando .env y DB."""
-    row = get_integration_settings(db)
+def resolve_sheets_config(db: "Session", owner_id: int) -> SheetsConfig:
+    """Construye un SheetsConfig fusionando .env y DB (por empresa)."""
+    row = get_integration_settings(db, owner_id)
     creds_path = app_settings.resolved_service_account_path()
     detected = creds_path is not None and creds_path.is_file()
 

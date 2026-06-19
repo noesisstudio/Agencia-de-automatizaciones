@@ -18,14 +18,14 @@ _env = Environment(
 )
 
 
-def _resolve_company(db: Session | None) -> tuple[str, str, str | None]:
+def _resolve_company(db: Session | None, owner_id: int | None) -> tuple[str, str, str | None]:
     name = settings.mi_nombre_empresa or "Tu empresa"
     nif = settings.mi_nif_empresa or ""
     address: str | None = None
-    if db is not None:
-        cs = db.query(CompanySettings).first()
+    if db is not None and owner_id is not None:
+        cs = db.query(CompanySettings).filter(CompanySettings.owner_id == owner_id).first()
         if not cs:
-            cs = get_or_create_company_settings(db)
+            cs = get_or_create_company_settings(db, owner_id)
         if cs.name:
             name = cs.name
         if cs.nif:
@@ -35,7 +35,7 @@ def _resolve_company(db: Session | None) -> tuple[str, str, str | None]:
 
 
 def _invoice_context(invoice: Invoice, db: Session | None = None) -> dict:
-    cs_name, cs_nif, cs_address = _resolve_company(db)
+    cs_name, cs_nif, cs_address = _resolve_company(db, invoice.owner_id)
     return {
         "invoice": invoice,
         "lines": invoice.lines,
