@@ -1,6 +1,22 @@
-import { api, checkApiHealth, login } from "./api.js";
+import { api, checkApiHealth, login, loginWithSupabase } from "./api.js";
 import { state } from "./state.js";
 import { el, showToast } from "./utils.js";
+
+const SUPABASE_URL = "https://zhvytwqvbtsenzwrsysi.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_lH0fsQmtFYMNashi3YD2yQ_RpMxQ2sj";
+
+async function trySupabaseLogin(email, password) {
+  if (!window.supabase) return null;
+  try {
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error || !data.session) return null;
+    await loginWithSupabase(data.session.access_token);
+    return true;
+  } catch {
+    return null;
+  }
+}
 
 export async function isApiAvailable() {
   return await checkApiHealth();
@@ -25,8 +41,8 @@ export function renderLogin(root, onSuccess) {
   
   const form = el("form", { className: "stack" }, [
     el("div", { className: "stack-field" }, [
-      el("label", { text: "Usuario", for: "login-user" }),
-      el("input", { type: "text", id: "login-user", name: "username", required: true, autocomplete: "username" })
+      el("label", { text: "Email o usuario", for: "login-user" }),
+      el("input", { type: "text", id: "login-user", name: "username", required: true, autocomplete: "email", placeholder: "tu@email.com" })
     ]),
     el("div", { className: "stack-field" }, [
       el("label", { text: "Contraseña", for: "login-pass" }),
@@ -41,10 +57,10 @@ export function renderLogin(root, onSuccess) {
     const errorEl = document.getElementById("login-error");
     const submitBtn = document.getElementById("login-submit");
     errorEl.hidden = true;
-    
+
     const user = document.getElementById("login-user").value.trim();
     const pass = document.getElementById("login-pass").value;
-    
+
     if (!user || !pass) {
       errorEl.textContent = "Por favor, completa todos los campos.";
       errorEl.hidden = false;
@@ -54,7 +70,23 @@ export function renderLogin(root, onSuccess) {
     submitBtn.disabled = true;
     submitBtn.textContent = "Iniciando...";
 
+    const isEmail = user.includes("@");
+
     try {
+      // If email, try Supabase first
+      if (isEmail) {
+        const ssoOk = await trySupabaseLogin(user, pass);
+        if (ssoOk) {
+          const isAuthed = await ensureAuth();
+          if (isAuthed) {
+            showToast("Sesión iniciada correctamente", "success");
+            if (onSuccess) onSuccess();
+            return;
+          }
+        }
+      }
+
+      // Fallback: local auth (admin or direct users)
       await login(user, pass);
       const isAuthed = await ensureAuth();
       if (isAuthed) {
@@ -64,7 +96,7 @@ export function renderLogin(root, onSuccess) {
         throw new Error("No se pudo obtener el perfil de usuario");
       }
     } catch (err) {
-      errorEl.textContent = err.message;
+      errorEl.textContent = isEmail ? "Email o contraseña incorrectos" : err.message;
       errorEl.hidden = false;
       submitBtn.disabled = false;
       submitBtn.textContent = "Iniciar Sesión";
