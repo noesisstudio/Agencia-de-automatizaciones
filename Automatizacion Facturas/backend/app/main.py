@@ -24,6 +24,22 @@ from app.models import ClientFolder, User, UserRole
 logger = logging.getLogger(__name__)
 
 
+def _migrate_db() -> None:
+    """Add columns that may not exist in older databases."""
+    from sqlalchemy import inspect, text
+    db = SessionLocal()
+    try:
+        inspector = inspect(db.bind)
+        if "users" in inspector.get_table_names():
+            columns = {c["name"] for c in inspector.get_columns("users")}
+            if "supabase_id" not in columns:
+                db.execute(text("ALTER TABLE users ADD COLUMN supabase_id VARCHAR(255) UNIQUE"))
+                db.commit()
+                logger.info("Migración: columna supabase_id añadida a users")
+    finally:
+        db.close()
+
+
 def _seed_admin() -> None:
     db = SessionLocal()
     try:
@@ -49,6 +65,7 @@ def _seed_admin() -> None:
 async def lifespan(_: FastAPI):
     settings.ensure_dirs()
     init_db()
+    _migrate_db()
     _seed_admin()
     logger.info("FacturAI DB lista en %s", settings.database_url)
     yield
@@ -80,18 +97,16 @@ app.include_router(export_router)
 
 
 @app.middleware("http")
-async def no_cache_static(request: Request, call_next):
-    """Evita que el navegador sirva módulos JS/CSS antiguos de la caché.
-
-    Sin esto, un .js cacheado y desactualizado puede romper los `import` de la SPA
-    y dejar la página en blanco. Forzamos revalidación en cada carga del front.
-    """
+async def security_and_cache(request: Request, call_next):
     response = await call_next(request)
     path = request.url.path
     if path == "/" or path.endswith((".js", ".css", ".html")):
         response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Pragma"] = "no-cache"
         response.headers["Expires"] = "0"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     return response
 
 
@@ -113,6 +128,7 @@ async def health() -> dict[str, object]:
         "google_sheets_configured": gs,
         "database": settings.database_url.split("///")[-1],
         "smtp_configured": settings.smtp_configured(),
+        "supabase_sso": settings.supabase_configured(),
     }
 
 

@@ -35,7 +35,14 @@ para instalarlos a cada cliente.
 
 ---
 
-## 3. Soporte
+## 3. Legal y cumplimiento
+
+| Archivo | Qué es |
+|---|---|
+| `RGPD-QUE-HACER.md` | **Guía RGPD completa** para todas las automatizaciones: qué datos se tratan, qué falta hacer, checklist de cumplimiento, AI Act. |
+| `web/privacidad.html` | Política de privacidad pública (ya en producción en bynoesis.com). |
+
+## 4. Soporte
 
 | Carpeta | Qué es |
 |---|---|
@@ -45,7 +52,7 @@ para instalarlos a cada cliente.
 
 ---
 
-## 4. Los dos "sabores" de cada chatbot
+## 5. Los dos "sabores" de cada chatbot
 
 Tanto el chatbot web como el de WhatsApp se venden en dos niveles:
 
@@ -59,17 +66,19 @@ La comparación legal y de precio está en:
 
 ---
 
-## 5. Dónde empezar según lo que quieras hacer
+## 6. Dónde empezar según lo que quieras hacer
 
+- **Desplegar las facturas** → `Automatizacion Facturas/DEPLOY.md`
 - **Tocar la web de Noesis** → `web/`
 - **Cambiar lo que responde el chatbot web** → `netlify/functions/noesis-conocimiento.md`
 - **Instalar el chatbot web a un cliente** → `Chatbot pagina web/README.md`
 - **Montar el chatbot de WhatsApp** → `Automatizacion Chatbot meta/whatsapp-bot/README.md`
 - **Plantilla de info de un cliente nuevo** → `Chatbot pagina web/PLANTILLA-conocimiento-cliente.md`
+- **Cumplimiento RGPD** → `RGPD-QUE-HACER.md`
 
 ---
 
-## 6. Seguridad (importante)
+## 7. Seguridad (importante)
 
 - Las claves (`ANTHROPIC_API_KEY`, tokens de Meta, etc.) van **solo** en variables
   de entorno (Netlify / n8n / `.env` local), **nunca** en el código del repo.

@@ -1,0 +1,60 @@
+# docker-compose.yml — Despliegue de FacturAI (Noesis)
+#
+# Uso rápido:
+#   1. Copia .env.production a .env (o edítalo directamente)
+#   2. docker compose up -d
+#   3. Accede a http://localhost:8010 (o tu dominio)
+#
+# Con dominio propio + HTTPS (Caddy como reverse proxy):
+#   docker compose --profile https up -d
+
+services:
+  facturai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: facturai
+    restart: unless-stopped
+    ports:
+      - "${FACTURAI_PORT:-8010}:8010"
+    volumes:
+      - facturai-data:/app/backend/data
+      - facturai-storage:/app/backend/storage
+      - facturai-credentials:/app/backend/credentials
+    env_file:
+      - backend/.env
+    environment:
+      - FACTURAI_HOST=0.0.0.0
+      - FACTURAI_PORT=8010
+      - FACTURAI_OPEN_BROWSER=0
+      - FACTURAI_RELOAD=0
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8010/health')"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+
+  # Reverse proxy con HTTPS automático (Let's Encrypt)
+  # Solo se activa con: docker compose --profile https up -d
+  caddy:
+    image: caddy:2-alpine
+    container_name: facturai-caddy
+    restart: unless-stopped
+    profiles: ["https"]
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - facturai
+
+volumes:
+  facturai-data:
+  facturai-storage:
+  facturai-credentials:
+  caddy-data:
+  caddy-config:

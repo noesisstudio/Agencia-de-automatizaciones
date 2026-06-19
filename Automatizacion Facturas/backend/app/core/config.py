@@ -49,7 +49,10 @@ class Settings(BaseSettings):
     pdf_storage_path: str = str(_STORAGE_DIR / "invoices")
     upload_max_size_mb: int = 15
 
-    cors_origins: str = "http://127.0.0.1:8010,http://localhost:8010,http://127.0.0.1:8080,http://localhost:8080"
+    cors_origins: str = "http://127.0.0.1:8010,http://localhost:8010"
+
+    supabase_url: str = ""
+    supabase_jwt_secret: str = ""
 
     admin_username: str = "admin"
     admin_password: str = ""  # OBLIGATORIO en .env
@@ -96,6 +99,9 @@ class Settings(BaseSettings):
 
     def smtp_configured(self) -> bool:
         return bool(self.smtp_host and self.smtp_user and self.email_from)
+
+    def supabase_configured(self) -> bool:
+        return bool(self.supabase_jwt_secret and self.supabase_url)
 
     def resolved_service_account_path(self) -> Path | None:
         raw = (self.google_service_account_json or "").strip()

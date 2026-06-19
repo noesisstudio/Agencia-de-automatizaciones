@@ -1,0 +1,16 @@
+# Caddyfile — HTTPS automático para FacturAI
+#
+# Cambia "facturas.bynoesis.com" por tu dominio real.
+# Caddy obtiene el certificado SSL de Let's Encrypt automáticamente.
+
+facturas.bynoesis.com {
+    reverse_proxy facturai:8010
+    encode gzip
+
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+        Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+    }
+}

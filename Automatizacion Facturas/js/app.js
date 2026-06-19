@@ -1,7 +1,7 @@
 import { ensureAuth, isApiAvailable, renderApiDown, renderLogin } from "./modules/auth.js";
 import { registerRoute, startRouter, stopRouter, resetRoutes, navigateTo } from "./modules/router.js";
 import { applyTheme, bindThemeToggle } from "./modules/theme.js";
-import { login } from "./modules/api.js";
+import { login, loginWithSupabase } from "./modules/api.js";
 import { renderDashboard } from "./modules/dashboard.js";
 import { renderInvoices } from "./modules/invoices.js";
 import { renderClients } from "./modules/clients.js";
@@ -175,11 +175,28 @@ async function init() {
     return;
   }
 
+  // SSO: check for Supabase token in hash fragment (#sso=<token>)
+  const ssoMatch = location.hash.match(/^#sso=(.+)$/);
+  if (ssoMatch) {
+    history.replaceState(null, "", location.pathname);
+    try {
+      await loginWithSupabase(decodeURIComponent(ssoMatch[1]));
+      const ssoAuthed = await ensureAuth();
+      if (ssoAuthed) {
+        showToast("Sesión iniciada desde el portal Noesis", "success");
+        await enterApp();
+        return;
+      }
+    } catch (e) {
+      console.error("SSO error:", e);
+      showToast("Error al iniciar sesión desde el portal: " + e.message, "error");
+    }
+  }
+
   const authed = await ensureAuth();
   if (authed) {
     await enterApp();
   } else {
-    // Auto-login removed for security — use .env to configure
     showLogin();
   }
 

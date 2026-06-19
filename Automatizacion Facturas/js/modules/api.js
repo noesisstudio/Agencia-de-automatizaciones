@@ -132,3 +132,20 @@ export async function login(username, password) {
   state.token = data.access_token;
   return data;
 }
+
+export async function loginWithSupabase(supabaseToken) {
+  const base = await getApiBase();
+  const res = await fetch(`${base}/auth/supabase`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ access_token: supabaseToken })
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(formatApiError(data, "Error en SSO con Supabase"));
+  }
+
+  state.token = data.access_token;
+  return data;
+}

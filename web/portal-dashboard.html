@@ -97,33 +97,31 @@
             <div class="client-kpi-grid">
               <article class="client-kpi highlighted">
                 <span data-i18n="kpi.pending">Pendiente de pago</span>
-                <strong>290&euro;</strong>
-                <p data-i18n="kpi.pendingNote">1 factura pendiente</p>
+                <strong data-kpi-value="pending">—</strong>
+                <p data-kpi-note="pending">Cargando…</p>
               </article>
               <article class="client-kpi">
                 <span data-i18n="kpi.paid">Total pagado</span>
-                <strong>1.850&euro;</strong>
-                <p data-i18n="kpi.paidNote">Implementaci&oacute;n inicial completada</p>
+                <strong data-kpi-value="paid">—</strong>
+                <p data-kpi-note="paid">Cargando…</p>
               </article>
               <article class="client-kpi">
                 <span data-i18n="kpi.next">Pr&oacute;xima factura</span>
-                <strong>05/06</strong>
-                <p data-i18n="kpi.nextNote">Mantenimiento mensual</p>
+                <strong data-kpi-value="next">—</strong>
+                <p data-kpi-note="next">Cargando…</p>
               </article>
               <article class="client-kpi">
                 <span data-i18n="kpi.contract">Contrato</span>
-                <strong data-i18n="kpi.contractValue">Activo</strong>
-                <p data-i18n="kpi.contractNote">Servicio en seguimiento</p>
+                <strong data-kpi-value="contract">—</strong>
+                <p data-kpi-note="contract">Cargando…</p>
               </article>
             </div>
 
             <div class="client-two-columns">
               <article class="client-card">
                 <h2 data-i18n="summary.activity">Actividad reciente</h2>
-                <div class="timeline">
-                  <div><span>28/05</span><p data-i18n="summary.act1">Revisi&oacute;n del flujo de chatbot y respuestas frecuentes completada.</p></div>
-                  <div><span>27/05</span><p data-i18n="summary.act2">Ajuste de criterios para leads, email y mensajes de WhatsApp.</p></div>
-                  <div><span>24/05</span><p data-i18n="summary.act3">Presupuesto de mantenimiento mensual confirmado.</p></div>
+                <div class="timeline" id="portal-activity-timeline">
+                  <p class="empty-state">Cargando actividad…</p>
                 </div>
               </article>
               <article class="client-card action-card">
@@ -158,20 +156,21 @@
             </div>
             <div class="client-two-columns">
               <article class="client-card">
-                <h2 data-i18n="billing.budget">Alcance aprobado</h2>
-                <div class="billing-table">
-                  <div><span data-i18n="billing.impl">Implementaci&oacute;n inicial</span><strong>Sistema personalizado</strong></div>
-                  <div><span data-i18n="billing.maint">Mantenimiento mensual</span><strong>Soporte acordado</strong></div>
-                  <div><span data-i18n="billing.status">Estado</span><strong data-i18n="billing.statusValue">Implementaci&oacute;n activa, revisi&oacute;n pendiente</strong></div>
-                  <div><span data-i18n="billing.next">Pr&oacute;ximo vencimiento</span><strong>05/06/2026</strong></div>
+                <h2>Suscripci&oacute;n activa</h2>
+                <div class="billing-table" id="portal-subscription-info">
+                  <p class="empty-state">Cargando suscripci&oacute;n…</p>
+                </div>
+                <div class="billing-actions">
+                  <button id="portal-stripe-btn" class="button secondary compact" type="button" style="display:none;">Gestionar pago / Cancelar</button>
                 </div>
               </article>
               <article class="client-card">
-                <h2 data-i18n="billing.docs">Documentos</h2>
-                <div class="document-list">
-                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20factura%20implementacion%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice1">Factura implementaci&oacute;n</strong><small data-i18n="billing.paid">Pagada</small></a>
-                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20factura%20mantenimiento%20Noesis"><span>PDF</span><strong data-i18n="billing.invoice2">Factura mantenimiento junio</strong><small data-i18n="billing.pending">Pendiente</small></a>
-                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20contrato%20de%20servicio%20Noesis"><span>PDF</span><strong data-i18n="billing.contractDoc">Contrato de servicio</strong><small data-i18n="billing.active">Activo</small></a>
+                <h2>Facturas</h2>
+                <div class="document-list" id="portal-invoice-list">
+                  <p class="empty-state">Cargando facturas…</p>
+                </div>
+                <div style="margin-top:1rem;">
+                  <button id="portal-facturai-btn" class="button primary compact" type="button">Abrir FacturAI</button>
                 </div>
               </article>
             </div>
@@ -223,30 +222,47 @@
           <section class="client-panel" id="panel-support" data-panel="support">
             <div class="client-panel-head">
               <p class="eyebrow" data-i18n="support.eyebrow">Soporte</p>
-              <h1 data-i18n="support.title">Contacto directo con Noesis.</h1>
-              <p data-i18n="support.body">Un canal para resolver dudas, pedir ajustes o dejar constancia de incidencias del servicio.</p>
+              <h1>Incidencias y contacto directo.</h1>
+              <p>Abre una incidencia para que el equipo Noesis la revise, o contacta directamente por email.</p>
             </div>
             <div class="client-two-columns">
-              <article class="client-card chat-box">
-                <h2 data-i18n="support.chat">Chat del proyecto</h2>
-                <div class="chat-thread">
-                  <div class="chat-message" data-i18n="support.msg1">Hemos detectado menos revisi&oacute;n manual en la clasificaci&oacute;n de leads esta semana.</div>
-                  <div class="chat-message user" data-i18n="support.msg2">Podemos valorar propuestas por WhatsApp m&aacute;s adelante?</div>
-                  <div class="chat-message" data-i18n="support.msg3">S&iacute;. Lo pondr&iacute;amos como fase 2 y validar&iacute;amos alcance antes de activarlo.</div>
-                </div>
-                <div class="chat-input">
-                  <input data-i18n-placeholder="support.placeholder" placeholder="Escribe un mensaje..." aria-label="Mensaje para Noesis" data-support-input />
-                  <button class="button primary compact" type="button" data-i18n="support.send" data-support-send>Enviar</button>
-                </div>
+              <article class="client-card">
+                <h2>Nueva incidencia</h2>
+                <form id="portal-ticket-form" class="ticket-form">
+                  <div class="field">
+                    <label for="ticket-asunto">Asunto</label>
+                    <input id="ticket-asunto" name="asunto" type="text" placeholder="Ej: El chatbot no responde a horarios" required />
+                  </div>
+                  <div class="field">
+                    <label for="ticket-descripcion">Descripci&oacute;n</label>
+                    <textarea id="ticket-descripcion" name="descripcion" rows="4" placeholder="Describe el problema con detalle…" required></textarea>
+                  </div>
+                  <div class="field">
+                    <label for="ticket-prioridad">Prioridad</label>
+                    <select id="ticket-prioridad" name="prioridad">
+                      <option value="baja">Baja</option>
+                      <option value="normal" selected>Normal</option>
+                      <option value="alta">Alta</option>
+                      <option value="urgente">Urgente</option>
+                    </select>
+                  </div>
+                  <p data-ticket-feedback hidden class="ticket-feedback"></p>
+                  <button class="button primary compact" type="submit">Enviar incidencia</button>
+                </form>
               </article>
               <article class="client-card">
-                <h2 data-i18n="support.channels">Canales</h2>
+                <h2>Canales de contacto</h2>
                 <div class="support-options">
                   <a href="mailto:info@bynoesis.com"><strong>Email</strong><span>info@bynoesis.com</span></a>
-                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20revision%20mensual%20Noesis"><strong data-i18n="support.meeting">Reuni&oacute;n</strong><span data-i18n="support.meetingText">Solicitar revisi&oacute;n mensual</span></a>
-                  <a href="mailto:info@bynoesis.com?subject=Incidencia%20servicio%20Noesis"><strong data-i18n="support.issue">Incidencia</strong><span data-i18n="support.issueText">Registrar un problema del sistema</span></a>
+                  <a href="mailto:info@bynoesis.com?subject=Solicitar%20revision%20mensual%20Noesis"><strong>Reuni&oacute;n</strong><span>Solicitar revisi&oacute;n mensual</span></a>
                 </div>
               </article>
+            </div>
+            <div class="client-card">
+              <h2>Historial de incidencias</h2>
+              <div id="portal-ticket-list">
+                <p class="empty-state">Cargando incidencias…</p>
+              </div>
             </div>
           </section>
 
@@ -271,5 +287,6 @@
     <script src="noesis-auth.js"></script>
     <script src="i18n.js?v=launch-3"></script>
     <script src="script.js?v=launch-3"></script>
+    <script src="portal-data.js?v=1"></script>
   </body>
 </html>

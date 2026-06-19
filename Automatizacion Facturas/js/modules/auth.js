@@ -76,7 +76,8 @@ export function renderLogin(root, onSuccess) {
       el("h1", { className: "logo text-xl", innerHTML: 'Noesis<span class="logo__dot">.</span>' }),
       el("p", { className: "muted", text: "Bienvenido de nuevo" })
     ]),
-    form
+    form,
+    el("p", { className: "muted text-center", style: { fontSize: ".72rem", marginTop: "1rem", opacity: ".7" }, innerHTML: 'Al iniciar sesión aceptas nuestra <a href="https://bynoesis.com/privacidad.html" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Política de Privacidad</a>.' })
   ]);
 
   root.appendChild(card);

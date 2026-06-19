@@ -55,6 +55,15 @@ function render(root, health = {}) {
     ]));
   }
 
+  // Aviso de IA (obligatorio por AI Act)
+  const aiNotice = el("div", {
+    className: "alert-card",
+    style: { marginBottom: "1rem", borderRadius: "var(--radius-sm)", fontSize: ".82rem", opacity: ".8" }
+  }, [
+    el("span", { text: "Este servicio utiliza inteligencia artificial (Claude de Anthropic) para extraer datos de tus facturas. Los datos se envían a Anthropic para su procesamiento y los resultados son siempre revisados por ti antes de guardarse." })
+  ]);
+  warnings.push(aiNotice);
+
   const panel = el("div", { className: "upload-panel panel" });
   const folderPicker = createFolderPicker(folders);
   const form = el("form", { className: "stack", id: "upload-form" }, [

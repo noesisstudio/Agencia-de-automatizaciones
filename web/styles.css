@@ -2323,3 +2323,223 @@ p {
     white-space: normal;
   }
 }
+
+/* ================================================================
+   Portal dinámico — Tickets, Facturas, Estados
+   ================================================================ */
+
+/* Empty state */
+.empty-state {
+  color: var(--muted);
+  font-size: 0.95rem;
+  padding: 8px 0;
+}
+
+/* Billing actions */
+.billing-actions {
+  margin-top: 16px;
+}
+
+/* ---- Invoice rows ---- */
+.invoice-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #fff;
+  text-decoration: none;
+  color: var(--graphite);
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.invoice-row:hover {
+  box-shadow: 0 4px 16px rgba(18, 60, 53, 0.08);
+  transform: translateY(-1px);
+}
+
+.invoice-icon {
+  font-size: 1.3rem;
+}
+
+.invoice-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.invoice-info strong {
+  font-size: 0.95rem;
+}
+
+.invoice-info small {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+/* ---- Status badges ---- */
+.invoice-status,
+.ticket-status {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.status-paid,
+.status-resolved,
+.status-active {
+  background: #e0f5ec;
+  color: #1a7a4c;
+}
+
+.status-pending,
+.status-open {
+  background: #fff4e0;
+  color: #b07d1e;
+}
+
+.status-overdue,
+.status-cancelled {
+  background: #fde8e8;
+  color: var(--wine);
+}
+
+.status-progress {
+  background: var(--mist);
+  color: var(--green-2);
+}
+
+.status-closed {
+  background: #eee;
+  color: var(--muted);
+}
+
+/* ---- Ticket form ---- */
+.ticket-form {
+  display: grid;
+  gap: 16px;
+}
+
+.ticket-form .field {
+  display: grid;
+  gap: 6px;
+}
+
+.ticket-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--graphite);
+}
+
+.ticket-form input,
+.ticket-form textarea,
+.ticket-form select {
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  background: #fff;
+  color: var(--graphite);
+  transition: border-color 0.2s ease;
+}
+
+.ticket-form input:focus,
+.ticket-form textarea:focus,
+.ticket-form select:focus {
+  outline: none;
+  border-color: var(--aqua);
+  box-shadow: 0 0 0 3px rgba(46, 140, 124, 0.12);
+}
+
+.ticket-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.ticket-feedback {
+  font-size: 0.88rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.ticket-feedback-success {
+  background: #e0f5ec;
+  color: #1a7a4c;
+}
+
+.ticket-feedback-error {
+  background: #fde8e8;
+  color: var(--wine);
+}
+
+/* ---- Ticket cards (list) ---- */
+.ticket-card {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  margin-bottom: 10px;
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ticket-header strong {
+  font-size: 0.95rem;
+}
+
+.ticket-body {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.ticket-reply {
+  background: var(--mist);
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.ticket-reply span {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--green-2);
+  margin-bottom: 4px;
+}
+
+.ticket-reply p {
+  font-size: 0.9rem;
+  color: var(--graphite);
+  margin: 0;
+}
+
+.ticket-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-footer small {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.ticket-priority {
+  text-transform: capitalize;
+  font-weight: 500;
+}
