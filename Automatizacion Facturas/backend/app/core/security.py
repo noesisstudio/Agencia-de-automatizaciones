@@ -15,6 +15,23 @@ def _fernet() -> Fernet:
     return Fernet(key)
 
 
+def encrypt_text(value: str | None) -> str | None:
+    """Cifra texto arbitrario (p. ej. JSON con datos personales)."""
+    if value is None or value == "":
+        return None
+    return _fernet().encrypt(value.encode()).decode()
+
+
+def decrypt_text(encrypted: str | None) -> str | None:
+    """Descifra texto cifrado con encrypt_text. Devuelve None si falla."""
+    if not encrypted:
+        return None
+    try:
+        return _fernet().decrypt(encrypted.encode()).decode()
+    except Exception:
+        return None
+
+
 def encrypt_nif(value: str | None) -> str | None:
     if not value or not value.strip():
         return None

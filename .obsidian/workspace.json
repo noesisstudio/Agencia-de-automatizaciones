@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "321849f1133b1812",
+        "id": "74b4da2954dd5f72",
         "type": "tabs",
         "children": [
           {
-            "id": "99f5850a2a9bed08",
+            "id": "20b19158d29d7f81",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -178,25 +178,32 @@
   },
   "active": "22d898992c7f5f67",
   "lastOpenFiles": [
+    "Automatizacion Facturas/backend/app/core/__pycache__/rate_limit.cpython-314.pyc",
+    "Automatizacion Facturas/backend/app/core/rate_limit.py",
+    "Automatizacion Facturas/backend/app/core/__pycache__/supabase.cpython-314.pyc",
+    "Automatizacion Facturas/backend/app/core/supabase.py",
+    "Automatizacion Facturas/js/modules/access.js",
+    "Automatizacion Facturas/backend/data/facturai.db",
+    "RGPD-QUE-HACER.md",
+    "Automatizacion Facturas/DEPLOY.md",
+    "Automatizacion Facturas/Caddyfile",
+    "Automatizacion Facturas/docker-compose.yml",
+    "web/portal-data.js",
+    "supabase/portal_tables.sql",
+    "supabase/GUIA-INSTALACION-SUPABASE.md",
+    "supabase/chatbot_sin_ia.sql",
+    "Automatizacion Chatbot meta/whatsapp-bot/6-GUIA-SUPABASE-MULTITENANT.md",
+    "Automatizacion Chatbot meta/whatsapp-bot/5-INSTALACION-n8n.md",
+    "Automatizacion Chatbot meta/whatsapp-bot/conocimiento-noesis.md",
     "Chatbot pagina web/chatbot-sin-ia/5-checklist-entrega/checklist-entrega.md",
     "Chatbot pagina web/README.md",
     "Chatbot pagina web/chatbot-ia-netlify/INSTALACION.md",
-    "Chatbot pagina web/chatbot-ia-netlify",
     "Automatizacion Chatbot meta/whatsapp-bot/README.md",
     "Automatizacion Chatbot meta/whatsapp-bot/4-WORKFLOW-bot-con-ia.md",
     "Automatizacion Chatbot meta/whatsapp-bot/3-WORKFLOW-bot-sin-ia.md",
     "Automatizacion Chatbot meta/whatsapp-bot/2-BASE-DE-DATOS-google-sheets.md",
     "Automatizacion Chatbot meta/whatsapp-bot/1-DIFERENCIAS-LEGALES.md",
-    "Automatizacion Chatbot meta/whatsapp-bot",
-    "Automatizacion Chatbot/chatbot-backend/data/tenants/prueba/uploads",
-    "Automatizacion Chatbot/chatbot-backend/data/tenants/prueba/sources.json",
-    "Automatizacion Chatbot/chatbot-backend/data/tenants/prueba/meta.json",
     "Automatizacion Chatbot/chatbot-backend/data/tenants/prueba/knowledge.md",
-    "Automatizacion Chatbot/chatbot-backend/data/tenants/prueba",
-    "Automatizacion Chatbot/chatbot-backend/data/tenants",
-    "Automatizacion Chatbot/chatbot-backend/data",
-    "Automatizacion Chatbot/chatbot-backend/app/api/__pycache__/routes_whatsapp.cpython-314.pyc",
-    "Automatizacion Chatbot/chatbot-backend/app/services/__pycache__/whatsapp_bot.cpython-314.pyc",
     "Sin título.md"
   ]
 }

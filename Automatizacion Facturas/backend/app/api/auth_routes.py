@@ -4,9 +4,9 @@ import logging
 import secrets
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
-from jose import JWTError, jwt
+from jose import JWTError
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -19,6 +19,8 @@ from app.core.auth import (
     verify_password,
 )
 from app.core.config import settings
+from app.core.rate_limit import check_login_rate_limit
+from app.core.supabase import verify_supabase_token
 from app.database import get_db
 from app.models import User, UserRole
 from app.schemas import PasswordChange, Token, UserCreate, UserResponse
@@ -31,9 +33,11 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/login", response_model=Token)
 def login(
+    request: Request,
     form: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: Annotated[Session, Depends(get_db)],
 ) -> Token:
+    check_login_rate_limit(request)
     user = authenticate_user(db, form.username, form.password)
     if not user:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Usuario o contraseña incorrectos")
@@ -69,20 +73,17 @@ class SupabaseTokenRequest(BaseModel):
 
 @router.post("/supabase", response_model=Token)
 def supabase_sso(
+    request: Request,
     body: SupabaseTokenRequest,
     db: Annotated[Session, Depends(get_db)],
 ) -> Token:
     """Exchange a Supabase JWT for a FacturAI JWT (SSO from the Noesis portal)."""
+    check_login_rate_limit(request)
     if not settings.supabase_configured():
         raise HTTPException(status.HTTP_501_NOT_IMPLEMENTED, "SSO con Supabase no configurado")
 
     try:
-        payload = jwt.decode(
-            body.access_token,
-            settings.supabase_jwt_secret,
-            algorithms=["HS256"],
-            options={"verify_aud": False},
-        )
+        payload = verify_supabase_token(body.access_token)
     except JWTError as e:
         logger.warning("Supabase JWT inválido: %s", e)
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Token de Supabase inválido") from e

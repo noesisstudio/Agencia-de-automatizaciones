@@ -151,13 +151,58 @@ def delete_client(
     )
     if invoice_count > 0:
         raise HTTPException(
-            400,
-            "No puedes eliminar este cliente porque tiene facturas asociadas. "
-            "Reasigna o elimina esas facturas primero.",
+            409,
+            "Este cliente tiene facturas y la ley fiscal obliga a conservarlas "
+            "(art. 66 LGT). Usa «Anonimizar» para borrar sus datos de contacto "
+            "cumpliendo el RGPD sin romper la contabilidad.",
         )
     db.delete(client)
     db.commit()
     return {"message": "Cliente eliminado"}
+
+
+@router.post("/{client_id}/anonymize")
+def anonymize_client(
+    client_id: int,
+    db: Annotated[Session, Depends(get_db)],
+    user: Annotated[User, Depends(get_current_user)],
+) -> dict[str, str]:
+    """Derecho de supresión (RGPD art. 17) respetando la obligación fiscal.
+
+    - Borra siempre los datos de contacto (email, teléfono, dirección).
+    - Si el cliente tiene facturas, conserva nombre y NIF: son obligatorios en
+      la factura durante el periodo de conservación fiscal (art. 17.3.b RGPD).
+    - Si no tiene facturas, anonimiza también nombre y NIF por completo.
+    """
+    client = (
+        db.query(Client)
+        .filter(Client.id == client_id, Client.owner_id == user.id)
+        .first()
+    )
+    if not client:
+        raise HTTPException(404, "Cliente no encontrado")
+
+    has_invoices = (
+        db.query(Invoice)
+        .filter(Invoice.client_id == client.id, Invoice.is_deleted.is_(False))
+        .count()
+        > 0
+    )
+
+    client.email = None
+    client.phone = None
+    client.address = None
+    if not has_invoices:
+        client.name = "Cliente anonimizado"
+        client.encrypted_nif = None
+        msg = "Cliente anonimizado por completo."
+    else:
+        msg = (
+            "Datos de contacto borrados. Se conservan nombre y NIF por obligación "
+            "fiscal hasta que caduque el periodo de conservación."
+        )
+    db.commit()
+    return {"message": msg}
 
 
 @router.get("/{client_id}/invoices", response_model=list[InvoiceResponse])

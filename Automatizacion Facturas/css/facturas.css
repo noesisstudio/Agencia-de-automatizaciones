@@ -1281,3 +1281,49 @@ body.facturas-app {
   .stat-grid { grid-template-columns: 1fr; }
   .card-grid { grid-template-columns: 1fr; }
 }
+
+/* ─── Switch (toggle on/off) ─── */
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.switch__slider {
+  position: absolute;
+  inset: 0;
+  background: var(--border);
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+.switch__slider::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+.switch input:checked + .switch__slider {
+  background: var(--success);
+}
+.switch input:checked + .switch__slider::before {
+  transform: translateX(20px);
+}
+.switch input:disabled + .switch__slider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.core.auth import get_current_user
 from app.database import get_db
-from app.models import Client, Invoice, InvoiceLine, InvoiceStatus, User
+from app.models import Client, ClientFolder, Invoice, InvoiceLine, InvoiceStatus, User
 from app.schemas import (
     InvoiceCreate,
     InvoiceListResponse,
@@ -34,6 +34,35 @@ from app.services.template_render import render_invoice_html as render_legacy_ht
 logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["invoices"])
+
+
+def _assert_owned_refs(
+    db: Session,
+    owner_id: int,
+    client_id: int | None,
+    folder_id: int | None,
+) -> None:
+    """Impide referenciar clientes/carpetas de OTRA empresa (aislamiento RGPD).
+
+    Sin esto, una empresa podría asociar una factura al client_id de otra y
+    filtrar el nombre del cliente ajeno en su propia factura.
+    """
+    if client_id is not None:
+        owned = (
+            db.query(Client.id)
+            .filter(Client.id == client_id, Client.owner_id == owner_id)
+            .first()
+        )
+        if not owned:
+            raise HTTPException(404, "Cliente no encontrado")
+    if folder_id is not None:
+        owned = (
+            db.query(ClientFolder.id)
+            .filter(ClientFolder.id == folder_id, ClientFolder.owner_id == owner_id)
+            .first()
+        )
+        if not owned:
+            raise HTTPException(404, "Carpeta no encontrada")
 
 
 def _form_bool(value: str | bool | None, default: bool = True) -> bool:
@@ -81,6 +110,7 @@ async def process_invoice(
     with_template = _form_bool(include_template, True)
     if not file.filename:
         raise HTTPException(400, "Falta nombre de archivo")
+    _assert_owned_refs(db, user.id, client_id_int, folder_id_int)
     raw = await file.read()
     if not raw:
         raise HTTPException(400, "Archivo vacío")
@@ -157,6 +187,7 @@ def save_extracted_invoice(
     user: User = Depends(get_current_user),
 ) -> InvoiceResponse:
     """Guarda una factura a partir de datos ya extraídos (y revisados) por el usuario."""
+    _assert_owned_refs(db, user.id, body.client_id, body.folder_id)
     try:
         inv = invoice_from_extracted(
             db,
@@ -233,6 +264,7 @@ def create_invoice(
     db: Annotated[Session, Depends(get_db)],
     user: Annotated[User, Depends(get_current_user)],
 ) -> InvoiceResponse:
+    _assert_owned_refs(db, user.id, body.client_id, body.folder_id)
     inv = Invoice(
         number=next_invoice_number(db, user.id),
         client_id=body.client_id,
@@ -298,6 +330,7 @@ def update_invoice(
         raise HTTPException(404, "Factura no encontrada")
     if inv.status != InvoiceStatus.borrador:
         raise HTTPException(400, "Solo se pueden editar facturas en borrador")
+    _assert_owned_refs(db, user.id, body.client_id, body.folder_id)
     if body.client_id is not None:
         inv.client_id = body.client_id
     if body.folder_id is not None:

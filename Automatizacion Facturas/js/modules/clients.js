@@ -311,6 +311,25 @@ async function deleteClient(id, name) {
     renderGrid(clients);
     showToast("Cliente eliminado", "success");
   } catch (err) {
+    // El cliente tiene facturas: la ley fiscal impide borrarlas, pero el RGPD
+    // permite anonimizar sus datos de contacto. Lo ofrecemos.
+    if (/anonimiza/i.test(err.message)) {
+      const anon = await confirmDialog(
+        `No se puede borrar "${name}" porque tiene facturas (obligación fiscal). ` +
+        `¿Quieres anonimizar sus datos de contacto (email, teléfono y dirección) ` +
+        `cumpliendo el RGPD? Se conservan nombre y NIF para la contabilidad.`
+      );
+      if (!anon) return;
+      try {
+        const res = await api(`/clients/${id}/anonymize`, { method: "POST" });
+        await loadClientsData();
+        renderGrid(clients);
+        showToast(res.message || "Cliente anonimizado", "success");
+      } catch (e2) {
+        showToast(e2.message, "error");
+      }
+      return;
+    }
     showToast(err.message, "error");
   }
 }

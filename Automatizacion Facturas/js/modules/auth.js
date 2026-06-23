@@ -6,16 +6,13 @@ const SUPABASE_URL = "https://zhvytwqvbtsenzwrsysi.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_lH0fsQmtFYMNashi3YD2yQ_RpMxQ2sj";
 
 async function trySupabaseLogin(email, password) {
-  if (!window.supabase) return null;
-  try {
-    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    if (error || !data.session) return null;
-    await loginWithSupabase(data.session.access_token);
-    return true;
-  } catch {
-    return null;
-  }
+  if (!window.supabase) throw new Error("Servicio de autenticación no disponible. Recarga la página.");
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) throw new Error("Email o contraseña incorrectos");
+  if (!data.session) throw new Error("No se pudo iniciar sesión. Inténtalo de nuevo.");
+  await loginWithSupabase(data.session.access_token);
+  return true;
 }
 
 export async function isApiAvailable() {
@@ -73,21 +70,11 @@ export function renderLogin(root, onSuccess) {
     const isEmail = user.includes("@");
 
     try {
-      // If email, try Supabase first
       if (isEmail) {
-        const ssoOk = await trySupabaseLogin(user, pass);
-        if (ssoOk) {
-          const isAuthed = await ensureAuth();
-          if (isAuthed) {
-            showToast("Sesión iniciada correctamente", "success");
-            if (onSuccess) onSuccess();
-            return;
-          }
-        }
+        await trySupabaseLogin(user, pass);
+      } else {
+        await login(user, pass);
       }
-
-      // Fallback: local auth (admin or direct users)
-      await login(user, pass);
       const isAuthed = await ensureAuth();
       if (isAuthed) {
         showToast("Sesión iniciada correctamente", "success");
@@ -96,7 +83,7 @@ export function renderLogin(root, onSuccess) {
         throw new Error("No se pudo obtener el perfil de usuario");
       }
     } catch (err) {
-      errorEl.textContent = isEmail ? "Email o contraseña incorrectos" : err.message;
+      errorEl.textContent = err.message;
       errorEl.hidden = false;
       submitBtn.disabled = false;
       submitBtn.textContent = "Iniciar Sesión";

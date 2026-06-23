@@ -7,7 +7,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from app.core.security import encrypt_nif
+from app.core.security import encrypt_nif, encrypt_text
 from app.models import (
     Client,
     ClientFolder,
@@ -230,7 +230,9 @@ def invoice_from_extracted(
         total_amount=_parse_amount(extracted.get("total")),
         notes=str(extracted.get("concepto") or "") or None,
         source_filename=filename,
-        extracted_json=json.dumps(extracted, ensure_ascii=False),
+        # Se cifra: contiene datos personales (NIF, nombres) y no se vuelve a leer
+        # en operación normal. Protección en reposo (RGPD art. 32).
+        extracted_json=encrypt_text(json.dumps(extracted, ensure_ascii=False)),
         created_by=user_id,
         owner_id=owner_id,
     )

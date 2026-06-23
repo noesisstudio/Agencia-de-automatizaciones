@@ -39,6 +39,13 @@ nano backend/.env
 | `CORS_ORIGINS` | Tu dominio: `https://facturas.tudominio.com` |
 | `MI_NIF_EMPRESA` | El NIF/CIF de tu empresa |
 | `MI_NOMBRE_EMPRESA` | El nombre de tu empresa |
+| `SUPABASE_URL` | URL de tu proyecto Supabase (para el SSO de clientes desde noesis.com) |
+| `SUPABASE_JWT_SECRET` | Solo si tu proyecto firma JWT con HS256; con claves nuevas, déjalo vacío |
+
+> **SSO de clientes (login con cuenta de noesis.com):** sin `SUPABASE_URL` el
+> botón de login con email **no funcionará** y solo entrará el usuario admin.
+> Tras el primer login, cada cliente queda *pendiente de activación*: actívalo
+> desde **FacturAI → Accesos** (visible solo para el admin).
 
 ### 3. Despliega
 

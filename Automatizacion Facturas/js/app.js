@@ -8,6 +8,7 @@ import { renderClients } from "./modules/clients.js";
 import { renderExport } from "./modules/exports.js";
 import { renderUpload } from "./modules/upload.js";
 import { renderSettings } from "./modules/settings.js";
+import { renderAccess } from "./modules/access.js";
 import { state } from "./modules/state.js";
 import { showToast } from "./modules/utils.js";
 
@@ -45,6 +46,7 @@ function setupRoutes() {
   registerRoute("export", (root) => renderExport(root));
   registerRoute("upload", (root) => renderUpload(root));
   registerRoute("settings", (root) => renderSettings(root));
+  registerRoute("access", (root) => renderAccess(root));
 }
 
 async function enterApp() {
@@ -59,6 +61,12 @@ async function enterApp() {
   const avatar = document.getElementById("user-avatar");
   if (userLabel && state.user) userLabel.textContent = state.user.username;
   if (avatar && state.user) avatar.textContent = state.user.username.charAt(0).toUpperCase();
+
+  // Mostrar la sección "Accesos" solo al administrador.
+  const isAdmin = state.user && state.user.role === "admin";
+  document.querySelectorAll('[data-admin-only]').forEach((el) => {
+    el.hidden = !isAdmin;
+  });
 
   if (!routerStarted) {
     setupRoutes();

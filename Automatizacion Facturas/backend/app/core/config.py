@@ -101,7 +101,9 @@ class Settings(BaseSettings):
         return bool(self.smtp_host and self.smtp_user and self.email_from)
 
     def supabase_configured(self) -> bool:
-        return bool(self.supabase_jwt_secret and self.supabase_url)
+        # Basta con la URL: con claves asimétricas la verificación usa el JWKS
+        # del proyecto. El JWT secret solo es necesario para tokens HS256 (legacy).
+        return bool((self.supabase_url or "").strip())
 
     def resolved_service_account_path(self) -> Path | None:
         raw = (self.google_service_account_json or "").strip()
