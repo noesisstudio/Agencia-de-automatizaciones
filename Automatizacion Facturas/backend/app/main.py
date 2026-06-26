@@ -180,7 +180,8 @@ async def health() -> dict[str, object]:
         "version": "2.0.0",
         "anthropic_configured": ac,
         "google_sheets_configured": gs,
-        "database": settings.database_url.split("///")[-1],
+        # Solo el motor (postgresql/sqlite), NUNCA la URL completa: contiene credenciales.
+        "database": (settings.database_url.split("://", 1)[0] or "desconocida"),
         "smtp_configured": settings.smtp_configured(),
         "supabase_sso": settings.supabase_configured(),
     }
