@@ -9,6 +9,7 @@ import bcrypt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
@@ -44,8 +45,22 @@ def decode_token(token: str) -> dict:
     return jwt.decode(token, settings.secret_key, algorithms=[settings.jwt_algorithm])
 
 
-def authenticate_user(db: Session, username: str, password: str) -> User | None:
-    user = db.query(User).filter(User.username == username, User.is_active.is_(True)).first()
+def authenticate_user(db: Session, identifier: str, password: str) -> User | None:
+    """Autentica por nombre de usuario o, si parece un email, también por email.
+
+    Así un usuario creado por el admin (con email) puede entrar tanto con su
+    usuario como con su correo. Los clientes del portal Noesis (SSO) tienen una
+    contraseña local aleatoria, por lo que este camino no les afecta: siguen
+    entrando por Supabase.
+    """
+    ident = (identifier or "").strip()
+    user = db.query(User).filter(User.username == ident, User.is_active.is_(True)).first()
+    if not user and "@" in ident:
+        user = (
+            db.query(User)
+            .filter(func.lower(User.email) == ident.lower(), User.is_active.is_(True))
+            .first()
+        )
     if not user or not verify_password(password, user.hashed_password):
         return None
     return user

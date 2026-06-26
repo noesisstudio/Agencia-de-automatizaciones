@@ -71,7 +71,13 @@ export function renderLogin(root, onSuccess) {
 
     try {
       if (isEmail) {
-        await trySupabaseLogin(user, pass);
+        // Primero como usuario local (creado por el admin con ese email).
+        // Si no existe localmente, se intenta el SSO del portal Noesis (Supabase).
+        try {
+          await login(user, pass);
+        } catch (localErr) {
+          await trySupabaseLogin(user, pass);
+        }
       } else {
         await login(user, pass);
       }
