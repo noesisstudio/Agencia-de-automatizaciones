@@ -184,7 +184,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer EAAiyriPWk84BRoY5SaTf8gbVZApA3bw8NOumO3YQVXnk62uJsJBC0m5wv3wUvXKZAoMV8zmN71HSoEsO8ZCHSWc3M9xGgCsjjZA71SJx5MI25NlvtR8ZCzW7zZBaZBdynKO6idb50kaF12WugDdxbIEPUfW0OjXTUsyKEs4fwQwGinyVnJJZCVTDJH2FiZAFE2AbZBHgZDZD"
+              "value": "Bearer REEMPLAZA_TU_META_ACCESS_TOKEN"
             },
             {
               "name": "Content-Type",

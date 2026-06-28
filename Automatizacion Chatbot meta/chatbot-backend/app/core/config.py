@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     app_env: str = "development"
     anthropic_api_key: str = ""
-    anthropic_model: str = "claude-3-5-sonnet-latest"
+    anthropic_model: str = "claude-sonnet-4-6"
     meta_access_token: str = ""
     meta_phone_number_id: str = ""
     meta_verify_token: str = "CHANGE_ME"

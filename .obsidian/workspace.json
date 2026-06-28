@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "74b4da2954dd5f72",
+        "id": "f5bc2284ecddf9d8",
         "type": "tabs",
         "children": [
           {
-            "id": "20b19158d29d7f81",
+            "id": "61f30a315f8ec544",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -176,7 +176,7 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "22d898992c7f5f67",
+  "active": "61f30a315f8ec544",
   "lastOpenFiles": [
     "Automatizacion Facturas/backend/app/core/__pycache__/rate_limit.cpython-314.pyc",
     "Automatizacion Facturas/backend/app/core/rate_limit.py",

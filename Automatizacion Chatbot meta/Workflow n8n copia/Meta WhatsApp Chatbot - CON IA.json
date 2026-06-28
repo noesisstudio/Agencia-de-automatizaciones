@@ -184,7 +184,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer EAAiyriPWk84BRoY5SaTf8gbVZApA3bw8NOumO3YQVXnk62uJsJBC0m5wv3wUvXKZAoMV8zmN71HSoEsO8ZCHSWc3M9xGgCsjjZA71SJx5MI25NlvtR8ZCzW7zZBaZBdynKO6idb50kaF12WugDdxbIEPUfW0OjXTUsyKEs4fwQwGinyVnJJZCVTDJH2FiZAFE2AbZBHgZDZD"
+              "value": "=Bearer {{ $json.meta_access_token }}"
             },
             {
               "name": "Content-Type",
@@ -208,7 +208,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const d = $('Extraer datos').first().json;\n\n// CONOCIMIENTO del negocio (edítalo con los datos reales del cliente)\nconst conocimiento = `## Sobre la empresa\nPanadería artesana en Barcelona desde 1990.\n## Horario\nLunes a sábado 7:00-14:00 y 17:00-20:00. Domingos cerrado.\n## Productos\nPan de masa madre, bollería y tartas por encargo.\n## Precios\nPan desde 1,20 €. Tartas por encargo desde 18 €.\n## Encargos\nCon 24 h de antelación por WhatsApp o teléfono (600 000 000).`;\n\nconst system = `Eres el asistente virtual (IA) de la empresa.\nIDENTIFICACIÓN (obligatoria por ley): eres una IA, no una persona. Si te preguntan si eres humano, dilo con honestidad.\nCOMPORTAMIENTO: responde en español, amable y breve (máx. 3 frases). Solo sobre la empresa. Si escriben en otro idioma, responde en ese idioma.\nANTI-ALUCINACIONES: si la respuesta no está en el CONOCIMIENTO, di: \"No tengo esa información confirmada. Te paso con una persona del equipo.\" Nunca inventes precios, fechas ni condiciones.\n\nCONOCIMIENTO:\n${conocimiento}`;\n\nreturn [{ json: { ...d, system, mensaje: d.text } }];\n"
+        "jsCode": "const d = $('Extraer datos').first().json;\nconst t = $('Buscar Tenant (Supabase)').first().json || {};\n\n// El cliente debe estar dado de alta en Supabase (tabla tenants) con su clave y conocimiento.\nif (!t.anthropic_api_key || !t.conocimiento) {\n  throw new Error('Cliente no configurado en Supabase (falta anthropic_api_key o conocimiento) para phone_number_id=' + d.phone_number_id);\n}\n\nconst system = `Eres el asistente virtual (IA) de la empresa.\nIDENTIFICACION (obligatoria por ley): eres una IA, no una persona. Si te preguntan si eres humano, dilo con honestidad.\nCOMPORTAMIENTO: responde en espanol, amable y breve (max. 3 frases). Solo sobre la empresa. Si escriben en otro idioma, responde en ese idioma.\nANTI-ALUCINACIONES: si la respuesta no esta en el CONOCIMIENTO, di: \"No tengo esa informacion confirmada. Te paso con una persona del equipo.\" Nunca inventes precios, fechas ni condiciones.\n\nCONOCIMIENTO:\n${t.conocimiento}`;\n\nreturn [{ json: {\n  ...d,\n  system,\n  mensaje: d.text,\n  anthropic_api_key: t.anthropic_api_key,\n  anthropic_model: t.anthropic_model || 'claude-sonnet-4-6',\n  meta_access_token: t.meta_access_token,\n} }];\n"
       },
       "id": "brain-prompt",
       "name": "Construir prompt",
@@ -228,7 +228,7 @@
           "parameters": [
             {
               "name": "x-api-key",
-              "value": "REEMPLAZA_TU_ANTHROPIC_API_KEY"
+              "value": "={{ $json.anthropic_api_key }}"
             },
             {
               "name": "anthropic-version",
@@ -242,7 +242,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 500, system: $json.system, messages: [ { role: 'user', content: $json.mensaje } ] }) }}",
+        "jsonBody": "={{ JSON.stringify({ model: $json.anthropic_model, max_tokens: 500, system: $json.system, messages: [ { role: 'user', content: $json.mensaje } ] }) }}",
         "options": {}
       },
       "id": "brain-claude",
@@ -252,11 +252,12 @@
       "position": [
         600,
         1040
-      ]
+      ],
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
-        "jsCode": "const d = $('Extraer datos').first().json;\nconst ia = $json;\nconst respuesta = (ia.content && ia.content[0] && ia.content[0].text)\n  ? ia.content[0].text\n  : 'Lo siento, ahora no puedo responder. Inténtalo en un momento.';\nreturn [{ json: { from: d.from, phone_number_id: d.phone_number_id, nombre: d.nombre, respuesta } }];\n"
+        "jsCode": "const d = $('Construir prompt').first().json;\nconst ia = $json;\nconst respuesta = (ia.content && ia.content[0] && ia.content[0].text)\n  ? ia.content[0].text\n  : 'Lo siento, ahora no puedo responder. Intentalo en un momento.';\nreturn [{ json: { from: d.from, phone_number_id: d.phone_number_id, nombre: d.nombre, meta_access_token: d.meta_access_token, respuesta } }];\n"
       },
       "id": "brain-prep",
       "name": "Preparar envio",
@@ -266,6 +267,38 @@
         864,
         1040
       ]
+    },
+    {
+      "parameters": {
+        "url": "=https://TU_PROYECTO.supabase.co/rest/v1/tenants?phone_number_id=eq.{{ $json.phone_number_id }}&select=id,meta_access_token,anthropic_api_key,anthropic_model,conocimiento,mensaje_fallback&limit=1",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.pgrst.object+json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        200,
+        880
+      ],
+      "id": "brain-tenant",
+      "name": "Buscar Tenant (Supabase)",
+      "onError": "continueRegularOutput",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REEMPLAZA_ID",
+          "name": "Supabase API Key"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -325,7 +358,7 @@
       "main": [
         [
           {
-            "node": "Construir prompt",
+            "node": "Buscar Tenant (Supabase)",
             "type": "main",
             "index": 0
           }
@@ -359,6 +392,17 @@
         [
           {
             "node": "Enviar respuesta (Graph API)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Tenant (Supabase)": {
+      "main": [
+        [
+          {
+            "node": "Construir prompt",
             "type": "main",
             "index": 0
           }

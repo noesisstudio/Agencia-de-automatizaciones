@@ -1,7 +1,8 @@
 # docker-compose.yml — Despliegue de FacturAI (Noesis)
 #
 # Uso rápido:
-#   1. Copia .env.production a .env (o edítalo directamente)
+#   1. Copia la plantilla a .env y pon ahí tus claves reales:  cp backend/.env.production backend/.env
+#      (edita SOLO backend/.env — está en .gitignore; nunca pongas claves en .env.production)
 #   2. docker compose up -d
 #   3. Accede a http://localhost:8010 (o tu dominio)
 #

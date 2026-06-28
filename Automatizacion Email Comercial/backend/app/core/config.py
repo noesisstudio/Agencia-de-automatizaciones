@@ -10,7 +10,7 @@ _ENV_FILE = _BACKEND_DIR / ".env"
 class Settings(BaseSettings):
     app_env: str = "development"
     anthropic_api_key: str = ""
-    anthropic_model: str = "claude-sonnet-4-5-20250929"
+    anthropic_model: str = "claude-sonnet-4-6"
     empresa_default: str = "openix"
     api_key: str = ""  # Clave para proteger los endpoints — define API_KEY en .env
 
