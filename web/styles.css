@@ -1203,6 +1203,140 @@ p {
     rgba(255, 255, 255, 0.74);
 }
 
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--aqua);
+  box-shadow: 0 0 0 3px rgba(46, 140, 124, 0.16);
+}
+
+.field input::placeholder {
+  color: rgba(104, 115, 110, 0.65);
+  font-weight: 500;
+}
+
+/* Campos con icono + toggle de contraseña (login) */
+.input-wrap {
+  position: relative;
+  display: block;
+}
+
+.field--icon input {
+  padding-left: 44px;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--aqua);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.pw-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.pw-toggle svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pw-toggle:hover {
+  color: var(--green);
+}
+
+.pw-toggle.is-visible {
+  color: var(--green);
+}
+
+.login-submit {
+  margin-top: 4px;
+  width: 100%;
+  justify-content: center;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 26px 0 16px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(18, 60, 53, 0.14);
+}
+
+.login-contact {
+  width: 100%;
+  justify-content: center;
+}
+
+.login-trust {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(46, 140, 124, 0.2);
+  border-radius: 6px;
+  background: rgba(46, 140, 124, 0.07);
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.login-trust svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--aqua);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.login-back {
+  justify-content: center;
+  width: 100%;
+  margin-top: 18px;
+  color: var(--muted);
+}
+
 .text-link {
   display: inline-flex;
   margin-top: 18px;
@@ -1952,6 +2086,7 @@ p {
   .home-hero,
   .split-page,
   .split-feature,
+  .about-layout,
   .dashboard-service,
   .impact-page,
   .dashboard-columns,
@@ -2545,8 +2680,14 @@ p {
 }
 
 /* ── Sobre nosotros (home) ────────────────────────────────── */
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+
 .about-text {
-  max-width: 720px;
   margin-top: 20px;
   display: grid;
   gap: 14px;
@@ -2554,7 +2695,42 @@ p {
   font-size: 1.05rem;
 }
 
-/* ── Quiénes somos + Reseñas (home) ─────────────────────── */
+.about-values {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.about-values li {
+  position: relative;
+  padding: 18px 20px 18px 22px;
+  border: 1px solid rgba(18, 60, 53, 0.13);
+  border-left: 3px solid var(--aqua);
+  border-radius: 8px;
+  background: rgba(251, 250, 245, 0.72);
+}
+
+.about-values strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--green);
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+}
+
+.about-values span {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.team-head {
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+/* ── Equipo + Reseñas (home) ────────────────────────────── */
 .team-grid,
 .reviews-grid {
   display: grid;
@@ -2573,9 +2749,51 @@ p {
   gap: 6px;
 }
 
+.team-card {
+  transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(46, 140, 124, 0.32);
+  box-shadow: 0 18px 48px rgba(18, 60, 53, 0.1);
+}
+
+.team-photo {
+  display: grid;
+  place-items: center;
+  position: relative;
+  width: 88px;
+  height: 88px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(46, 140, 124, 0.26);
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.72), transparent 48%),
+    rgba(221, 233, 229, 0.62);
+  color: var(--green);
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.team-photo::before {
+  content: attr(data-initials);
+}
+
+.team-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .team-name {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.18rem;
 }
 
 .team-role {
@@ -2586,7 +2804,9 @@ p {
 }
 
 .team-bio {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .review-stars {

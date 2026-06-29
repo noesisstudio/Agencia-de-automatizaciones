@@ -48,6 +48,18 @@ function removeStorage(key) {
   }
 }
 
+document.querySelectorAll("[data-pw-toggle]").forEach((toggle) => {
+  toggle.addEventListener("click", () => {
+    const input = toggle.closest(".input-wrap")?.querySelector("input");
+    if (!input) return;
+
+    const show = input.type === "password";
+    input.type = show ? "text" : "password";
+    toggle.classList.toggle("is-visible", show);
+    toggle.setAttribute("aria-label", show ? "Ocultar contraseña" : "Mostrar contraseña");
+  });
+});
+
 const menuToggle = document.querySelector(".menu-toggle");
 const mobileMenu = document.querySelector("#mobile-menu");
 
