@@ -221,11 +221,34 @@
   if (stripePortalBtn) {
     if (suscripcion && suscripcion.stripe_customer_id) {
       stripePortalBtn.style.display = "";
-      stripePortalBtn.addEventListener("click", function () {
-        // In production, this should call a Supabase Edge Function or n8n webhook
-        // that creates a Stripe Customer Portal session and returns the URL.
-        // For now, show a placeholder message.
-        alert("Para gestionar tu suscripción o método de pago, contacta con info@bynoesis.com");
+      stripePortalBtn.addEventListener("click", async function () {
+        var originalText = stripePortalBtn.textContent;
+        stripePortalBtn.disabled = true;
+        stripePortalBtn.textContent = "Abriendo…";
+        try {
+          // Sesión actual → token para que la función identifique al cliente
+          var sr = await sb.auth.getSession();
+          var cs = sr.data && sr.data.session;
+          if (!cs || !cs.access_token) {
+            alert("Tu sesión ha expirado. Vuelve a iniciar sesión.");
+            return;
+          }
+          var res = await fetch("/.netlify/functions/crear-portal-pago", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + cs.access_token },
+          });
+          var data = await res.json();
+          if (res.ok && data.url) {
+            window.location.href = data.url; // Stripe Customer Portal
+          } else {
+            alert(data.error || "No se pudo abrir el portal de pago. Escríbenos a info@bynoesis.com.");
+          }
+        } catch (err) {
+          alert("Error de conexión al abrir el portal de pago. Inténtalo de nuevo.");
+        } finally {
+          stripePortalBtn.disabled = false;
+          stripePortalBtn.textContent = originalText;
+        }
       });
     } else {
       stripePortalBtn.style.display = "none";

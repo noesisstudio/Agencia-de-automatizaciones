@@ -2543,3 +2543,73 @@ p {
   text-transform: capitalize;
   font-weight: 500;
 }
+
+/* ── Quiénes somos + Reseñas (home) ─────────────────────── */
+.team-grid,
+.reviews-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.team-card,
+.review-card {
+  border: 1px solid rgba(18, 60, 53, 0.13);
+  border-radius: 8px;
+  background: rgba(251, 250, 245, 0.72);
+  padding: 24px;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
+.team-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(46, 140, 124, 0.24);
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.72), transparent 45%),
+    rgba(221, 233, 229, 0.58);
+  color: var(--green);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.team-name {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.team-role {
+  margin: 0;
+  color: var(--aqua);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.team-bio {
+  margin: 6px 0 0;
+}
+
+.review-stars {
+  color: #f5a623;
+  letter-spacing: 2px;
+  font-size: 1.05rem;
+}
+
+.review-text {
+  margin: 4px 0 0;
+  font-style: italic;
+}
+
+.review-author {
+  margin: 10px 0 0;
+  color: var(--wine);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
