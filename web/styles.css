@@ -2544,6 +2544,16 @@ p {
   font-weight: 500;
 }
 
+/* ── Sobre nosotros (home) ────────────────────────────────── */
+.about-text {
+  max-width: 720px;
+  margin-top: 20px;
+  display: grid;
+  gap: 14px;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
 /* ── Quiénes somos + Reseñas (home) ─────────────────────── */
 .team-grid,
 .reviews-grid {
@@ -2561,23 +2571,6 @@ p {
   display: grid;
   align-content: start;
   gap: 6px;
-}
-
-.team-avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  margin-bottom: 10px;
-  border-radius: 50%;
-  border: 1px solid rgba(46, 140, 124, 0.24);
-  background:
-    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.72), transparent 45%),
-    rgba(221, 233, 229, 0.58);
-  color: var(--green);
-  font-weight: 800;
-  letter-spacing: 0.04em;
 }
 
 .team-name {
