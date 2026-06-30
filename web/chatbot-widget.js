@@ -1,10 +1,9 @@
 /**
  * Widget del chatbot Noesis — sin dependencias.
- * Llama a la función serverless de Netlify en el mismo dominio:
- * /.netlify/functions/chat  (no hay CORS ni URL externa que mantener).
+ * Llama a la función serverless en el mismo dominio: /api/chat
  */
 (function () {
-  const ENDPOINT = '/.netlify/functions/chat';
+  const ENDPOINT = '/api/chat';
   let messages = [];
 
   function el(html) {

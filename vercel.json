@@ -1,0 +1,19 @@
+{
+  "outputDirectory": "web",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/:path*" }
+  ],
+  "redirects": [
+    { "source": "/contacte", "destination": "/contacto", "permanent": true },
+    { "source": "/contacte.html", "destination": "/contacto", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" }
+      ]
+    }
+  ]
+}
