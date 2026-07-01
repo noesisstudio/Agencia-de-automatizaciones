@@ -20,7 +20,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=launch-4" />
+    <link rel="stylesheet" href="styles.css?v=launch-5" />
   </head>
   <body>
     <header class="topbar">
@@ -207,12 +207,15 @@
         </div>
       </section>
 
-      <!-- Sobre nosotros -->
-      <section class="section-block about-block" data-reveal>
+      <!-- Quién somos -->
+      <section class="section-block" data-reveal>
+        <div class="section-head">
+          <p class="eyebrow">Qui&eacute;nes somos</p>
+          <h2>Dos ingenieros que convirtieron la frustraci&oacute;n operativa en soluciones reales.</h2>
+        </div>
+
         <div class="about-layout">
           <div class="about-intro">
-            <p class="eyebrow">Sobre nosotros</p>
-            <h2>Tecnolog&iacute;a al servicio de tu negocio.</h2>
             <div class="about-text">
               <p>En Noesis creemos que la tecnolog&iacute;a tiene que trabajar para ti, no al rev&eacute;s. Somos dos ingenieros que nos cansamos de ver empresas perdiendo horas en tareas repetitivas que una m&aacute;quina puede hacer mejor, m&aacute;s r&aacute;pido y sin errores.</p>
               <p>Por eso montamos Noesis: para entender c&oacute;mo funciona cada empresa, detectar los procesos que la frenan y construir sistemas que los resuelvan. Sin complicaciones, sin jerga t&eacute;cnica innecesaria y con resultados que se notan desde el primer mes.</p>
@@ -237,26 +240,36 @@
 
         <div class="section-head team-head">
           <p class="eyebrow">El equipo</p>
-          <h2>Las personas detr&aacute;s de Noesis.</h2>
+          <h2>Las personas detr&aacute;s de cada proyecto.</h2>
         </div>
-        <div class="team-grid page-grid">
+        <div class="team-grid team-grid--duo">
           <article class="team-card" data-reveal>
-            <span class="team-photo" data-initials="XG">
-              <!-- Sustituye equipo-xavier.jpg por tu foto (cuadrada, p. ej. 600x600). Si no existe, se muestran las iniciales. -->
+            <span class="team-photo team-photo--lg" data-initials="XG">
               <img src="equipo-xavier.jpg" alt="Xavier Gri&ntilde;&oacute;, cofundador de Noesis" loading="lazy" onerror="this.remove()" />
             </span>
             <h3 class="team-name">Xavier Gri&ntilde;&oacute;</h3>
-            <p class="team-role">Cofounder &middot; Software &amp; Blockchain</p>
-            <p class="team-bio">Desarrollador y experto en software y blockchain. Dise&ntilde;a la arquitectura t&eacute;cnica de cada sistema para que sea s&oacute;lido, seguro y f&aacute;cil de mantener.</p>
+            <p class="team-role">Cofounder &middot; Arquitecto de software &amp; Blockchain</p>
+            <p class="team-bio">Ingeniero de software especializado en sistemas descentralizados y arquitectura de aplicaciones. En Noesis dise&ntilde;a las soluciones t&eacute;cnicas: elige las herramientas adecuadas para cada caso, garantiza que los sistemas sean estables y escalables, y convierte las necesidades del negocio en c&oacute;digo funcional que dura.</p>
+            <ul class="team-skills" aria-label="Especialidades">
+              <li>Software</li>
+              <li>Blockchain</li>
+              <li>APIs</li>
+              <li>Automatizaci&oacute;n</li>
+            </ul>
           </article>
           <article class="team-card" data-reveal>
-            <span class="team-photo" data-initials="MC">
-              <!-- Sustituye equipo-miquel.jpg por la foto de Miquel (cuadrada, p. ej. 600x600). Si no existe, se muestran las iniciales. -->
+            <span class="team-photo team-photo--lg" data-initials="MC">
               <img src="equipo-miquel.jpg" alt="Miquel Colell, cofundador de Noesis" loading="lazy" onerror="this.remove()" />
             </span>
             <h3 class="team-name">Miquel Colell</h3>
-            <p class="team-role">Cofounder &middot; Procesos &amp; Automatizaci&oacute;n</p>
-            <p class="team-bio">Desarrollador experto en procesos. Traduce la operativa de cada empresa en flujos ordenados y automatizaciones que ahorran tiempo de verdad.</p>
+            <p class="team-role">Cofounder &middot; Dise&ntilde;o de procesos &amp; Automatizaci&oacute;n</p>
+            <p class="team-bio">Especialista en operaciones y an&aacute;lisis de procesos con foco en la eficiencia real. En Noesis entiende c&oacute;mo funciona el negocio antes de proponer nada: mapea flujos, identifica cuellos de botella y dise&ntilde;a los sistemas para que el equipo trabaje con menos fricci&oacute;n desde el primer d&iacute;a.</p>
+            <ul class="team-skills" aria-label="Especialidades">
+              <li>n8n</li>
+              <li>Make</li>
+              <li>Procesos</li>
+              <li>Operaciones</li>
+            </ul>
           </article>
         </div>
       </section>
@@ -270,34 +283,34 @@
         </div>
         <div class="reviews-grid page-grid">
           <article class="review-card" data-reveal>
-            <div class="review-stars" role="img" data-i18n-aria="site.home.reviews.rating" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="review-text" data-i18n="site.home.reviews.r1">Automatizamos la atenci&oacute;n por WhatsApp y dejamos de perder consultas fuera de horario. Lo dejaron funcionando en dos semanas.</p>
+            <div class="review-stars" role="img" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">&ldquo;Llevábamos a&ntilde;os respondiendo WhatsApps por las ma&ntilde;anas antes de abrir. Ahora el bot gestiona los pedidos y los repartidores saben qu&eacute; llevar sin llamarnos. Nos ha dado literalmente una hora libre cada d&iacute;a.&rdquo;</p>
             <p class="review-author">Mar&iacute;a G. &middot; Panader&iacute;a La Espiga</p>
           </article>
           <article class="review-card" data-reveal>
-            <div class="review-stars" role="img" data-i18n-aria="site.home.reviews.rating" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="review-text" data-i18n="site.home.reviews.r2">La lectura autom&aacute;tica de facturas nos ahorra horas cada semana. Claros, r&aacute;pidos y muy cercanos.</p>
-            <p class="review-author">Jordi M. &middot; Gestor&iacute;a Vall&egrave;s</p>
+            <div class="review-stars" role="img" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">&ldquo;Procesamos unas 200 facturas al mes. Antes tardábamos medio d&iacute;a en introducirlas; ahora tardamos 20 minutos. El ROI fue inmediato, en menos de un mes hab&iacute;amos amortizado el proyecto.&rdquo;</p>
+            <p class="review-author">Jordi M. &middot; Gestor&iacute;a Vall&egrave;s Assessors</p>
           </article>
           <article class="review-card" data-reveal>
-            <div class="review-stars" role="img" data-i18n-aria="site.home.reviews.rating" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="review-text" data-i18n="site.home.reviews.r3">El chatbot responde igual que lo har&iacute;amos nosotros, sin inventar nada. Nuestros clientes lo notan.</p>
+            <div class="review-stars" role="img" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">&ldquo;Dudamos mucho antes de poner un chatbot. Pero este funciona con nuestro propio manual, as&iacute; que responde exactamente lo que dir&iacute;amos nosotros. Los pacientes preguntan y reciben informaci&oacute;n correcta al instante.&rdquo;</p>
             <p class="review-author">Laura P. &middot; Cl&iacute;nica Dental Sonrisa</p>
           </article>
           <article class="review-card" data-reveal>
-            <div class="review-stars" role="img" data-i18n-aria="site.home.reviews.rating" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="review-text" data-i18n="site.home.reviews.r4">Pasamos de hojas de c&aacute;lculo a un sistema ordenado. Ahora vemos el estado de todo en un panel.</p>
-            <p class="review-author">Carlos R. &middot; Talleres Demos</p>
+            <div class="review-stars" role="img" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">&ldquo;No somos una empresa tecnol&oacute;gica y ten&iacute;amos miedo de que fuera complicado. Xavier nos lo explic&oacute; todo en una tarde y lo dejaron funcionando sin que tuvi&eacute;ramos que hacer nada. El seguimiento de presupuestos ya no se nos escapa.&rdquo;</p>
+            <p class="review-author">Carlos R. &middot; Taller Mec&aacute;nico Riera Fills</p>
           </article>
           <article class="review-card" data-reveal>
-            <div class="review-stars" role="img" data-i18n-aria="site.home.reviews.rating" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="review-text" data-i18n="site.home.reviews.r5">Montaron el seguimiento de leads y no se nos escapa ni una oportunidad. Recomendables al 100%.</p>
-            <p class="review-author">Ana T. &middot; Inmobiliaria Costa</p>
+            <div class="review-stars" role="img" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">&ldquo;Antes tardábamos d&iacute;as en responder a los leads. Ahora recibimos una ficha completa del cliente en segundos y el seguimiento es autom&aacute;tico. Hemos cerrado operaciones que antes se habr&iacute;an enfriado.&rdquo;</p>
+            <p class="review-author">Ana T. &middot; Inmobiliaria Habita Costa Brava</p>
           </article>
           <article class="review-card" data-reveal>
-            <div class="review-stars" role="img" data-i18n-aria="site.home.reviews.rating" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="review-text" data-i18n="site.home.reviews.r6">Profesionales de verdad: entendieron nuestro proceso antes de proponer nada. Resultado impecable.</p>
-            <p class="review-author">David S. &middot; Reformas del Hogar</p>
+            <div class="review-stars" role="img" aria-label="Valoraci&oacute;n: 5 de 5 estrellas">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">&ldquo;Lo que m&aacute;s me sorprendi&oacute; fue que primero analizaron c&oacute;mo trabajamos, y solo despu&eacute;s propusieron algo. Nada de venderme herramientas que no necesito. El resultado fue exactamente lo que necesit&aacute;bamos.&rdquo;</p>
+            <p class="review-author">David S. &middot; Reformas S&aacute;nchez &amp; Associats</p>
           </article>
         </div>
       </section>
@@ -320,8 +333,8 @@
       </nav>
     </footer>
 
-    <script src="i18n.js?v=launch-4"></script>
-    <script src="script.js?v=launch-4"></script>
+    <script src="i18n.js?v=launch-5"></script>
+    <script src="script.js?v=launch-5"></script>
     <script src="chatbot-widget.js?v=1" defer></script>
   </body>
 </html>

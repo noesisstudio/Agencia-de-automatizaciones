@@ -2286,7 +2286,8 @@ p {
   .dashboard-preview-card,
   .integration-list,
   .plan-breakdown,
-  .profile-grid {
+  .profile-grid,
+  .team-grid--duo {
     grid-template-columns: 1fr;
   }
 
@@ -2731,7 +2732,16 @@ p {
 }
 
 /* ── Equipo + Reseñas (home) ────────────────────────────── */
-.team-grid,
+.team-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.team-grid--duo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .reviews-grid {
   display: grid;
   gap: 16px;
@@ -2741,9 +2751,9 @@ p {
 .team-card,
 .review-card {
   border: 1px solid rgba(18, 60, 53, 0.13);
-  border-radius: 8px;
+  border-radius: 12px;
   background: rgba(251, 250, 245, 0.72);
-  padding: 24px;
+  padding: 28px;
   display: grid;
   align-content: start;
   gap: 6px;
@@ -2768,7 +2778,7 @@ p {
   margin-bottom: 12px;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid rgba(46, 140, 124, 0.26);
+  border: 2px solid rgba(46, 140, 124, 0.3);
   background:
     radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.72), transparent 48%),
     rgba(221, 233, 229, 0.62);
@@ -2777,6 +2787,12 @@ p {
   font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: 0.03em;
+}
+
+.team-photo--lg {
+  width: 110px;
+  height: 110px;
+  font-size: 1.9rem;
 }
 
 .team-photo::before {
@@ -2793,7 +2809,7 @@ p {
 
 .team-name {
   margin: 0;
-  font-size: 1.18rem;
+  font-size: 1.28rem;
 }
 
 .team-role {
@@ -2804,9 +2820,34 @@ p {
 }
 
 .team-bio {
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.65;
+  font-size: 0.97rem;
+}
+
+.team-skills {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.team-skills li {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 20px;
+  background: rgba(46, 140, 124, 0.09);
+  color: var(--aqua);
+  border: 1px solid rgba(46, 140, 124, 0.22);
+  letter-spacing: 0.01em;
+}
+
+.review-card {
+  position: relative;
 }
 
 .review-stars {
@@ -2816,12 +2857,14 @@ p {
 }
 
 .review-text {
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   font-style: italic;
+  line-height: 1.65;
+  color: #2a2a2a;
 }
 
 .review-author {
-  margin: 10px 0 0;
+  margin: 14px 0 0;
   color: var(--wine);
   font-weight: 700;
   font-size: 0.85rem;
