@@ -233,7 +233,7 @@
             alert("Tu sesión ha expirado. Vuelve a iniciar sesión.");
             return;
           }
-          var res = await fetch("/.netlify/functions/crear-portal-pago", {
+          var res = await fetch("/api/crear-portal-pago", {
             method: "POST",
             headers: { Authorization: "Bearer " + cs.access_token },
           });
