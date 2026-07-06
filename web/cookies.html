@@ -1,14 +1,8 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4J84RJDEQX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-4J84RJDEQX');
-    </script>
+    <!-- Consentimiento de cookies + Google Analytics (carga con consentimiento) -->
+    <script src="/cookie-consent.js" defer></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -128,6 +122,14 @@
           <li><strong>Edge:</strong> Configuración → Privacidad y servicios → Borrar datos de exploración</li>
         </ul>
         <p>Ten en cuenta que borrar estos datos cerrará tu sesión y restaurará las preferencias de idioma al valor por defecto.</p>
+
+        <h2>Cambiar tus preferencias de cookies</h2>
+        <p>Puedes revisar o cambiar en cualquier momento tu decisión sobre las cookies analíticas de Google Analytics:</p>
+        <p style="margin-top:0.75rem;">
+          <button type="button" class="button primary" onclick="window.noesisOpenCookiePreferences && window.noesisOpenCookiePreferences();">
+            Configurar cookies
+          </button>
+        </p>
 
         <h2>Contacto</h2>
         <p>Para cualquier consulta sobre el uso de cookies: <a href="mailto:info@bynoesis.com">info@bynoesis.com</a>.</p>
