@@ -116,8 +116,8 @@ if (diagnosisForm) {
     const originalButtonText = submitButton ? submitButton.textContent : "";
 
     formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formData.append("subject", "Diagnostico inicial Noesis");
-    formData.append("from_name", "Formulario web Noesis");
+    formData.append("subject", "Diagnostico inicial Bynoesis");
+    formData.append("from_name", "Formulario web Bynoesis");
 
     const dictionary = translations[currentLanguage] || translations.es;
 
@@ -296,8 +296,8 @@ if (supportSend && supportInput) {
     try {
       const formData = new FormData();
       formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-      formData.append("subject", "Soporte cliente Noesis");
-      formData.append("from_name", "Portal cliente Noesis");
+      formData.append("subject", "Soporte cliente Bynoesis");
+      formData.append("from_name", "Portal cliente Bynoesis");
       formData.append("email", await getSupportReplyEmail());
       formData.append("message", message);
 

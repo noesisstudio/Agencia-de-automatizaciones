@@ -1,5 +1,5 @@
 /**
- * portal-data.js — Capa de datos dinámica para el portal de clientes Noesis.
+ * portal-data.js — Capa de datos dinámica para el portal de clientes Bynoesis.
  *
  * Carga KPIs, facturas, actividad y tickets desde Supabase
  * y los inyecta en el HTML existente de portal-dashboard.html.
@@ -306,7 +306,7 @@
         "</header>" +
         "<p class='ticket-body'>" + t.descripcion + "</p>" +
         (t.respuesta_noesis
-          ? "<div class='ticket-reply'><span>Respuesta Noesis:</span><p>" + t.respuesta_noesis + "</p></div>"
+          ? "<div class='ticket-reply'><span>Respuesta Bynoesis:</span><p>" + t.respuesta_noesis + "</p></div>"
           : "") +
         "<footer class='ticket-footer'>" +
           "<small>" + formatDateFull(t.created_at) + "</small>" +
@@ -367,7 +367,7 @@
           var formData = new FormData();
           formData.append("access_key", "c0e13644-9a7a-4dc6-8920-6055afcd351a");
           formData.append("subject", "Nueva incidencia: " + asunto);
-          formData.append("from_name", "Portal cliente Noesis");
+          formData.append("from_name", "Portal cliente Bynoesis");
           formData.append("email", session.user.email || "portal@bynoesis.com");
           formData.append("message", "Prioridad: " + prioridad + "\n\n" + descripcion);
           await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });

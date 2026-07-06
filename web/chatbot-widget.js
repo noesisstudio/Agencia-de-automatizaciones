@@ -1,5 +1,5 @@
 /**
- * Widget del chatbot Noesis — sin dependencias.
+ * Widget del chatbot Bynoesis — sin dependencias.
  * Llama a la función serverless en el mismo dominio: /api/chat
  */
 (function () {
@@ -49,8 +49,8 @@
       <button class="nb-toggle" aria-label="Abrir asistente">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       </button>
-      <div class="nb-win" role="dialog" aria-label="Asistente Noesis">
-        <div class="nb-head"><strong>Asistente Noesis</strong><button class="nb-close" aria-label="Cerrar">×</button></div>
+      <div class="nb-win" role="dialog" aria-label="Asistente Bynoesis">
+        <div class="nb-head"><strong>Asistente Bynoesis</strong><button class="nb-close" aria-label="Cerrar">×</button></div>
         <div class="nb-msgs"></div>
         <div class="nb-foot">
           <p class="nb-note">Asistente de IA · <a href="/privacidad.html" target="_blank" rel="noopener">Privacidad</a></p>
@@ -111,7 +111,7 @@
     root.classList.toggle('open');
     if (root.classList.contains('open')) {
       input.focus();
-      if (messages.length === 0) addMsg('bot', '¡Hola! Soy el asistente de Noesis. ¿En qué puedo ayudarte?');
+      if (messages.length === 0) addMsg('bot', '¡Hola! Soy el asistente de Bynoesis. ¿En qué puedo ayudarte?');
     }
   });
   root.querySelector('.nb-close').addEventListener('click', () => root.classList.remove('open'));
