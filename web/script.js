@@ -18,7 +18,6 @@ if ("IntersectionObserver" in window) {
 }
 
 const CLIENT_SESSION_KEY = "noesisClientSession";
-const PRIVACY_NOTICE_KEY = "noesisPrivacyNotice";
 const LANGUAGE_KEY = "noesisLanguage";
 const WEB3FORMS_ACCESS_KEY = "c0e13644-9a7a-4dc6-8920-6055afcd351a";
 const translations = window.NOESIS_I18N || { es: {}, ca: {} };
@@ -324,22 +323,5 @@ if (supportSend && supportInput) {
   });
 }
 
-if (
-  !readStorage(PRIVACY_NOTICE_KEY) &&
-  !document.body.classList.contains("client-area-body") &&
-  !document.body.classList.contains("portal-entry-body")
-) {
-  const dictionary = translations[currentLanguage] || translations.es;
-  const notice = document.createElement("aside");
-  notice.className = "cookie-notice";
-  notice.setAttribute("aria-label", dictionary["site.cookie.aria"]);
-  notice.innerHTML = `
-    <p>${dictionary["site.cookie.text"]}</p>
-    <button class="button primary compact" type="button">${dictionary["site.cookie.accept"]}</button>
-  `;
-  document.body.appendChild(notice);
-  notice.querySelector("button").addEventListener("click", () => {
-    writeStorage(PRIVACY_NOTICE_KEY, "accepted");
-    notice.remove();
-  });
-}
+// El aviso de cookies lo gestiona cookie-consent.js (banner con consentimiento
+// para Google Analytics). Aquí ya no se muestra ningún aviso propio.
