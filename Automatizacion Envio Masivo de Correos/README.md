@@ -25,12 +25,20 @@ SMTP_HOST=smtp.hostinger.com
 SMTP_PORT=465
 SMTP_USER=tucorreo@tudominio.com
 SMTP_PASS=tu_contraseña
+FROM_EMAIL=
 FROM_NAME=Tu Nombre
-DELAY_SECONDS=8
+DELAY_SECONDS=6
 ```
 
 > Si tu plan usa otro servidor de correo (Titan), comprueba el host/puerto
 > exactos en hPanel → Emails → Configuración de correo → "Conectar dispositivos".
+
+> **Ojo con los alias**: en hPanel → Emails → Buzones se ve el buzón real
+> (ej. `info@tudominio.com`) y sus alias asociados. Un alias (ej.
+> `xavier@tudominio.com`) **no tiene contraseña propia** para SMTP: en
+> `SMTP_USER`/`SMTP_PASS` va el buzón real, y en `FROM_EMAIL` el alias que
+> quieres que vea el destinatario como remitente. Si dejas `FROM_EMAIL`
+> vacío, se usa `SMTP_USER` tal cual.
 
 ## Preparar los datos
 
@@ -82,6 +90,7 @@ Vuelve a ejecutar el mismo comando otro día: las filas ya marcadas como
   necesitas identificarte claramente en el correo (empresa/NIF) y ofrecer una
   forma sencilla de darse de baja (ver el pie en `plantilla_ejemplo.html`).
   Revisa `RGPD-QUE-HACER.md` en la raíz del repo.
-- El `From` del correo siempre es el buzón autenticado (`SMTP_USER`); la
-  mayoría de proveedores rechazan o marcan como spam correos con remitente
-  distinto al que hace login.
+- El `From` del correo es `FROM_EMAIL` (o `SMTP_USER` si lo dejas vacío). Debe
+  ser el buzón autenticado o un alias suyo; la mayoría de proveedores
+  rechazan o marcan como spam remitentes que no tengan ninguna relación con
+  la cuenta que hace login.

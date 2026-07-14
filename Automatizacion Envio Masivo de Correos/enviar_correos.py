@@ -62,6 +62,7 @@ def cargar_config():
         "port": int(os.environ.get("SMTP_PORT", 465)),
         "user": os.environ["SMTP_USER"],
         "password": os.environ["SMTP_PASS"],
+        "from_email": os.environ.get("FROM_EMAIL") or os.environ["SMTP_USER"],
         "from_name": os.environ.get("FROM_NAME", os.environ["SMTP_USER"]),
         "delay": float(os.environ.get("DELAY_SECONDS", 8)),
     }
@@ -118,7 +119,7 @@ def main():
             if args.dry_run:
                 print(f"[DRY-RUN] Asunto: {subject}\n\n{body}")
             else:
-                enviar_email(server, config["user"], config["from_name"], args.prueba_a, subject, body)
+                enviar_email(server, config["from_email"], config["from_name"], args.prueba_a, subject, body)
                 print(f"Correo de prueba enviado a {args.prueba_a}")
             return
 
@@ -133,6 +134,7 @@ def main():
 
             data = fila_a_datos(row)
             to_addr = data.get(args.col_email)
+            to_addr = to_addr.strip() if isinstance(to_addr, str) else to_addr
             if not to_addr:
                 continue
 
@@ -145,11 +147,17 @@ def main():
                 continue
 
             try:
-                enviar_email(server, config["user"], config["from_name"], to_addr, subject, body)
+                enviar_email(server, config["from_email"], config["from_name"], to_addr, subject, body)
                 ws.cell(row=row, column=estado_col, value="enviado")
                 ws.cell(row=row, column=fecha_col, value=datetime.now().strftime("%Y-%m-%d %H:%M"))
                 enviados += 1
                 print(f"Enviado a {to_addr}")
+            except smtplib.SMTPServerDisconnected:
+                wb.save(args.excel)
+                print(f"\nEl servidor cortó la conexión (probablemente límite de envíos alcanzado) "
+                      f"tras {enviados} correos. Paro aquí; vuelve a ejecutar más tarde para continuar "
+                      f"con las filas pendientes.")
+                break
             except Exception as e:
                 ws.cell(row=row, column=estado_col, value=f"error: {e}")
                 errores += 1
@@ -161,7 +169,10 @@ def main():
         print(f"\nResumen: {enviados} enviados, {saltados} ya estaban enviados, {errores} errores.")
     finally:
         if server:
-            server.quit()
+            try:
+                server.quit()
+            except Exception:
+                pass
         if not args.dry_run:
             wb.save(args.excel)
 
