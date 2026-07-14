@@ -1,6 +1,6 @@
 """Envía el lote de hoy de cola_envios.xlsx: todas las filas con fecha_prevista <= hoy
-que no estén ya enviadas, hasta un máximo de --cap (por defecto 105, el límite de
-Hostinger menos margen para poder responder tú a los clientes). Si un día se queda
+que no estén ya enviadas, hasta un máximo de --cap (por defecto 95, el límite real de
+Hostinger de 100/día menos margen para poder responder tú a los clientes). Si un día se queda
 corto por el límite de envíos del propio Hostinger, lo que falte se reintenta el
 día siguiente sin perder nada (las filas no enviadas simplemente siguen pendientes).
 
@@ -26,7 +26,7 @@ PLANTILLAS = {
 def main():
     parser = argparse.ArgumentParser(description="Envío diario controlado desde cola_envios.xlsx")
     parser.add_argument("--excel", default="cola_envios.xlsx")
-    parser.add_argument("--cap", type=int, default=105, help="Máximo de correos a enviar hoy")
+    parser.add_argument("--cap", type=int, default=95, help="Máximo de correos a enviar hoy")
     parser.add_argument("--fecha", default=None, help="Fecha a considerar 'hoy' (AAAA-MM-DD), por defecto la fecha real")
     args = parser.parse_args()
 

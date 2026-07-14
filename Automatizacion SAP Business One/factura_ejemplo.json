@@ -1,0 +1,24 @@
+{
+  "proveedor_nif": "B12345678",
+  "proveedor_nombre": "Suministros Industriales Ejemplo SL",
+  "numero_factura": "FAC-2026-0457",
+  "fecha_factura": "2026-07-10",
+  "fecha_vencimiento": "2026-08-10",
+  "comentario": "Factura recibida por email y procesada automáticamente por FacturAI",
+  "lineas": [
+    {
+      "descripcion": "Material de oficina - pedido julio",
+      "codigo_articulo": null,
+      "cantidad": 1,
+      "precio_unitario": 245.50,
+      "codigo_iva": "S1"
+    },
+    {
+      "descripcion": "Servicio de mantenimiento mensual",
+      "codigo_articulo": null,
+      "cantidad": 1,
+      "precio_unitario": 180.00,
+      "codigo_iva": "S1"
+    }
+  ]
+}
