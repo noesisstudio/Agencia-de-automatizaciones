@@ -38,7 +38,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=editorial-1" />
+    <link rel="stylesheet" href="styles.css?v=cal-2" />
   </head>
   <body>
     <header class="topbar">
@@ -84,6 +84,13 @@
           <p data-i18n="site.contact.hero.text">En una primera conversación revisamos cómo circula la información, dónde se repite trabajo y qué oportunidad tendría sentido probar primero.</p>
           <a class="text-arrow" href="proces.html"><span data-i18n="site.home.hero.cta2">Ver cómo trabajamos</span><i class="ph ph-arrow-right" aria-hidden="true"></i></a>
         </div>
+      </section>
+
+      <section class="contact-panel booking-panel" data-reveal>
+        <p class="eyebrow" data-i18n="site.contact.bookEyebrow">Agenda directa</p>
+        <h2 data-i18n="site.contact.bookTitle">Reserva una sesi&oacute;n de estrategia.</h2>
+        <p data-i18n="site.contact.bookText">Elige el d&iacute;a y la hora que mejor te vayan y recibir&aacute;s al momento la invitaci&oacute;n con el enlace de Google Meet. 30 minutos, sin compromiso.</p>
+        <div id="cal-booking" class="cal-booking"></div>
       </section>
 
       <section class="contact-diagnosis" data-reveal>
@@ -155,10 +162,34 @@
         <a href="cookies.html" data-i18n="site.footer.cookies">Cookies</a>
       </nav>
     </footer>
-    <script src="i18n.js?v=launch-3"></script>
+    <script src="i18n.js?v=cal-2"></script>
     <script src="site-copy.js?v=editorial-1"></script>
     <script src="site-shell.js?v=editorial-1"></script>
     <script src="script.js?v=editorial-1"></script>
     <script src="chatbot-widget.js?v=1" defer></script>
+    <!-- Cal.com: widget de reservas incrustado -->
+    <script type="text/javascript">
+      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+
+      // Enlace del evento de Cal.com que se muestra en la web
+      var CAL_LINK = "bynoesis/sesion-de-estrategia";
+
+      var calLocale = "es";
+      try {
+        if (localStorage.getItem("noesisLanguage") === "ca") calLocale = "ca";
+      } catch (e) {}
+
+      Cal("init", "reserva", { origin: "https://app.cal.com" });
+      Cal.ns.reserva("inline", {
+        elementOrSelector: "#cal-booking",
+        calLink: CAL_LINK,
+        config: { layout: "month_view", locale: calLocale }
+      });
+      Cal.ns.reserva("ui", {
+        hideEventTypeDetails: false,
+        layout: "month_view",
+        styles: { branding: { brandColor: "#123c35" } }
+      });
+    </script>
   </body>
 </html>

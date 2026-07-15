@@ -815,6 +815,28 @@ p {
   max-width: 760px;
 }
 
+.booking-panel {
+  text-align: center;
+}
+
+.booking-panel h2 {
+  max-width: 780px;
+  font-size: clamp(2rem, 3vw, 3.25rem);
+}
+
+.cal-booking {
+  margin-top: clamp(24px, 4vw, 40px);
+  min-height: 620px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.form-lead {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
 .contact-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(420px, 0.82fr);
