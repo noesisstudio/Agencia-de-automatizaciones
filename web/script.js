@@ -68,6 +68,13 @@ if (menuToggle && mobileMenu) {
     menuToggle.setAttribute("aria-expanded", String(!isOpen));
     mobileMenu.hidden = isOpen;
   });
+
+  mobileMenu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      menuToggle.setAttribute("aria-expanded", "false");
+      mobileMenu.hidden = true;
+    });
+  });
 }
 
 const privateLinks = document.querySelectorAll("[data-private-link]");
