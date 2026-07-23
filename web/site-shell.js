@@ -29,7 +29,7 @@
     if (footer.querySelector(".footer-explore")) return;
     const explore = document.createElement("nav");
     explore.className = "footer-explore";
-    explore.setAttribute("aria-label", "Explorar Bynoesis");
+    explore.setAttribute("aria-label", "Explorar ByNoesis");
     explore.innerHTML = `<strong data-i18n="site.footer.explore">Explorar</strong>${links("footer-explore")}`;
     const legalNav = footer.querySelector("nav");
     footer.insertBefore(explore, legalNav || null);
