@@ -39,6 +39,14 @@ def main():
     headers = [c.value for c in ws[1]]
     col = {n: i + 1 for i, n in enumerate(headers)}
 
+    # Direcciones ya enviadas en cualquier fila: evita mandar dos veces el mismo
+    # correo si un contacto aparece duplicado en la cola.
+    ya_enviados = {
+        (ws.cell(row=r, column=col["email"]).value or "").strip().lower()
+        for r in range(2, ws.max_row + 1)
+        if ws.cell(row=r, column=col["estado"]).value == "enviado"
+    }
+
     server = ec.connect_smtp(config["host"], config["port"], config["user"], config["password"])
     enviados = errores = 0
     try:
@@ -60,6 +68,11 @@ def main():
             if not to_addr:
                 continue
 
+            if to_addr.lower() in ya_enviados:
+                ws.cell(row=row, column=col["estado"], value="duplicado")
+                print(f"Saltado duplicado: {to_addr}")
+                continue
+
             subject = ec.render(ASUNTOS[idioma], data)
             body = ec.render(plantillas_html[idioma], data)
 
@@ -67,6 +80,7 @@ def main():
                 ec.enviar_email(server, config["from_email"], config["from_name"], to_addr, subject, body)
                 ws.cell(row=row, column=col["estado"], value="enviado")
                 ws.cell(row=row, column=col["fecha_envio"], value=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
+                ya_enviados.add(to_addr.lower())
                 enviados += 1
                 print(f"Enviado a {to_addr}")
             except Exception as e:
